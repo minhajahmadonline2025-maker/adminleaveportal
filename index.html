@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Admin Portal — Malik Deenar Islamic Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --gold:#0D47A1;--gold-dim:#1565C0;--gold-glow:rgba(13,71,161,0.10);
+  --black:#ffffff;--dark:#F0F4FA;--dark2:#ffffff;--dark3:#EEF2FA;--dark4:#D6E0F5;
+  --text:#0A1929;--text-dim:#5A7080;
+  --green:#1A7A42;--green-bg:rgba(26,122,66,0.10);
+  --yellow:#92600A;--yellow-bg:rgba(146,96,10,0.10);
+  --red:#C0392B;--red-bg:rgba(192,57,43,0.09);
+  --blue:#1565C0;--blue-bg:rgba(21,101,192,0.10);
+  --border:rgba(13,71,161,0.14);--radius:11px;
+  --sidebar:220px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--dark);color:var(--text);font-family:'Lato',sans-serif;font-weight:400;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--dark3)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:4px}
+
+.app{display:flex;flex:1;min-height:100vh}
+
+/* ══ SIDEBAR ══ */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:linear-gradient(180deg,#0D47A1 0%,#1565C0 100%);
+  border-right:none;
+  display:flex;flex-direction:column;
+  position:fixed;top:0;left:0;bottom:0;z-index:100;
+  box-shadow:3px 0 20px rgba(13,71,161,0.18);
+}
+.sb-logo{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;gap:10px}
+.sb-logo-icon{width:38px;height:38px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-family:'Cinzel',serif;flex-shrink:0}
+.sb-logo-text h2{font-family:'Cinzel',serif;font-size:11px;color:#fff;letter-spacing:.5px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-logo-text p{font-size:9px;color:rgba(255,255,255,0.55);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
+.sb-nav{flex:1;padding:12px 8px;overflow-y:auto}
+.sb-section{font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:1.5px;text-transform:uppercase;padding:10px 8px 5px;margin-top:6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.65);font-size:12px;font-weight:700;letter-spacing:.3px;transition:all .18s;margin-bottom:2px;border:none;background:transparent;width:100%;text-align:left}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,0.12)}
+.nav-item.active{background:#fff;color:#0D47A1}
+.nav-item .ni{font-size:15px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center}
+.sb-clock{padding:12px 14px;border-top:1px solid rgba(255,255,255,0.12);text-align:center}
+.clock-time{font-family:'Cinzel',serif;font-size:22px;color:#fff;letter-spacing:2px}
+.clock-date{font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;letter-spacing:.5px}
+
+/* ══ MAIN ══ */
+.main-wrap{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:12px 24px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(13,71,161,0.08)}
+.topbar h1{font-family:'Cinzel',serif;font-size:16px;color:#0D47A1;font-weight:700;letter-spacing:.5px}
+.topbar-sub{font-size:11px;color:var(--text-dim);margin-left:2px}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.admin-badge{display:flex;align-items:center;gap:7px;background:var(--blue-bg);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:#0D47A1;font-weight:700}
+.content{flex:1;padding:22px 24px 50px}
+.panel{display:none;animation:fadeUp .35s ease}
+.panel.active{display:block}
+
+/* ══ STATS ══ */
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+@media(max-width:700px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;text-align:center;transition:border-color .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(13,71,161,0.06)}
+.stat-card:hover{border-color:var(--gold-dim);box-shadow:0 4px 16px rgba(13,71,161,0.12)}
+.stat-card .sv{font-family:'Cinzel',serif;font-size:28px;font-weight:700;color:#0D47A1;display:block}
+.stat-card .sl{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.stat-card.s-green .sv{color:var(--green)}.stat-card.s-yellow .sv{color:var(--yellow)}.stat-card.s-red .sv{color:var(--red)}
+
+/* ══ SECTION TITLE ══ */
+.sec-title{font-family:'Cinzel',serif;font-size:14px;color:#0D47A1;border-bottom:1.5px solid var(--border);padding-bottom:9px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
+/* ══ TABLES ══ */
+.tbl-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;box-shadow:0 2px 8px rgba(13,71,161,0.06)}
+.tbl-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+thead{background:linear-gradient(135deg,#0D47A1,#1565C0)}
+thead th{padding:11px 14px;text-align:left;font-family:'Cinzel',serif;font-size:10px;color:rgba(255,255,255,0.9);letter-spacing:1px;text-transform:uppercase;border-bottom:none;white-space:nowrap}
+tbody tr{border-bottom:1px solid rgba(13,71,161,0.06);transition:background .13s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:rgba(13,71,161,0.04)}
+tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
+
+/* ══ TAGS ══ */
+.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
+.t-green{background:var(--green-bg);color:var(--green)}.t-yellow{background:var(--yellow-bg);color:var(--yellow)}
+.t-red{background:var(--red-bg);color:var(--red)}.t-blue{background:var(--blue-bg);color:var(--blue)}
+.t-grey{background:rgba(13,71,161,0.07);color:var(--text-dim)}
+
+/* ══ BUTTONS ══ */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .18s;white-space:nowrap}
+.btn-gold{background:linear-gradient(135deg,#0D47A1,#1976D2);color:#fff;box-shadow:0 2px 10px rgba(13,71,161,0.25)}
+.btn-gold:hover{filter:brightness(1.1);box-shadow:0 4px 16px rgba(13,71,161,0.35)}
+.btn-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(26,122,66,0.25)}
+.btn-green:hover{background:var(--green);color:#fff}
+.btn-red{background:var(--red-bg);color:var(--red);border:1px solid rgba(192,57,43,0.25)}
+.btn-red:hover{background:var(--red);color:#fff}
+.btn-yellow{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(146,96,10,0.25)}
+.btn-yellow:hover{background:var(--yellow);color:#fff}
+.btn-blue{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(21,101,192,0.25)}
+.btn-blue:hover{background:var(--blue);color:#fff}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-dim)}
+.btn-outline:hover{border-color:#0D47A1;color:#0D47A1}
+.btn-sm{padding:4px 10px;font-size:10px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-row{display:flex;gap:6px;flex-wrap:wrap}
+
+/* ══ FIELDS ══ */
+.field{margin-bottom:12px}
+.field label{display:block;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;font-weight:700}
+.field input,.field select,.field textarea{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:'Lato',sans-serif;font-size:13px;padding:10px 12px;outline:none;transition:border-color .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#0D47A1;box-shadow:0 0 0 3px rgba(13,71,161,0.08)}
+.field select option{background:#fff}
+.field textarea{resize:vertical;min-height:70px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+
+/* ══ REQUEST CARDS ══ */
+.req-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;transition:border-color .2s,box-shadow .2s;box-shadow:0 1px 6px rgba(13,71,161,0.05)}
+.req-card:hover{border-color:rgba(13,71,161,0.3);box-shadow:0 4px 14px rgba(13,71,161,0.09)}
+.req-card-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.req-card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+@media(max-width:540px){.req-card-body{grid-template-columns:1fr 1fr}}
+.req-field{background:var(--dark3);border-radius:7px;padding:9px 11px;border:1px solid var(--border)}
+.req-field .lbl{font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-weight:700}
+.req-field .val{font-size:12px;color:var(--text);font-weight:500}
+
+/* ══ MODAL ══ */
+.modal-bg{display:none;position:fixed;inset:0;z-index:200;background:rgba(13,71,161,0.25);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px 26px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeUp .3s ease;box-shadow:0 20px 60px rgba(13,71,161,0.18)}
+.modal h3{font-family:'Cinzel',serif;font-size:16px;color:#0D47A1;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+
+/* ══ SEARCH BOX ══ */
+.search-wrap{position:relative;margin-bottom:16px}
+.search-wrap input{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Lato',sans-serif;font-size:13px;padding:10px 14px 10px 38px;outline:none;transition:border-color .2s}
+.search-wrap input:focus{border-color:#0D47A1}
+.search-wrap .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:14px}
+
+/* ══ LOADER / TOAST ══ */
+#loader{display:none;position:fixed;inset:0;z-index:999;background:rgba(255,255,255,0.7);backdrop-filter:blur(3px);align-items:center;justify-content:center}
+#loader.show{display:flex}
+.spinner{width:40px;height:40px;border-radius:50%;border:3px solid var(--dark4);border-top-color:#0D47A1;animation:spin .7s linear infinite}
+#toast{position:fixed;bottom:20px;right:20px;z-index:9999;padding:12px 18px;border-radius:9px;font-size:12px;font-weight:700;letter-spacing:.4px;box-shadow:0 8px 24px rgba(13,71,161,0.2);transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:280px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{background:var(--green);color:#fff}
+#toast.error{background:var(--red);color:#fff}
+#toast.info{background:#0D47A1;color:#fff}
+
+/* ══ EMPTY ══ */
+.empty{text-align:center;padding:40px;color:var(--text-dim);font-size:12px}
+.empty .ei{font-size:32px;margin-bottom:8px}
+
+/* ══ SETTINGS ══ */
+.settings-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 1px 6px rgba(13,71,161,0.05)}
+.settings-card h3{font-family:'Cinzel',serif;font-size:13px;color:#0D47A1;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.setting-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(13,71,161,0.06)}
+.setting-row:last-child{border-bottom:none}
+.setting-label{flex:1;font-size:12px;color:var(--text)}
+.setting-input{background:#fff;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;padding:5px 10px;outline:none;width:90px;transition:border-color .2s;font-family:'Lato',sans-serif}
+.setting-input:focus{border-color:#0D47A1}
+
+/* ══ TOOLBAR ══ */
+.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar .spacer{flex:1}
+
+/* ══ MISC ══ */
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 0 0 rgba(39,174,96,.5);animation:pdot 2s infinite}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.chip-filter{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text-dim);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Lato',sans-serif}
+.chip-filter.on{border-color:#0D47A1;background:rgba(13,71,161,0.08);color:#0D47A1}
+.leave-id{font-family:'Cinzel',serif;font-size:11px;color:#0D47A1;background:rgba(13,71,161,0.08);border:1px solid rgba(13,71,161,0.2);padding:2px 8px;border-radius:6px;letter-spacing:1px}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pdot{0%{box-shadow:0 0 0 0 rgba(39,174,96,.5)}70%{box-shadow:0 0 0 8px rgba(39,174,96,0)}100%{box-shadow:0 0 0 0 rgba(39,174,96,0)}}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-icon">م</div>
+    <div class="sb-logo-text">
+      <h2>Malik Deenar</h2>
+      <p>Admin Portal</p>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">Main</div>
+    <button class="nav-item active" onclick="navTo('dashboard',this)"><span class="ni">📊</span>Dashboard</button>
+    <button class="nav-item" onclick="navTo('requests',this)"><span class="ni">📥</span>Requests<span class="nav-badge" id="req-badge">0</span></button>
+    <button class="nav-item" onclick="navTo('approved',this)"><span class="ni">✅</span>Approved</button>
+    <div class="sb-section">Management</div>
+    <button class="nav-item" onclick="navTo('students',this)"><span class="ni">🧑‍🎓</span>Students</button>
+    <button class="nav-item" onclick="navTo('search',this)"><span class="ni">🔍</span>Leave Type</button>
+    <div class="sb-section">Reports</div>
+    <button class="nav-item" onclick="navTo('reports',this)"><span class="ni">📄</span>Class Reports</button>
+    <button class="nav-item" onclick="navTo('settings',this)"><span class="ni">⚙️</span>Settings</button>
+  </nav>
+  <div class="sb-clock">
+    <div class="clock-time" id="clock-time">00:00:00</div>
+    <div class="clock-date" id="clock-date">—</div>
+  </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<div class="main-wrap">
+  <div class="topbar">
+    <div>
+      <h1 id="page-title">Dashboard</h1>
+      <div class="topbar-sub" id="page-sub">Leave Management System</div>
+    </div>
+    <div class="topbar-right">
+      <div class="live-dot"></div>
+      <div class="admin-badge">🛡️ Admin</div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ DASHBOARD ═══ -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stat-row">
+        <div class="stat-card"><span class="sv" id="ds-total">0</span><div class="sl">Total Students</div></div>
+        <div class="stat-card s-yellow"><span class="sv" id="ds-pending">0</span><div class="sl">Pending Requests</div></div>
+        <div class="stat-card s-green"><span class="sv" id="ds-approved">0</span><div class="sl">On Leave Now</div></div>
+        <div class="stat-card s-red"><span class="sv" id="ds-unofficial">0</span><div class="sl">Total Unofficial</div></div>
+      </div>
+      <div class="sec-title">📥 Recent Pending Requests</div>
+      <div id="dash-pending-list"><div class="empty"><div class="ei">⏳</div>Loading...</div></div>
+      <div class="sec-title" style="margin-top:20px">✅ Currently Approved (On Leave)</div>
+      <div id="dash-approved-list"><div class="empty"><div class="ei">⏳</div>Loading...</div></div>
+    </div>
+
+    <!-- ═══ REQUESTS ═══ -->
+    <div class="panel" id="panel-requests">
+      <div class="chips">
+        <button class="chip-filter on" onclick="filterReqs('pending',this)">⏳ Pending</button>
+        <button class="chip-filter" onclick="filterReqs('all',this)">📋 All</button>
+        <button class="chip-filter" onclick="filterReqs('rejected',this)">❌ Rejected</button>
+      </div>
+      <div id="req-list"><div class="empty"><div class="ei">⏳</div>Loading...</div></div>
+    </div>
+
+    <!-- ═══ APPROVED ═══ -->
+    <div class="panel" id="panel-approved">
+      <div id="approved-list"><div class="empty"><div class="ei">⏳</div>Loading...</div></div>
+    </div>
+
+    <!-- ═══ STUDENTS ═══ -->
+    <div class="panel" id="panel-students">
+      <div class="toolbar">
+        <div class="search-wrap" style="flex:1;margin-bottom:0">
+          <span class="si">🔍</span>
+          <input type="text" id="stu-search" placeholder="Search by name, Ad No, class..." oninput="renderStudents()"/>
+        </div>
+        <select id="stu-sort" onchange="renderStudents()" style="background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-family:'Lato',sans-serif;font-size:12px;outline:none">
+          <option value="class">Sort by Class</option>
+          <option value="adno">Sort by Ad No</option>
+          <option value="name">Sort by Name</option>
+        </select>
+        <button class="btn btn-gold" onclick="openAddStudent()">➕ Add Student</button>
+      </div>
+      <div style="height:14px"></div>
+      <div class="tbl-wrap">
+        <div class="tbl-scroll">
+          <table>
+            <thead><tr>
+              <th>#</th><th>Ad No</th><th>Name</th><th>Class</th>
+              <th>Official</th><th>Medical</th><th>Unofficial</th><th>Total</th><th>Actions</th>
+            </tr></thead>
+            <tbody id="students-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SEARCH / LEAVE TYPE ═══ -->
+    <div class="panel" id="panel-search">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+        <div class="search-wrap" style="flex:1;margin-bottom:0">
+          <span class="si">🔍</span>
+          <input type="text" id="leave-search-input" placeholder="Enter Leave ID (md0001) or leave type..." onkeydown="if(event.key==='Enter')searchLeave()"/>
+        </div>
+        <button class="btn btn-gold" onclick="searchLeave()">Search</button>
+      </div>
+      <div id="leave-search-result"></div>
+    </div>
+
+    <!-- ═══ REPORTS ═══ -->
+    <div class="panel" id="panel-reports">
+      <div class="sec-title">📄 Class-wise Leave Report</div>
+      <div class="toolbar" style="gap:10px">
+        <select id="report-class" style="background:var(--dark2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-family:'Lato',sans-serif;font-size:12px;outline:none">
+          <option value="all">All Classes</option>
+        </select>
+        <button class="btn btn-gold" onclick="generateReport()">📄 Generate Report</button>
+        <button class="btn btn-blue" onclick="printReport()">🖨️ Print / Save PDF</button>
+      </div>
+      <div id="report-preview" style="margin-top:18px"></div>
+    </div>
+
+    <!-- ═══ SETTINGS ═══ -->
+    <div class="panel" id="panel-settings">
+      <div class="settings-card">
+        <h3>⏰ Attendance Timings</h3>
+        <div class="setting-row"><div class="setting-label">Morning Half (AM)</div><input type="time" class="setting-input" id="set-morning" value="07:30"/></div>
+        <div class="setting-row"><div class="setting-label">Afternoon Half (PM)</div><input type="time" class="setting-input" id="set-afternoon" value="13:40"/></div>
+        <div class="setting-row"><div class="setting-label">Late Grace Period (min)</div><input type="number" class="setting-input" id="set-grace" value="120" min="0" max="240"/></div>
+      </div>
+      <div class="settings-card">
+        <h3>📊 Leave Limits</h3>
+        <div class="setting-row"><div class="setting-label">Unofficial Leave Limit</div><input type="number" class="setting-input" id="set-unoff-limit" value="10" min="0"/></div>
+        <div class="setting-row"><div class="setting-label">Medical Leave Limit</div><input type="number" class="setting-input" id="set-med-limit" value="30" min="0"/></div>
+        <div class="setting-row"><div class="setting-label">Official Leave Limit</div><input type="number" class="setting-input" id="set-off-limit" value="30" min="0"/></div>
+      </div>
+      <button class="btn btn-gold" onclick="saveSettings()" style="margin-top:6px">💾 Save Settings</button>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- ══ MODALS ══ -->
+
+<!-- Approve Modal -->
+<div class="modal-bg" id="modal-approve">
+  <div class="modal">
+    <h3>✅ Approve Leave Request</h3>
+    <div id="approve-student-info" style="background:var(--dark3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px"></div>
+    <div class="form-row">
+      <div class="field"><label>From Date & Time</label><input type="datetime-local" id="ap-from"/></div>
+      <div class="field"><label>To Date & Time</label><input type="datetime-local" id="ap-to"/></div>
+    </div>
+    <div class="field">
+      <label>Leave Type</label>
+      <select id="ap-leave-type">
+        <option value="unofficial">🏠 Unofficial</option>
+        <option value="official">🏛 Official</option>
+        <option value="medical">🏥 Medical</option>
+      </select>
+    </div>
+    <input type="hidden" id="ap-doc-id"/>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-approve')">Cancel</button>
+      <button class="btn btn-green" onclick="confirmApprove()">✅ Confirm Approve</button>
+    </div>
+  </div>
+</div>
+
+<!-- Complete Modal -->
+<div class="modal-bg" id="modal-complete">
+  <div class="modal">
+    <h3>🏁 Mark Leave as Completed</h3>
+    <div id="complete-student-info" style="background:var(--dark3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px"></div>
+    <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px">Select when the student returned:</p>
+    <div class="btn-row" style="flex-direction:column;gap:8px">
+      <button class="btn btn-blue"    onclick="completeWithOption('now')">🕐 Reached Now</button>
+      <button class="btn btn-green"   onclick="completeWithOption('first')">📚 Reached First Period (7:29 AM)</button>
+      <button class="btn btn-yellow"  onclick="completeWithOption('seventh')">📖 Reached Seventh Period (1:39 PM)</button>
+      <button class="btn btn-outline" onclick="completeWithOption('ontime')">✅ Reached On Time</button>
+    </div>
+    <input type="hidden" id="complete-doc-id"/>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-complete')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Student Modal -->
+<div class="modal-bg" id="modal-student">
+  <div class="modal">
+    <h3 id="modal-student-title">➕ Add Student</h3>
+    <input type="hidden" id="ms-edit-id"/>
+    <div class="field"><label>Admission Number</label><input type="text" id="ms-adno" placeholder="e.g. 788"/></div>
+    <div class="field"><label>Full Name</label><input type="text" id="ms-name" placeholder="Student name"/></div>
+    <div class="field"><label>Class</label><input type="text" id="ms-class" placeholder="e.g. 10A"/></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modal-student')">Cancel</button>
+      <button class="btn btn-gold" onclick="saveStudent()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="loader"><div class="spinner"></div></div>
+<div id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore, collection, doc,
+  getDoc, getDocs, setDoc, updateDoc, deleteDoc,
+  query, where, onSnapshot,
+  serverTimestamp, increment
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const app = initializeApp({
+  apiKey:"AIzaSyDmO5EaJjDOnvmxtoHX_czjhDyU01BjYZg",
+  authDomain:"leave-portal-e3234.firebaseapp.com",
+  projectId:"leave-portal-e3234",
+  storageBucket:"leave-portal-e3234.firebasestorage.app",
+  messagingSenderId:"431358369719",
+  appId:"1:431358369719:web:49664e46dbc4de9c53d232",
+  measurementId:"G-V704ZLDZLP"
+});
+const db = getFirestore(app);
+
+let allStudents = [];
+let allRequests = [];
+let reqFilter   = 'pending';
+
+const $ = id => document.getElementById(id);
+const showLoader = () => $('loader').classList.add('show');
+const hideLoader = () => $('loader').classList.remove('show');
+
+window.toast = (msg, type='info', ms=3000) => {
+  const t=$('toast'); t.textContent=msg; t.className=`show ${type}`;
+  setTimeout(()=>t.className='',ms);
+};
+
+/* ── CLOCK ── */
+function updateClock(){
+  const now=new Date();
+  $('clock-time').textContent=now.toLocaleTimeString('en-IN',{hour12:false});
+  $('clock-date').textContent=now.toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+}
+updateClock(); setInterval(updateClock,1000);
+
+/* ── NAVIGATION ── */
+window.navTo = (page,btn) => {
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  $('panel-'+page).classList.add('active');
+  const titles={dashboard:'Dashboard',requests:'Leave Requests',approved:'Approved Leaves',
+    students:'Students',search:'Leave Type',reports:'Class Reports',settings:'Settings'};
+  $('page-title').textContent = titles[page]||page;
+  if(page==='students') renderStudents();
+  if(page==='reports')  populateClassFilter();
+};
+
+/* ── NORMALIZE ── */
+function normalizeRequest(d){
+  const r=d.data()||{};
+  return {
+    id:d.id,
+    name:r.name||'',
+    adno:r.adno||r.adNo||'',
+    class:r.class||r.className||'',
+    leave_type:r.leave_type||'unofficial',
+    destination:r.destination||r.place||'—',
+    from_datetime:r.from_datetime||r.from||'',
+    to_datetime:r.to_datetime||r.to||'',
+    reached_datetime:r.reached_datetime||'',
+    leave_id:r.leave_id||r.leaveId||r.requestId||'',
+    status:(r.status||'pending').toString().trim(),
+    createdAt:r.createdAt||null,
+    reason:r.reason||'',
+    ...r
+  };
+}
+
+/* ── LISTENERS ── */
+function startListeners(){
+  onSnapshot(collection(db,'students'), snap=>{
+    allStudents = snap.docs.map(d=>({id:d.id,...d.data()}));
+    $('ds-total').textContent = allStudents.length;
+    // Recalculate totals from leave_requests for all students
+    recalcAllStudentTotals();
+    renderStudents();
+    populateClassFilter();
+  });
+
+  onSnapshot(collection(db,'leave_requests'), snap=>{
+    allRequests = snap.docs.map(normalizeRequest);
+    const pending = allRequests.filter(r=>r.status==='pending');
+    $('ds-pending').textContent  = pending.length;
+    $('ds-approved').textContent = allRequests.filter(r=>r.status==='approved').length;
+    $('req-badge').textContent   = pending.length;
+    // Recalculate unofficial total for dashboard
+    const unoffTotal = allRequests
+      .filter(r=>r.leave_type==='unofficial' && (r.status==='approved'||r.status==='completed'))
+      .reduce((s,r)=>s+(+(r.days||calcDays(r.from_datetime,r.to_datetime))),0);
+    $('ds-unofficial').textContent = unoffTotal;
+    renderRequestList();
+    renderApprovedPanel();
+    renderDashboardCards();
+  });
+}
+startListeners();
+
+/* ── RECALC STUDENT TOTALS FROM LEAVE_REQUESTS ──
+   This is the source of truth: sum all completed/approved leaves per student per type.
+   We do NOT write back to Firestore here (read-only computed display).
+   The actual Firestore totals are updated on approve / changeLeaveType only.
+*/
+function getStudentLeaveTotals(adNo){
+  const relevant = allRequests.filter(r=>
+    (r.adno===adNo || r.adNo===adNo) &&
+    (r.status==='approved'||r.status==='completed')
+  );
+  return {
+    official:   relevant.filter(r=>r.leave_type==='official').reduce((s,r)=>s+(+(r.days||calcDays(r.from_datetime,r.to_datetime))),0),
+    medical:    relevant.filter(r=>r.leave_type==='medical').reduce((s,r)=>s+(+(r.days||calcDays(r.from_datetime,r.to_datetime))),0),
+    unofficial: relevant.filter(r=>r.leave_type==='unofficial').reduce((s,r)=>s+(+(r.days||calcDays(r.from_datetime,r.to_datetime))),0),
+  };
+}
+
+function recalcAllStudentTotals(){
+  // Update in-memory allStudents with computed values from leave_requests
+  allStudents = allStudents.map(s=>{
+    const totals = getStudentLeaveTotals(s.adno||s.id);
+    return {...s, ...totals};
+  });
+}
+
+/* ── DASHBOARD ── */
+function renderDashboardCards(){
+  const pending = allRequests.filter(r=>r.status==='pending').slice(0,5);
+  $('dash-pending-list').innerHTML = pending.length
+    ? pending.map(r=>reqCardHTML(r)).join('')
+    : '<div class="empty"><div class="ei">✅</div>No pending requests</div>';
+  const approved = allRequests.filter(r=>r.status==='approved').slice(0,5);
+  $('dash-approved-list').innerHTML = approved.length
+    ? approved.map(r=>approvedCardHTML(r)).join('')
+    : '<div class="empty"><div class="ei">🏖️</div>No one currently on leave</div>';
+}
+
+/* ── REQUESTS ── */
+window.filterReqs = (f,btn) => {
+  reqFilter=f;
+  document.querySelectorAll('.chip-filter').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderRequestList();
+};
+
+function renderRequestList(){
+  let list = allRequests;
+  if(reqFilter==='pending')  list=list.filter(r=>r.status==='pending');
+  if(reqFilter==='rejected') list=list.filter(r=>r.status==='rejected');
+  list = list.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  $('req-list').innerHTML = list.length
+    ? list.map(r=>reqCardHTML(r)).join('')
+    : '<div class="empty"><div class="ei">📭</div>No requests found</div>';
+}
+
+function reqCardHTML(r){
+  const stTag = statusTagHTML(r.status);
+  const typeIcon = r.leave_type==='medical'?'🏥':r.leave_type==='official'?'🏛':'🏠';
+  return `<div class="req-card">
+    <div class="req-card-header">
+      <strong style="font-family:'Cinzel',serif;color:var(--gold);font-size:13px">${r.name||'—'}</strong>
+      <span class="tag t-grey">Ad No: ${r.adno||'—'}</span>
+      <span class="tag t-grey">Class ${r.class||'—'}</span>
+      ${stTag}
+      ${r.leave_id?`<span class="leave-id">${r.leave_id}</span>`:''}
+    </div>
+    <div class="req-card-body">
+      <div class="req-field"><div class="lbl">📍 Destination</div><div class="val">${r.destination||'—'}</div></div>
+      <div class="req-field"><div class="lbl">📅 From</div><div class="val">${fmtDate(r.from_datetime)}</div></div>
+      <div class="req-field"><div class="lbl">📅 To</div><div class="val">${fmtDate(r.to_datetime)}</div></div>
+      <div class="req-field"><div class="lbl">Type</div><div class="val">${typeIcon} ${cap(r.leave_type)}</div></div>
+      ${r.reached_datetime?`<div class="req-field"><div class="lbl">Returned</div><div class="val">${fmtDate(r.reached_datetime)}</div></div>`:''}
+    </div>
+    ${r.status==='pending'?`
+    <div class="btn-row">
+      <button class="btn btn-green" onclick="openApprove('${r.id}')">✅ Approve</button>
+      <button class="btn btn-red"   onclick="rejectReq('${r.id}')">❌ Reject</button>
+    </div>`:r.status==='approved'?`
+    <div class="btn-row">
+      <button class="btn btn-blue"   onclick="completeLeave('${r.id}')">🏁 Mark Completed</button>
+      <button class="btn btn-yellow" onclick="openExtend('${r.id}')">🔁 Extend</button>
+    </div>`:''}
+  </div>`;
+}
+
+/* ── APPROVED PANEL ── */
+function renderApprovedPanel(){
+  const list = allRequests.filter(r=>r.status==='approved')
+    .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  $('approved-list').innerHTML = list.length
+    ? list.map(r=>approvedCardHTML(r)).join('')
+    : '<div class="empty"><div class="ei">🏖️</div>No approved leaves</div>';
+}
+
+function approvedCardHTML(r){
+  const days = calcDays(r.from_datetime, r.to_datetime);
+  return `<div class="req-card" style="border-color:rgba(39,174,96,0.25)">
+    <div class="req-card-header">
+      <strong style="font-family:'Cinzel',serif;color:var(--gold)">${r.name||'—'}</strong>
+      <span class="tag t-grey">Ad ${r.adno||'—'}</span>
+      <span class="tag t-grey">Class ${r.class||'—'}</span>
+      <span class="tag t-green">✅ On Leave</span>
+      ${r.leave_id?`<span class="leave-id">${r.leave_id}</span>`:''}
+      <span style="margin-left:auto;font-size:11px;color:var(--gold)">⏱ ${days} day${days!==1?'s':''}</span>
+    </div>
+    <div class="req-card-body">
+      <div class="req-field"><div class="lbl">📍 Destination</div><div class="val">${r.destination||'—'}</div></div>
+      <div class="req-field"><div class="lbl">📅 From</div><div class="val">${fmtDate(r.from_datetime)}</div></div>
+      <div class="req-field"><div class="lbl">📅 To</div><div class="val">${fmtDate(r.to_datetime)}</div></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-blue" onclick="completeLeave('${r.id}')">🏁 Mark Completed</button>
+      <button class="btn btn-yellow" onclick="openExtend('${r.id}')">🔁 Extend</button>
+    </div>
+  </div>`;
+}
+
+/* ── APPROVE ── */
+window.openApprove = (docId) => {
+  const r = allRequests.find(x=>x.id===docId); if(!r) return;
+  $('ap-doc-id').value = docId;
+  $('ap-from').value   = toLocalDT(r.from_datetime);
+  $('ap-to').value     = toLocalDT(r.to_datetime);
+  $('ap-leave-type').value = r.leave_type||'unofficial';
+  $('approve-student-info').innerHTML = `
+    <strong style="color:var(--gold)">${r.name}</strong> &nbsp;|&nbsp; Ad No: ${r.adno} &nbsp;|&nbsp; Class ${r.class}<br/>
+    <span style="color:var(--text-dim);margin-top:4px;display:block">📍 ${r.destination||'—'}</span>`;
+  $('modal-approve').classList.add('show');
+};
+
+window.confirmApprove = async () => {
+  const docId = $('ap-doc-id').value;
+  const from  = $('ap-from').value;
+  const to    = $('ap-to').value;
+  const type  = $('ap-leave-type').value;
+  if(!from||!to){ toast('Set From and To dates','error'); return; }
+  if(to<from){ toast('To date before From date','error'); return; }
+  showLoader();
+  try{
+    const r = allRequests.find(x=>x.id===docId);
+    const leaveId = await generateLeaveId();
+    const days = calcDays(from, to);
+    await updateDoc(doc(db,'leave_requests',docId),{
+      status:'approved', leave_id:leaveId,
+      from_datetime:from, to_datetime:to, leave_type:type, days
+    });
+    // Add days to student's correct bucket
+    if(r?.adno){
+      const field = typeToField(type);
+      await updateDoc(doc(db,'students',r.adno),{[field]:increment(days)});
+    }
+    closeModal('modal-approve');
+    toast(`Leave approved! ID: ${leaveId}`,'success');
+  }catch(e){ console.error(e); toast('Error approving leave','error'); }
+  hideLoader();
+};
+
+async function generateLeaveId(){
+  const snap = await getDocs(collection(db,'leave_requests'));
+  const nums = snap.docs.map(d=>parseInt((d.data().leave_id||'').replace('md',''))||0);
+  const next = (nums.length ? Math.max(...nums) : 0) + 1;
+  return 'md' + String(next).padStart(4,'0');
+}
+
+/* ── REJECT ── */
+window.rejectReq = async (docId) => {
+  if(!confirm('Reject this leave request?')) return;
+  showLoader();
+  try{ await updateDoc(doc(db,'leave_requests',docId),{status:'rejected'}); toast('Rejected','info'); }
+  catch(e){ toast('Error','error'); }
+  hideLoader();
+};
+
+/* ── COMPLETE ── */
+window.completeLeave = (docId) => {
+  const r = allRequests.find(x=>x.id===docId); if(!r) return;
+  $('complete-doc-id').value = docId;
+  $('complete-student-info').innerHTML = `
+    <strong style="color:var(--gold)">${r.name}</strong> &nbsp;|&nbsp; Ad No: ${r.adno} &nbsp;|&nbsp; Class ${r.class}<br/>
+    <span style="color:var(--text-dim);margin-top:4px;display:block">📍 ${r.destination||'—'}</span>`;
+  $('modal-complete').classList.add('show');
+};
+
+window.completeWithOption = async (option) => {
+  const docId = $('complete-doc-id').value;
+  const r = allRequests.find(x=>x.id===docId); if(!r) return;
+  const today = new Date().toISOString().split('T')[0];
+  let reached;
+  switch(option){
+    case 'now':     reached = toLocalDT(new Date().toISOString()); break;
+    case 'first':   reached = `${today}T07:29`; break;
+    case 'seventh': reached = `${today}T13:39`; break;
+    case 'ontime':  reached = r.to_datetime; break;
+  }
+  showLoader();
+  try{
+    await updateDoc(doc(db,'leave_requests',docId),{status:'completed', reached_datetime:reached});
+    closeModal('modal-complete');
+    toast('Leave completed! 🏁','success');
+  }catch(e){ console.error(e); toast('Error','error'); }
+  hideLoader();
+};
+
+/* ── EXTEND ── */
+window.openExtend = (docId) => {
+  const r = allRequests.find(x=>x.id===docId); if(!r) return;
+  const newTo = prompt(`Extend leave for ${r.name}\nCurrent To: ${r.to_datetime}\nNew To (YYYY-MM-DDTHH:MM):`);
+  if(!newTo) return;
+  const newDate = new Date(newTo);
+  if(isNaN(newDate.getTime())){ toast('Invalid datetime','error'); return; }
+  if(newDate <= new Date(r.from_datetime)){ toast('Extended To must be after From','error'); return; }
+  showLoader();
+  updateDoc(doc(db,'leave_requests',docId),{to_datetime:newTo})
+    .then(()=>toast('Leave extended! 🔁','success'))
+    .catch(()=>toast('Error','error'))
+    .finally(hideLoader);
+};
+
+/* ── STUDENTS ── */
+window.renderStudents = () => {
+  const q    = $('stu-search').value.toLowerCase();
+  const sort = $('stu-sort').value;
+  let list = [...allStudents];
+  if(q) list=list.filter(s=>(s.name||'').toLowerCase().includes(q)||(s.adno||s.id||'').includes(q)||(s.class||'').includes(q));
+  if(sort==='class') list.sort((a,b)=>String(a.class||'').localeCompare(String(b.class||'')));
+  else if(sort==='adno') list.sort((a,b)=>+(a.adno||a.id||0)-+(b.adno||b.id||0));
+  else list.sort((a,b)=>(a.name||'').localeCompare(b.name||''));
+
+  $('students-body').innerHTML = list.length
+    ? list.map((s,i)=>{
+        // Use computed totals from leave_requests (source of truth)
+        const totals = getStudentLeaveTotals(s.adno||s.id);
+        const total  = totals.official + totals.medical + totals.unofficial;
+        return `<tr>
+          <td style="color:var(--text-dim)">${i+1}</td>
+          <td><strong style="color:var(--gold)">${s.adno||s.id}</strong></td>
+          <td>${s.name||'—'}</td>
+          <td><span class="tag t-grey">Class ${s.class||'—'}</span></td>
+          <td><span style="color:var(--blue)">${totals.official}</span></td>
+          <td><span style="color:var(--green)">${totals.medical}</span></td>
+          <td><span style="color:${totals.unofficial>=10?'var(--red)':'var(--yellow)'}">${totals.unofficial}</span></td>
+          <td><strong style="color:var(--gold)">${total}</strong></td>
+          <td>
+            <div class="btn-row">
+              <button class="btn btn-outline btn-sm" onclick="editStudent('${s.id}')">✏️</button>
+              <button class="btn btn-red btn-sm"     onclick="deleteStudent('${s.id}')">🗑</button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('')
+    : '<tr><td colspan="9"><div class="empty"><div class="ei">🎓</div>No students found</div></td></tr>';
+};
+
+window.openAddStudent = () => {
+  $('ms-edit-id').value=''; $('ms-adno').value=''; $('ms-name').value=''; $('ms-class').value='';
+  $('modal-student-title').textContent='➕ Add Student';
+  $('ms-adno').disabled=false;
+  $('modal-student').classList.add('show');
+};
+
+window.editStudent = (id) => {
+  const s=allStudents.find(x=>x.id===id); if(!s) return;
+  $('ms-edit-id').value=id; $('ms-adno').value=s.adno||id; $('ms-name').value=s.name||''; $('ms-class').value=s.class||'';
+  $('modal-student-title').textContent='✏️ Edit Student';
+  $('ms-adno').disabled=true;
+  $('modal-student').classList.add('show');
+};
+
+window.saveStudent = async () => {
+  const editId=$('ms-edit-id').value, adno=$('ms-adno').value.trim();
+  const name=$('ms-name').value.trim(), cls=$('ms-class').value.trim();
+  if(!name||!cls){ toast('Name and class required','error'); return; }
+  showLoader();
+  try{
+    if(editId){
+      await updateDoc(doc(db,'students',editId),{name,class:cls});
+    } else {
+      if(!adno){ toast('Admission number required','error'); hideLoader(); return; }
+      await setDoc(doc(db,'students',adno),{adno,name,class:cls,total_official:0,total_medical:0,total_unofficial:0});
+    }
+    closeModal('modal-student');
+    toast(editId?'Student updated':'Student added','success');
+  }catch(e){ console.error(e); toast('Error saving','error'); }
+  hideLoader();
+};
+
+window.deleteStudent = async (id) => {
+  if(!confirm('Delete this student record?')) return;
+  showLoader();
+  try{ await deleteDoc(doc(db,'students',id)); toast('Deleted','info'); }
+  catch(e){ toast('Error','error'); }
+  hideLoader();
+};
+
+/* ── SEARCH / CHANGE LEAVE TYPE ── */
+window.searchLeave = async () => {
+  const q = $('leave-search-input').value.trim().toLowerCase();
+  if(!q){ toast('Enter a leave ID or type','error'); return; }
+  const matches = allRequests.filter(r=>{
+    const id   = (r.leave_id||'').toLowerCase();
+    const type = (r.leave_type||'').toLowerCase();
+    return id===q || type===q;
+  });
+  if(!matches.length){
+    $('leave-search-result').innerHTML=`<div class="empty"><div class="ei">🔍</div>No leave found for: <strong>${q}</strong></div>`;
+    return;
+  }
+  $('leave-search-result').innerHTML = matches.map(found=>{
+    const days = calcDays(found.from_datetime, found.to_datetime);
+    return `
+    <div class="req-card" style="border-color:var(--gold-dim)">
+      <div class="req-card-header">
+        <span class="leave-id" style="font-size:14px">${found.leave_id||'—'}</span>
+        <strong style="font-family:'Cinzel',serif;color:var(--gold);font-size:14px">${found.name}</strong>
+        <span class="tag t-grey">Ad ${found.adno}</span>
+        <span class="tag t-grey">Class ${found.class}</span>
+        ${statusTagHTML(found.status)}
+      </div>
+      <div class="req-card-body">
+        <div class="req-field"><div class="lbl">📍 Destination</div><div class="val">${found.destination||'—'}</div></div>
+        <div class="req-field"><div class="lbl">📅 From</div><div class="val">${fmtDate(found.from_datetime)}</div></div>
+        <div class="req-field"><div class="lbl">📅 To</div><div class="val">${fmtDate(found.to_datetime)}</div></div>
+        <div class="req-field"><div class="lbl">⏱ Days</div><div class="val" style="color:var(--gold);font-weight:700">${days}</div></div>
+        <div class="req-field"><div class="lbl">Type</div><div class="val">${cap(found.leave_type||'unofficial')}</div></div>
+        ${found.reached_datetime?`<div class="req-field"><div class="lbl">Returned</div><div class="val">${fmtDate(found.reached_datetime)}</div></div>`:''}
+      </div>
+      <div class="sec-title" style="margin-top:10px;font-size:12px">Change Leave Type</div>
+      <div class="btn-row">
+        <button class="btn btn-outline btn-sm ${found.leave_type==='unofficial'?'btn-gold':''}" onclick="changeLeaveType('${found.id}','unofficial')">🏠 Unofficial</button>
+        <button class="btn btn-outline btn-sm ${found.leave_type==='official'?'btn-gold':''}"   onclick="changeLeaveType('${found.id}','official')">🏛 Official</button>
+        <button class="btn btn-outline btn-sm ${found.leave_type==='medical'?'btn-gold':''}"    onclick="changeLeaveType('${found.id}','medical')">🏥 Medical</button>
+      </div>
+    </div>`;
+  }).join('');
+};
+
+/* ─────────────────────────────────────────────────────────────────
+   CHANGE LEAVE TYPE
+   - Removes days from old type bucket in student doc
+   - Adds days to new type bucket in student doc
+   - Updates leave_request document with new leave_type
+   ───────────────────────────────────────────────────────────────── */
+window.changeLeaveType = async (docId, newType) => {
+  const leave = allRequests.find(r=>r.id===docId);
+  if(!leave){ toast('Leave not found','error'); return; }
+  const oldType = (leave.leave_type||'unofficial').toLowerCase();
+  if(oldType === newType){ toast('Already set to '+cap(newType),'info'); return; }
+
+  // Only adjust student totals if the leave is approved or completed
+  // (pending/rejected leaves were never counted)
+  const counted = leave.status==='approved' || leave.status==='completed';
+  const days = +(leave.days || calcDays(leave.from_datetime, leave.to_datetime));
+
+  showLoader();
+  try{
+    // 1. Update the leave_request document
+    await updateDoc(doc(db,'leave_requests',docId),{leave_type:newType});
+
+    // 2. Adjust student document totals
+    if(counted && leave.adno && days > 0){
+      const oldField = typeToField(oldType);
+      const newField = typeToField(newType);
+      await updateDoc(doc(db,'students',leave.adno),{
+        [oldField]: increment(-days),
+        [newField]: increment(days)
+      });
+    }
+
+    toast(`Type changed to ${cap(newType)} ✅`,'success');
+    // Re-run search to refresh display
+    searchLeave();
+  }catch(e){
+    console.error(e);
+    toast('Error changing type','error');
+  }
+  hideLoader();
+};
+
+/* ── REPORTS ── */
+function populateClassFilter(){
+  const classes=[...new Set(allStudents.map(s=>s.class).filter(Boolean))].sort();
+  const sel=$('report-class'); const cur=sel.value;
+  sel.innerHTML='<option value="all">All Classes</option>'+classes.map(c=>`<option value="${c}">Class ${c}</option>`).join('');
+  sel.value=cur;
+}
+
+window.generateReport = () => {
+  const cls=$('report-class').value;
+  let list=allStudents;
+  if(cls!=='all') list=list.filter(s=>s.class===cls);
+  const classes=cls==='all'?[...new Set(list.map(s=>s.class).filter(Boolean))].sort():[cls];
+  let html='';
+  classes.forEach(c=>{
+    const stus=list.filter(s=>s.class===c).sort((a,b)=>+(a.adno||a.id||0)-+(b.adno||b.id||0));
+    html+=`<div style="page-break-after:always;margin-bottom:30px;background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <div style="background:linear-gradient(135deg,#120F07,#1A1508);padding:16px 20px;border-bottom:1px solid var(--border)">
+        <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--gold)">Malik Deenar Islamic Academy</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px">Class ${c} — Leave Report · ${new Date().toLocaleDateString('en-IN')}</div>
+      </div>
+      <div class="tbl-scroll">
+        <table>
+          <thead><tr><th>SL</th><th>Ad No</th><th>Name</th><th>Official</th><th>Medical</th><th>Unofficial</th><th>Total</th></tr></thead>
+          <tbody>
+            ${stus.map((s,i)=>{
+              const totals=getStudentLeaveTotals(s.adno||s.id);
+              const total=totals.official+totals.medical+totals.unofficial;
+              return `<tr>
+                <td style="color:var(--text-dim)">${i+1}</td>
+                <td>${s.adno||s.id}</td><td>${s.name||'—'}</td>
+                <td style="color:var(--blue)">${totals.official}</td>
+                <td style="color:var(--green)">${totals.medical}</td>
+                <td style="color:${totals.unofficial>=10?'var(--red)':'var(--yellow)'}">${totals.unofficial}</td>
+                <td style="color:var(--gold);font-weight:700">${total}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  });
+  $('report-preview').innerHTML=html||'<div class="empty"><div class="ei">📄</div>No data</div>';
+};
+
+window.printReport = () => { generateReport(); setTimeout(()=>window.print(),400); };
+
+/* ── SETTINGS ── */
+window.saveSettings = async () => {
+  showLoader();
+  try{
+    await setDoc(doc(db,'settings','main'),{
+      morning_time:   $('set-morning').value,
+      afternoon_time: $('set-afternoon').value,
+      grace_minutes:  +$('set-grace').value,
+      limit_unofficial:+$('set-unoff-limit').value,
+      limit_medical:  +$('set-med-limit').value,
+      limit_official: +$('set-off-limit').value,
+    });
+    toast('Settings saved! ⚙️','success');
+  }catch(e){ toast('Error saving','error'); }
+  hideLoader();
+};
+
+(async()=>{
+  try{
+    const snap=await getDoc(doc(db,'settings','main'));
+    if(snap.exists()){
+      const d=snap.data();
+      if(d.morning_time)    $('set-morning').value=d.morning_time;
+      if(d.afternoon_time)  $('set-afternoon').value=d.afternoon_time;
+      if(d.grace_minutes)   $('set-grace').value=d.grace_minutes;
+      if(d.limit_unofficial)$('set-unoff-limit').value=d.limit_unofficial;
+      if(d.limit_medical)   $('set-med-limit').value=d.limit_medical;
+      if(d.limit_official)  $('set-off-limit').value=d.limit_official;
+    }
+  }catch(e){}
+})();
+
+/* ── MODALS ── */
+window.closeModal = (id) => $(id).classList.remove('show');
+document.querySelectorAll('.modal-bg').forEach(bg=>{
+  bg.addEventListener('click',e=>{ if(e.target===bg) bg.classList.remove('show'); });
+});
+
+/* ── UTILITIES ── */
+function typeToField(type){
+  if(type==='medical')  return 'total_medical';
+  if(type==='official') return 'total_official';
+  return 'total_unofficial';
+}
+
+function calcDays(from, to){
+  if(!from||!to) return 0;
+  const s=new Date(from), e=new Date(to);
+  if(isNaN(s.getTime())||isNaN(e.getTime())||e<s) return 0;
+  let tot=0;
+  const cur=new Date(s); cur.setHours(0,0,0,0);
+  const last=new Date(e); last.setHours(0,0,0,0);
+  const ov=(a,b,c,d)=>a<d&&b>c;
+  while(cur<=last){
+    const mgf=new Date(cur); mgf.setHours(7,30,0,0);
+    const mgt=new Date(cur); mgt.setHours(7,50,0,0);
+    const agf=new Date(cur); agf.setHours(13,40,0,0);
+    const agt=new Date(cur); agt.setHours(14,10,0,0);
+    if(ov(s,e,mgf,mgt)) tot+=0.5;
+    if(ov(s,e,agf,agt)) tot+=0.5;
+    cur.setDate(cur.getDate()+1);
+  }
+  return tot;
+}
+
+function toLocalDT(value){
+  if(!value) return '';
+  const d=new Date(value); if(isNaN(d.getTime())) return '';
+  return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,16);
+}
+
+function fmtDate(d){
+  if(!d) return '—';
+  const dt=new Date(d); if(isNaN(dt.getTime())) return d;
+  const day=String(dt.getDate()).padStart(2,'0');
+  const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][dt.getMonth()];
+  const h=String(dt.getHours()).padStart(2,'0');
+  const m=String(dt.getMinutes()).padStart(2,'0');
+  return `${day} ${mon} ${dt.getFullYear()} ${h}:${m}`;
+}
+
+function cap(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):''; }
+
+function statusTagHTML(s){
+  const m={pending:'t-yellow ⏳ Pending',approved:'t-green ✅ Approved',completed:'t-grey 🏁 Completed',rejected:'t-red ❌ Rejected'};
+  const v=m[s]||('t-grey '+cap(s)); const [cls,...rest]=v.split(' ');
+  return `<span class="tag ${cls}">${rest.join(' ')}</span>`;
+}
+</script>
+</body>
+</html>
