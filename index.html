@@ -4,7 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Admin Portal — Malik Deenar Islamic Academy</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <style>
 :root{
   --gold:#0D47A1;--gold-dim:#1565C0;--gold-glow:rgba(13,71,161,0.10);
@@ -172,12 +173,129 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 .chip-filter.on{border-color:#0D47A1;background:rgba(13,71,161,0.08);color:#0D47A1}
 .leave-id{font-family:'Cinzel',serif;font-size:11px;color:#0D47A1;background:rgba(13,71,161,0.08);border:1px solid rgba(13,71,161,0.2);padding:2px 8px;border-radius:6px;letter-spacing:1px}
 
+/* ══ OUTPASS TOOLBAR & LIST ══ */
+.op-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 16px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;box-shadow:0 1px 6px rgba(13,71,161,0.05)}
+.op-toolbar input{background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:'Lato',sans-serif;font-size:13px;padding:9px 14px;outline:none;transition:border-color .2s;min-width:220px;flex:1}
+.op-toolbar input:focus{border-color:#0D47A1}
+.op-req-list{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;box-shadow:0 1px 6px rgba(13,71,161,0.05);max-height:240px;overflow-y:auto;display:none}
+.op-req-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(13,71,161,0.06);cursor:pointer;transition:background .13s;font-size:12px}
+.op-req-item:last-child{border-bottom:none}
+.op-req-item:hover{background:rgba(13,71,161,0.04)}
+.op-req-item.selected{background:rgba(13,71,161,0.08);border-left:3px solid #0D47A1}
+.op-req-item .rn{font-weight:700;color:var(--text);flex:1;font-family:'Cinzel',serif;font-size:11px}
+.op-req-item .rc{font-size:10px;color:var(--text-dim)}
+.op-req-item .rl{font-size:10px;color:#0D47A1;font-weight:700;letter-spacing:.5px}
+
+/* ══ OUTPASS SCREEN PREVIEW ══ */
+.op-pass-wrap{background:#dde3f0;border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;justify-content:center;align-items:flex-start;box-shadow:0 2px 10px rgba(13,71,161,0.08);min-height:180px}
+.op-preview-card{width:680px;border-radius:6px;overflow:hidden;font-family:'Montserrat',sans-serif;color:#000;box-shadow:0 6px 28px rgba(13,71,161,0.22);background:#fff;border:2px solid #0D47A1}
+/* header */
+.opc-hd{background:linear-gradient(120deg,#0D47A1 0%,#1565C0 50%,#1E88E5 100%);padding:10px 14px 8px;display:flex;align-items:stretch;gap:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.opc-hd-left{flex:1;display:flex;flex-direction:column;justify-content:center}
+.opc-hd-accent{width:4px;background:rgba(255,255,255,.4);border-radius:2px;margin-right:10px;flex-shrink:0}
+.opc-inst{font-size:12.5px;font-weight:800;color:#fff;letter-spacing:.8px;text-transform:uppercase;line-height:1.2}
+.opc-sub{font-size:6px;color:rgba(255,255,255,.7);margin-top:3px;letter-spacing:.2px;line-height:1.5}
+.opc-badge{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.35);border-radius:5px;padding:4px 10px;text-align:center;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2px}
+.opc-badge-title{font-size:5.5px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:1.5px;text-transform:uppercase}
+.opc-badge-lid{font-size:11px;font-weight:800;color:#fff;letter-spacing:1.5px;font-family:'Courier New',monospace}
+/* info strip */
+.opc-info{background:#f0f4fc;border-bottom:2px solid #0D47A1;padding:5px 14px;display:flex;gap:0;align-items:stretch;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.opc-info-cell{flex:1;padding:0 10px;border-right:1px solid #c8d4ec}
+.opc-info-cell:first-child{padding-left:0}
+.opc-info-cell:last-child{border-right:none}
+.opc-lbl{font-size:6px;font-weight:700;color:#7a8aaa;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:1px}
+.opc-val{font-size:10px;font-weight:800;color:#0D47A1}
+.opc-val.lg{font-size:12px}
+/* body */
+.opc-body{display:flex;flex-direction:row;flex:1}
+.opc-fields{flex:1;padding:8px 14px;display:flex;flex-direction:column;gap:6px;border-right:1px dashed #b8c8e8}
+.opc-row{display:flex;gap:10px}
+.opc-f{flex:1;min-width:0}
+.opc-fl{font-size:6px;font-weight:700;color:#8a9ab8;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:2px}
+.opc-fv{font-size:9.5px;font-weight:600;color:#111;border-bottom:1.5px solid #c8d4ec;display:block;padding-bottom:2px;min-height:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.opc-fv.big{font-size:11.5px;font-weight:800;color:#0D47A1}
+.opc-fv.wrap{white-space:normal;font-size:9px;min-height:20px}
+/* right: QR + signs */
+.opc-right{width:110px;flex-shrink:0;padding:8px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;background:#f8faff}
+.opc-qr-wrap{width:80px;height:80px;background:#fff;border:1px solid #c8d4ec;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.opc-qr-lbl{font-size:5.5px;color:#aaa;text-transform:uppercase;letter-spacing:.5px}
+.opc-signs{width:100%;display:flex;flex-direction:column;gap:8px;margin-top:4px;flex:1;justify-content:flex-end}
+.opc-sign{text-align:center}
+.opc-sign-line{border-bottom:1.5px solid #8a9ab8;height:22px;margin-bottom:2px}
+.opc-sign-lbl{font-size:5.5px;font-weight:700;color:#666;letter-spacing:.2px;text-transform:uppercase}
+/* footer */
+.opc-ft{background:linear-gradient(90deg,#0D47A1,#1565C0);padding:4px 14px;display:flex;align-items:center;justify-content:space-between;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.opc-ft-note{font-size:6px;color:rgba(255,255,255,.8);font-style:italic}
+.opc-ft-id{font-size:7px;font-weight:700;color:rgba(255,255,255,.6);font-family:'Courier New',monospace;letter-spacing:1px}
+
+/* ══ OUTPASS EMPTY STATE ══ */
+.op-empty{text-align:center;padding:44px 20px;color:var(--text-dim);width:100%}
+.op-empty .oi{font-size:36px;margin-bottom:10px}
+.op-empty p{font-size:12px}
+
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pdot{0%{box-shadow:0 0 0 0 rgba(39,174,96,.5)}70%{box-shadow:0 0 0 8px rgba(39,174,96,0)}100%{box-shadow:0 0 0 0 rgba(39,174,96,0)}}
+@keyframes scanline{0%{top:8px}50%{top:calc(100% - 8px)}100%{top:8px}}
+
+/* ══ SCANNER ══ */
+.scanner-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:4px;box-shadow:0 2px 8px rgba(13,71,161,0.06)}
+.scanner-title{font-family:'Cinzel',serif;font-size:13px;color:#0D47A1;font-weight:700;margin-bottom:12px}
+.scanner-box{position:relative;width:100%;max-width:340px;height:200px;background:#0a1929;border-radius:10px;overflow:hidden;border:2px solid rgba(13,71,161,0.3)}
+.scanner-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.scanner-frame{width:140px;height:140px;border:2px solid rgba(255,255,255,0.8);border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,0.45)}
+.scanner-line{position:absolute;left:calc(50% - 70px);width:140px;height:2px;background:linear-gradient(90deg,transparent,#00e676,transparent);animation:scanline 2s ease-in-out infinite;display:none}
+.scanner-line.active{display:block}
+.scanner-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a1929}
+
+/* ══ MOBILE HAMBURGER ══ */
+.mob-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(13,71,161,0.08)}
+.mob-topbar h1{font-family:'Cinzel',serif;font-size:14px;color:#0D47A1;font-weight:700;flex:1}
+.mob-menu-btn{background:none;border:none;cursor:pointer;font-size:22px;padding:2px 6px;color:#0D47A1}
+.mob-overlay{display:none;position:fixed;inset:0;z-index:149;background:rgba(0,0,0,0.35);backdrop-filter:blur(2px)}
+.mob-overlay.show{display:block}
+
+/* ══ BOTTOM NAV (mobile) ══ */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(13,71,161,0.08)}
+.bottom-nav-inner{display:flex;align-items:stretch;justify-content:space-around}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px;border-radius:8px;cursor:pointer;border:none;background:transparent;color:var(--text-dim);font-size:9px;font-weight:700;letter-spacing:.3px;flex:1;transition:color .15s}
+.bn-item .bni{font-size:20px;line-height:1}
+.bn-item.active{color:#0D47A1}
+.bn-item .bn-badge{background:var(--red);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center;margin-top:-2px}
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:768px){
+  :root{--sidebar:0px}
+  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);width:240px;z-index:160}
+  .sidebar.mob-open{transform:translateX(0)}
+  .main-wrap{margin-left:0;padding-top:52px}
+  .topbar{display:none}
+  .mob-topbar{display:flex}
+  .bottom-nav{display:block}
+  .content{padding:16px 14px 80px}
+  .stat-row{grid-template-columns:repeat(2,1fr);gap:10px}
+  .form-row{grid-template-columns:1fr}
+  .req-card-body{grid-template-columns:1fr 1fr}
+  .tbl-wrap{font-size:11px}
+  thead th{padding:9px 10px;font-size:9px}
+  tbody td{padding:8px 10px}
+  .op-toolbar{flex-direction:column;align-items:stretch}
+  .op-toolbar input{min-width:0}
+  .scanner-box{max-width:100%;height:220px}
+  .modal{padding:20px 16px}
+  .btn{font-size:10px;padding:8px 12px}
+}
 </style>
 </head>
 <body>
+<!-- ══ MOBILE TOPBAR ══ -->
+<div class="mob-topbar">
+  <button class="mob-menu-btn" onclick="toggleMobMenu()" aria-label="Menu">☰</button>
+  <h1 id="mob-page-title">Dashboard</h1>
+  <div class="live-dot"></div>
+</div>
+<div class="mob-overlay" id="mob-overlay" onclick="closeMobMenu()"></div>
+
 <div class="app">
 
 <!-- ══ SIDEBAR ══ -->
@@ -199,6 +317,7 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
     <button class="nav-item" onclick="navTo('search',this)"><span class="ni">🔍</span>Leave Type</button>
     <div class="sb-section">Reports</div>
     <button class="nav-item" onclick="navTo('reports',this)"><span class="ni">📄</span>Class Reports</button>
+    <button class="nav-item" onclick="navTo('outpass',this)"><span class="ni">🖨️</span>Outpass Print</button>
     <button class="nav-item" onclick="navTo('settings',this)"><span class="ni">⚙️</span>Settings</button>
   </nav>
   <div class="sb-clock">
@@ -281,7 +400,30 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 
     <!-- ═══ SEARCH / LEAVE TYPE ═══ -->
     <div class="panel" id="panel-search">
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+      <!-- Scanner card -->
+      <div class="scanner-card" id="scanner-card">
+        <div class="scanner-title">📷 Scan Pass QR Code</div>
+        <div class="scanner-box" id="scanner-box">
+          <video id="scanner-video" playsinline autoplay muted style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:none"></video>
+          <canvas id="scanner-canvas" style="display:none"></canvas>
+          <div class="scanner-overlay" id="scanner-overlay">
+            <div class="scanner-frame"></div>
+            <div class="scanner-line" id="scanner-line"></div>
+          </div>
+          <div class="scanner-idle" id="scanner-idle">
+            <div style="font-size:36px;margin-bottom:8px">📷</div>
+            <div style="font-size:13px;font-weight:700;color:var(--text-dim)">Camera not active</div>
+            <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Tap Start Scanner below</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn btn-gold" id="scan-start-btn" onclick="startScanner()">▶ Start Scanner</button>
+          <button class="btn btn-red" id="scan-stop-btn" onclick="stopScanner()" style="display:none">■ Stop</button>
+          <span id="scan-status" style="font-size:11px;color:var(--text-dim);align-self:center;margin-left:4px"></span>
+        </div>
+      </div>
+      <!-- Manual search -->
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;margin-top:18px">
         <div class="search-wrap" style="flex:1;margin-bottom:0">
           <span class="si">🔍</span>
           <input type="text" id="leave-search-input" placeholder="Enter Leave ID (md0001) or leave type..." onkeydown="if(event.key==='Enter')searchLeave()"/>
@@ -302,6 +444,44 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
         <button class="btn btn-blue" onclick="printReport()">🖨️ Print / Save PDF</button>
       </div>
       <div id="report-preview" style="margin-top:18px"></div>
+    </div>
+
+    <!-- ═══ OUTPASS PRINT ═══ -->
+    <div class="panel" id="panel-outpass">
+
+      <!-- Toolbar -->
+      <div class="op-toolbar">
+        <span style="font-size:12px;color:var(--text-dim);font-weight:700;white-space:nowrap">🔍 Search:</span>
+        <input type="text" id="op-search-input"
+          placeholder="Filter by name, Ad No or Leave ID..."
+          oninput="opSearch()" />
+        <button class="btn btn-outline btn-sm" onclick="opClear()">✕ Clear</button>
+        <button class="btn btn-gold" id="op-print-btn" onclick="opPrint()" disabled>🖨️ Print Outpass</button>
+      </div>
+
+      <!-- Selection info bar -->
+      <div id="op-sel-bar" style="display:none;background:rgba(13,71,161,0.07);border:1px solid rgba(13,71,161,0.18);border-radius:8px;padding:8px 14px;margin-bottom:10px;align-items:center;gap:10px;font-size:12px;color:#0D47A1;font-weight:700">
+        <span id="op-sel-count">0 selected</span>
+        <span id="op-sel-hint" style="font-weight:400;color:var(--text-dim)"></span>
+        <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="opSelectAll()">☑ Select All</button>
+        <button class="btn btn-outline btn-sm" onclick="opDeselectAll()">☐ Deselect All</button>
+      </div>
+
+      <!-- All approved leaves list (sorted by from date) -->
+      <div class="op-req-list" id="op-req-list" style="display:block;max-height:280px"></div>
+
+      <!-- Outpass preview -->
+      <div class="op-pass-wrap" id="op-pass-wrap">
+        <div class="op-empty">
+          <div class="oi">🖨️</div>
+          <p>Tick checkboxes above to select outpasses to print.<br>
+          <strong>1–3 selected</strong> → A6 landscape, 1 per page &nbsp;|&nbsp; <strong>4+ selected</strong> → A4 portrait, 4 per page.</p>
+        </div>
+      </div>
+
+      <!-- Action bar -->
+      <div id="op-action-bar" style="display:none;margin-top:12px;gap:8px;justify-content:flex-end">
+      </div>
     </div>
 
     <!-- ═══ SETTINGS ═══ -->
@@ -389,6 +569,20 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 <div id="loader"><div class="spinner"></div></div>
 <div id="toast"></div>
 
+<!-- ══ BOTTOM NAV ══ -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bn-item active" id="bn-dashboard" onclick="navTo('dashboard',document.querySelector('.nav-item.active'));mobNavTo('dashboard',this)"><span class="bni">📊</span>Home</button>
+    <button class="bn-item" id="bn-requests" onclick="mobNavTo('requests',this)"><span class="bni">📥</span><span class="bn-badge" id="bn-badge">0</span></button>
+    <button class="bn-item" id="bn-search" onclick="mobNavTo('search',this)"><span class="bni">🔍</span>Scan</button>
+    <button class="bn-item" id="bn-outpass" onclick="mobNavTo('outpass',this)"><span class="bni">🖨️</span>Print</button>
+    <button class="bn-item" id="bn-more" onclick="toggleMobMenu()"><span class="bni">☰</span>More</button>
+  </div>
+</nav>
+
+<!-- QRCode library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -412,6 +606,8 @@ const db = getFirestore(app);
 let allStudents = [];
 let allRequests = [];
 let reqFilter   = 'pending';
+let opSelectedIds = new Set();  // IDs of checked outpasses
+let opPreviewRec  = null;       // first selected record (for preview)
 
 const $ = id => document.getElementById(id);
 const showLoader = () => $('loader').classList.add('show');
@@ -436,11 +632,15 @@ window.navTo = (page,btn) => {
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
   $('panel-'+page).classList.add('active');
-  const titles={dashboard:'Dashboard',requests:'Leave Requests',approved:'Approved Leaves',
-    students:'Students',search:'Leave Type',reports:'Class Reports',settings:'Settings'};
+  const titles={
+    dashboard:'Dashboard',requests:'Leave Requests',approved:'Approved Leaves',
+    students:'Students',search:'Leave Type',reports:'Class Reports',
+    outpass:'Outpass Print',settings:'Settings'
+  };
   $('page-title').textContent = titles[page]||page;
   if(page==='students') renderStudents();
   if(page==='reports')  populateClassFilter();
+  if(page==='outpass')  renderOpList();
 };
 
 /* ── NORMALIZE ── */
@@ -469,7 +669,6 @@ function startListeners(){
   onSnapshot(collection(db,'students'), snap=>{
     allStudents = snap.docs.map(d=>({id:d.id,...d.data()}));
     $('ds-total').textContent = allStudents.length;
-    // Recalculate totals from leave_requests for all students
     recalcAllStudentTotals();
     renderStudents();
     populateClassFilter();
@@ -481,7 +680,6 @@ function startListeners(){
     $('ds-pending').textContent  = pending.length;
     $('ds-approved').textContent = allRequests.filter(r=>r.status==='approved').length;
     $('req-badge').textContent   = pending.length;
-    // Recalculate unofficial total for dashboard
     const unoffTotal = allRequests
       .filter(r=>r.leave_type==='unofficial' && (r.status==='approved'||r.status==='completed'))
       .reduce((s,r)=>s+(+(r.days||calcDays(r.from_datetime,r.to_datetime))),0);
@@ -489,15 +687,12 @@ function startListeners(){
     renderRequestList();
     renderApprovedPanel();
     renderDashboardCards();
+    // Refresh outpass list if panel is active
+    if(document.getElementById('panel-outpass').classList.contains('active')) renderOpList();
   });
 }
 startListeners();
 
-/* ── RECALC STUDENT TOTALS FROM LEAVE_REQUESTS ──
-   This is the source of truth: sum all completed/approved leaves per student per type.
-   We do NOT write back to Firestore here (read-only computed display).
-   The actual Firestore totals are updated on approve / changeLeaveType only.
-*/
 function getStudentLeaveTotals(adNo){
   const relevant = allRequests.filter(r=>
     (r.adno===adNo || r.adNo===adNo) &&
@@ -511,7 +706,6 @@ function getStudentLeaveTotals(adNo){
 }
 
 function recalcAllStudentTotals(){
-  // Update in-memory allStudents with computed values from leave_requests
   allStudents = allStudents.map(s=>{
     const totals = getStudentLeaveTotals(s.adno||s.id);
     return {...s, ...totals};
@@ -639,7 +833,6 @@ window.confirmApprove = async () => {
       status:'approved', leave_id:leaveId,
       from_datetime:from, to_datetime:to, leave_type:type, days
     });
-    // Add days to student's correct bucket
     if(r?.adno){
       const field = typeToField(type);
       await updateDoc(doc(db,'students',r.adno),{[field]:increment(days)});
@@ -723,7 +916,6 @@ window.renderStudents = () => {
 
   $('students-body').innerHTML = list.length
     ? list.map((s,i)=>{
-        // Use computed totals from leave_requests (source of truth)
         const totals = getStudentLeaveTotals(s.adno||s.id);
         const total  = totals.official + totals.medical + totals.unofficial;
         return `<tr>
@@ -829,29 +1021,16 @@ window.searchLeave = async () => {
   }).join('');
 };
 
-/* ─────────────────────────────────────────────────────────────────
-   CHANGE LEAVE TYPE
-   - Removes days from old type bucket in student doc
-   - Adds days to new type bucket in student doc
-   - Updates leave_request document with new leave_type
-   ───────────────────────────────────────────────────────────────── */
 window.changeLeaveType = async (docId, newType) => {
   const leave = allRequests.find(r=>r.id===docId);
   if(!leave){ toast('Leave not found','error'); return; }
   const oldType = (leave.leave_type||'unofficial').toLowerCase();
   if(oldType === newType){ toast('Already set to '+cap(newType),'info'); return; }
-
-  // Only adjust student totals if the leave is approved or completed
-  // (pending/rejected leaves were never counted)
   const counted = leave.status==='approved' || leave.status==='completed';
   const days = +(leave.days || calcDays(leave.from_datetime, leave.to_datetime));
-
   showLoader();
   try{
-    // 1. Update the leave_request document
     await updateDoc(doc(db,'leave_requests',docId),{leave_type:newType});
-
-    // 2. Adjust student document totals
     if(counted && leave.adno && days > 0){
       const oldField = typeToField(oldType);
       const newField = typeToField(newType);
@@ -860,9 +1039,7 @@ window.changeLeaveType = async (docId, newType) => {
         [newField]: increment(days)
       });
     }
-
     toast(`Type changed to ${cap(newType)} ✅`,'success');
-    // Re-run search to refresh display
     searchLeave();
   }catch(e){
     console.error(e);
@@ -917,6 +1094,429 @@ window.generateReport = () => {
 };
 
 window.printReport = () => { generateReport(); setTimeout(()=>window.print(),400); };
+
+/* ════════════════════════════════════════════
+   OUTPASS PRINT SECTION
+   ════════════════════════════════════════════ */
+
+window.opSearch = () => { renderOpList(); };
+
+function renderOpList() {
+  const q = ($('op-search-input').value || '').trim().toLowerCase();
+  const listEl = $('op-req-list');
+
+  let list = allRequests
+    .filter(r => r.status === 'approved')
+    .sort((a, b) => {
+      const da = a.from_datetime ? new Date(a.from_datetime).getTime() : 0;
+      const db2 = b.from_datetime ? new Date(b.from_datetime).getTime() : 0;
+      return da - db2;
+    });
+
+  if(q){
+    list = list.filter(r =>
+      (r.name||'').toLowerCase().includes(q) ||
+      (r.adno||'').toLowerCase().includes(q) ||
+      (r.leave_id||'').toLowerCase().includes(q) ||
+      (r.class||'').toLowerCase().includes(q)
+    );
+  }
+
+  listEl._matches = list;
+
+  if(!list.length){
+    listEl.innerHTML = `<div style="padding:14px 16px;font-size:12px;color:var(--text-dim)">No approved leaves found${q?' for "<strong>'+q+'</strong>"':''}.</div>`;
+    updateSelBar();
+    return;
+  }
+
+  listEl.innerHTML = list.map((r, i) => {
+    const fromStr = r.from_datetime ? fmtDate(r.from_datetime) : '—';
+    const checked = opSelectedIds.has(r.id) ? 'checked' : '';
+    const selClass = opSelectedIds.has(r.id) ? 'selected' : '';
+    return `<div class="op-req-item ${selClass}" id="op-row-${r.id}" onclick="opToggleRow('${r.id}',${i})">
+      <input type="checkbox" ${checked} onclick="event.stopPropagation();opToggleRow('${r.id}',${i})"
+        style="width:15px;height:15px;accent-color:#0D47A1;cursor:pointer;flex-shrink:0"/>
+      <span class="rn">${r.name||'—'}</span>
+      <span class="rc">Ad ${r.adno||'—'} | Class ${r.class||'—'}</span>
+      <span class="rc">📅 ${fromStr}</span>
+      <span class="rl">${r.leave_id||'(no ID)'}</span>
+    </div>`;
+  }).join('');
+
+  updateSelBar();
+}
+
+window.opToggleRow = (id, idx) => {
+  const listEl = $('op-req-list');
+  const matches = listEl._matches || [];
+  if(!matches[idx] && !allRequests.find(r=>r.id===id)) return;
+
+  if(opSelectedIds.has(id)){
+    opSelectedIds.delete(id);
+  } else {
+    opSelectedIds.add(id);
+  }
+
+  // Re-render list (syncs checkboxes + highlight + sel bar)
+  renderOpList();
+
+  // Update preview to first selected record (sorted by from_datetime)
+  const firstSel = allRequests
+    .filter(r => opSelectedIds.has(r.id))
+    .sort((a,b) => {
+      const da = a.from_datetime ? new Date(a.from_datetime).getTime() : 0;
+      const db = b.from_datetime ? new Date(b.from_datetime).getTime() : 0;
+      return da - db;
+    })[0] || null;
+
+  if(firstSel){
+    opPreviewRec = firstSel;
+    renderOutpass(firstSel);
+  } else {
+    opPreviewRec = null;
+    $('op-pass-wrap').innerHTML=`<div class="op-empty">
+      <div class="oi">🖨️</div>
+      <p>Tick checkboxes to select outpasses to print.<br>
+      <strong>1–3 selected</strong> → A6 landscape &nbsp;|&nbsp; <strong>4+ selected</strong> → A4 portrait, 4 per page.</p>
+    </div>`;
+    $('op-action-bar').style.display='none';
+  }
+};
+
+window.opSelectAll = () => {
+  const listEl = $('op-req-list');
+  (listEl._matches||[]).forEach(r => opSelectedIds.add(r.id));
+  renderOpList();
+  const first = (listEl._matches||[]).find(r => opSelectedIds.has(r.id));
+  if(first){ opPreviewRec=first; renderOutpass(first); }
+};
+
+window.opDeselectAll = () => {
+  opSelectedIds.clear();
+  opPreviewRec=null;
+  renderOpList();
+  $('op-pass-wrap').innerHTML=`<div class="op-empty">
+    <div class="oi">🖨️</div>
+    <p>Tick checkboxes to select outpasses to print.</p>
+  </div>`;
+  $('op-action-bar').style.display='none';
+};
+
+function updateSelBar(){
+  const n = opSelectedIds.size;
+  const bar = $('op-sel-bar');
+  const btn = $('op-print-btn');
+  bar.style.display = 'flex';
+  $('op-sel-count').textContent = n === 0 ? 'None selected' : `${n} selected`;
+  if(n === 0){
+    $('op-sel-hint').textContent = '— tick rows to select';
+    btn.disabled = true;
+    btn.textContent = '🖨️ Print Outpass';
+  } else if(n <= 3){
+    $('op-sel-hint').textContent = `→ Will print A6 landscape (${n} page${n>1?'s':''})`;
+    btn.disabled = false;
+    btn.textContent = `🖨️ Print ${n} Outpass${n>1?'es':''}`;
+  } else {
+    const pages = Math.ceil(n/4);
+    $('op-sel-hint').textContent = `→ Will print A4 landscape, 4 per page (${pages} page${pages>1?'s':''})`;
+    btn.disabled = false;
+    btn.textContent = `🖨️ Print ${n} Outpasses`;
+  }
+}
+
+window.opClear = () => {
+  $('op-search-input').value='';
+  opSelectedIds.clear();
+  opPreviewRec=null;
+  $('op-action-bar').style.display='none';
+  $('op-pass-wrap').innerHTML=`<div class="op-empty">
+    <div class="oi">🖨️</div>
+    <p>Tick checkboxes to select outpasses to print.<br>
+    <strong>1–3 selected</strong> → A6 landscape, 1 per page &nbsp;|&nbsp; <strong>4+ selected</strong> → A4 portrait, 4 per page.</p>
+  </div>`;
+  renderOpList();
+};
+
+window.opPrint = () => {
+  if(opSelectedIds.size === 0){ toast('Select at least one outpass','error'); return; }
+
+  // Collect selected records in from_datetime order
+  const allSorted = allRequests
+    .filter(r => r.status==='approved')
+    .sort((a,b)=>{
+      const da = a.from_datetime ? new Date(a.from_datetime).getTime() : 0;
+      const db2 = b.from_datetime ? new Date(b.from_datetime).getTime() : 0;
+      return da - db2;
+    });
+  const selected = allSorted.filter(r => opSelectedIds.has(r.id));
+  if(!selected.length){ toast('No records to print','error'); return; }
+
+  const n = selected.length;
+  const today = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+
+  // ── Build one outpass card inner HTML ──
+  function buildCard(rec){
+    const lid    = rec.leave_id || '—';
+    const fromDT = rec.from_datetime ? fmtDateFull(rec.from_datetime) : '—';
+    const toDT   = rec.to_datetime   ? fmtDateFull(rec.to_datetime)   : '—';
+    const qrId   = 'qr-'+lid.replace(/[^a-z0-9]/gi,'_')+'-'+Math.random().toString(36).slice(2,6);
+
+    return (
+      // ── HEADER ──
+      '<div class="card-hd">'
+        +'<div class="card-hd-left">'
+          +'<div class="card-hd-title">MALIK DEENAR ISLAMIC ACADEMY</div>'
+          +'<div class="card-hd-sub">Affiliated to Darul Huda Islamic University · Thalangara, Kasaragod 671122</div>'
+          +'<div class="card-hd-doc">✦ STUDENT LEAVE PASS ✦</div>'
+        +'</div>'
+        +'<div class="card-hd-badge">'
+          +'<div class="badge-lbl">PASS ID</div>'
+          +'<div class="badge-id">'+lid+'</div>'
+          +'<div class="badge-date">'+today+'</div>'
+        +'</div>'
+      +'</div>'
+      // ── INFO STRIP: each item on its own line ──
+      +'<div class="card-info">'
+        +'<div class="info-row"><span class="il">AD</span><span class="iv mono">'+(rec.adno||'—')+'</span></div>'
+        +'<div class="info-row"><span class="il">NAME</span><span class="iv iv-name">'+(rec.name||'—')+'</span></div>'
+        +'<div class="info-row"><span class="il">CLASS</span><span class="iv">'+(rec.class||'—')+'</span></div>'
+      +'</div>'
+      // ── BODY (no fields-header bar) ──
+      +'<div class="card-body">'
+        +'<div class="body-left">'
+          +'<div class="field-block">'
+            +'<div class="fb-lbl">DESTINATION / PLACE</div>'
+            +'<div class="fb-val">'+(rec.destination||rec.place||'—')+'</div>'
+          +'</div>'
+          +'<div class="field-block">'
+            +'<div class="fb-lbl">REASON FOR LEAVE</div>'
+            +'<div class="fb-val fb-wrap">'+(rec.reason||'—')+'</div>'
+          +'</div>'
+          +'<div class="field-block">'
+            +'<div class="fb-lbl">FROM DATE &amp; TIME</div>'
+            +'<div class="fb-val fb-dt">'+fromDT+'</div>'
+          +'</div>'
+          +'<div class="field-block">'
+            +'<div class="fb-lbl">TO DATE &amp; TIME</div>'
+            +'<div class="fb-val fb-dt">'+toDT+'</div>'
+          +'</div>'
+          +'<div class="signs">'
+            +'<div class="sign"><div class="sign-line"></div><div class="sign-lbl">Principal</div></div>'
+            +'<div class="sign"><div class="sign-line"></div><div class="sign-lbl">Class Teacher</div></div>'
+          +'</div>'
+        +'</div>'
+        +'<div class="body-qr">'
+          +'<div class="qr-lbl">SCAN TO VERIFY</div>'
+          +'<div class="qr-box" id="'+qrId+'" data-lid="'+lid+'"></div>'
+          +'<div class="qr-id">'+lid+'</div>'
+        +'</div>'
+      +'</div>'
+      // ── FOOTER ──
+      +'<div class="card-ft">'
+        +'<span class="ft-note">★ Keep this pass · Present on return to update leave type to Medical / Official if applicable</span>'
+        +'<span class="ft-tag">MDIAC · Leave Management</span>'
+      +'</div>'
+    );
+  }
+
+  // ── Shared CSS (billing-matched: dark green #1e3028, JetBrains Mono + Nunito) ──
+  const BASE_CSS=`
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#fff;font-family:'Nunito',sans-serif;color:#111;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+/* ── CARD STRUCTURE ── */
+.card{width:100%;height:100%;border:1.5px solid #1e3028;border-radius:4px;display:flex;flex-direction:column;overflow:hidden;background:#fff}
+/* header */
+.card-hd{background:#1e3028;padding:4px 7px;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.card-hd-left{flex:1}
+.card-hd-title{font-size:7.5pt;font-weight:800;letter-spacing:.5px;color:#dff0e8;line-height:1.2}
+.card-hd-sub{font-size:4.5pt;color:#7aaa90;margin-top:1.5px;line-height:1.4}
+.card-hd-doc{font-size:4.5pt;font-weight:800;color:rgba(223,240,232,.7);letter-spacing:2px;text-transform:uppercase;margin-top:3px;border-top:1px solid rgba(255,255,255,.18);padding-top:2px}
+.card-hd-badge{background:rgba(255,255,255,.13);border-radius:3px;padding:3px 7px;text-align:center;flex-shrink:0;margin-left:6px;border:1px solid rgba(255,255,255,.2)}
+.badge-lbl{font-size:4pt;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:1px;text-transform:uppercase}
+.badge-id{font-size:9pt;font-weight:700;color:#7ecba1;font-family:'JetBrains Mono',monospace;letter-spacing:1.5px;line-height:1.1;margin-top:1px}
+.badge-date{font-size:4pt;color:rgba(255,255,255,.45);margin-top:2px;letter-spacing:.3px}
+/* info strip */
+.card-info{padding:3px 7px;background:#f5f5f2;border-bottom:1px solid #d5d5cc;flex-shrink:0}
+.info-row{display:flex;align-items:baseline;gap:4px;margin-bottom:2px;flex-wrap:wrap}
+.info-row:last-child{margin-bottom:0}
+.il{font-size:5pt;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.2px;flex-shrink:0}
+.ml{margin-left:7px}
+.iv{font-size:7.5pt;font-weight:700;color:#1e3028;font-family:'JetBrains Mono',monospace}
+.iv-name{font-size:8pt;font-weight:800;color:#1e3028;font-family:'Nunito',sans-serif}
+.mono{font-family:'JetBrains Mono',monospace;letter-spacing:1px}
+/* body */
+.card-body{flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0}
+.body-left{flex:1;padding:6px 8px;display:flex;flex-direction:column;gap:8px;border-right:1px solid #e0e8e2;overflow:hidden}
+.body-qr{width:28mm;flex-shrink:0;background:#f0f7f3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 3px;gap:3px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.field-block{display:flex;flex-direction:column;gap:2px}
+.fb-lbl{font-size:5.5pt;font-weight:700;color:#9ab0a0;text-transform:uppercase;letter-spacing:.3px}
+.fb-val{font-size:9pt;font-weight:600;color:#111;border-bottom:1px solid #dde8de;padding-bottom:3px;min-height:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fb-wrap{white-space:normal;font-size:8.5pt;min-height:16px}
+.fb-dt{font-size:8pt;font-weight:700;color:#1e3028;white-space:normal;line-height:1.4}
+/* signatures */
+.signs{display:flex;gap:5px;margin-top:auto;padding-top:4px;flex-shrink:0}
+.sign{flex:1;text-align:center}
+.sign-line{border-bottom:1.5px solid #a0b8a8;height:14px;margin-bottom:1px}
+.sign-lbl{font-size:3.8pt;font-weight:700;color:#8aaa98;text-transform:uppercase;letter-spacing:.2px}
+/* QR */
+.qr-lbl{font-size:4pt;font-weight:700;color:#7aaa90;text-transform:uppercase;letter-spacing:.5px;text-align:center}
+.qr-box{width:60px;height:60px;background:#fff;border:1px solid #c8d8c8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.qr-id{font-size:4pt;color:#8aaa90;letter-spacing:.5px;text-align:center;font-family:'JetBrains Mono',monospace}
+/* footer */
+.card-ft{background:#1e3028;padding:3px 7px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ft-note{font-size:4pt;color:#7aaa90;font-style:italic}
+.ft-tag{font-size:4pt;font-weight:700;color:#4a7a5a;letter-spacing:.5px;font-family:'JetBrains Mono',monospace}
+/* cut line */
+.scissors{font-size:10pt;color:#aaa;flex-shrink:0}
+.dashes{font-size:7pt;color:#ccc;flex:1;overflow:hidden;white-space:nowrap;border-top:1px dashed #ccc;margin-top:2px}
+.empty-slot{width:100%;height:100%;background:#fafaf8;border:1px dashed #ddd;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#ccc;font-style:italic}`;
+
+  let css, body;
+
+  if(n <= 3){
+    // ── A6 LANDSCAPE: 1 card per page, 148mm × 105mm ──
+    css = BASE_CSS + `
+@page{size:148mm 105mm landscape;margin:0}
+body{width:148mm;height:105mm}
+.page{width:148mm;height:105mm;padding:2.5mm 3mm;display:flex;flex-direction:column;page-break-after:always;overflow:hidden}`;
+    body = selected.map(rec =>
+      '<div class="page"><div class="card">'+buildCard(rec)+'</div></div>'
+    ).join('');
+
+  } else {
+    // ── A4 LANDSCAPE: 2×2 grid of A6 landscape cards (148mm×105mm each) ──
+    css = BASE_CSS + `
+@page{size:297mm 210mm landscape;margin:0}
+body{width:297mm}
+.a4page{width:297mm;height:210mm;display:flex;flex-direction:column;page-break-after:always;overflow:hidden;background:#fff}
+.row{width:297mm;height:105mm;display:flex;flex-direction:row;flex-shrink:0;overflow:hidden}
+.slot{width:148.5mm;height:105mm;padding:2.5mm 3mm;display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
+.left-slot{border-right:1px dashed #ccc}
+.top-row{border-bottom:1px dashed #ccc}`;
+
+    const emptyCard='<div class="empty-slot">Empty</div>';
+
+    body='';
+    for(let p=0;p<Math.ceil(n/4);p++){
+      const g=selected.slice(p*4,p*4+4);
+      while(g.length<4) g.push(null);
+      body+='<div class="a4page">'
+        +'<div class="row top-row">'
+          +'<div class="slot left-slot">'+(g[0]?'<div class="card">'+buildCard(g[0])+'</div>':emptyCard)+'</div>'
+          +'<div class="slot">'+(g[1]?'<div class="card">'+buildCard(g[1])+'</div>':emptyCard)+'</div>'
+        +'</div>'
+        +'<div class="row">'
+          +'<div class="slot left-slot">'+(g[2]?'<div class="card">'+buildCard(g[2])+'</div>':emptyCard)+'</div>'
+          +'<div class="slot">'+(g[3]?'<div class="card">'+buildCard(g[3])+'</div>':emptyCard)+'</div>'
+        +'</div>'
+      +'</div>';
+    }
+  }
+
+  const title = n===1 ? 'Leave Pass – '+(selected[0].name||'Student') : n+' Leave Passes';
+  const w=window.open('','_blank');
+  w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title>'
+    +'<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">'
+    +'<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'
+    +'<style>'+css+'</style></head><body>'+body
+    +'<script>window.addEventListener("load",function(){'
+      +'document.querySelectorAll(".qr-box[data-lid]").forEach(function(el){'
+        +'var lid=el.getAttribute("data-lid");'
+        +'if(lid&&lid!=="—"&&typeof QRCode!=="undefined"){'
+          +'try{new QRCode(el,{text:lid,width:58,height:58,colorDark:"#1e3028",colorLight:"#fff",correctLevel:QRCode.CorrectLevel.M});}'
+          +'catch(e){el.textContent=lid;}'
+        +'}'
+      +'})'
+      +';setTimeout(function(){window.print();},1400);'
+    +'});<\/script>'
+    +'</body></html>');
+  w.document.close();
+  w.focus();
+};
+
+function renderOutpass(r){
+  const leaveId = r.leave_id || '—';
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  const fromDT = r.from_datetime ? fmtDateFull(r.from_datetime) : '—';
+  const toDT   = r.to_datetime   ? fmtDateFull(r.to_datetime)   : '—';
+  const ltype  = cap(r.leave_type||'unofficial');
+
+  $('op-pass-wrap').innerHTML = `
+  <div class="op-preview-card">
+    <!-- HEADER -->
+    <div class="opc-hd">
+      <div class="opc-hd-accent"></div>
+      <div class="opc-hd-left">
+        <div class="opc-inst">Malik Deenar Islamic Academy</div>
+        <div class="opc-sub">Affiliated to Darul Huda Islamic University &nbsp;·&nbsp; Malik Deenar Juma Masjid Committee, Thalangara, Kasaragod 671122 &nbsp;·&nbsp; Ph: 9809575978</div>
+        <div style="font-size:7px;font-weight:800;color:rgba(255,255,255,.85);letter-spacing:2px;text-transform:uppercase;margin-top:4px;border-top:1px solid rgba(255,255,255,.25);padding-top:3px">✦ STUDENT LEAVE PASS ✦</div>
+      </div>
+      <div class="opc-badge">
+        <div class="opc-badge-title">Pass ID</div>
+        <div class="opc-badge-lid">${leaveId}</div>
+        <div style="font-size:5.5px;color:rgba(255,255,255,.55);margin-top:2px">${dateStr}</div>
+      </div>
+    </div>
+    <!-- INFO STRIP -->
+    <div class="opc-info">
+      <div class="opc-info-cell"><span class="opc-lbl">Ad No</span><span class="opc-val" style="font-family:'Courier New',monospace;letter-spacing:1px">${r.adno||'—'}</span></div>
+      <div class="opc-info-cell" style="flex:2"><span class="opc-lbl">Student Name</span><span class="opc-val lg">${r.name||'—'}</span></div>
+      <div class="opc-info-cell"><span class="opc-lbl">Class</span><span class="opc-val lg">${r.class||'—'}</span></div>
+      <div class="opc-info-cell"><span class="opc-lbl">Leave Type</span><span class="opc-val" style="color:${ltype==='Medical'?'#15803D':ltype==='Official'?'#1D4ED8':'#B45309'}">${ltype}</span></div>
+    </div>
+    <!-- BODY -->
+    <div class="opc-body">
+      <div class="opc-fields">
+        <div class="opc-row">
+          <div class="opc-f" style="flex:2"><span class="opc-fl">Destination / Place</span><span class="opc-fv">${r.destination||r.place||'—'}</span></div>
+          <div class="opc-f" style="flex:2"><span class="opc-fl">Reason for Leave</span><span class="opc-fv wrap">${r.reason||'—'}</span></div>
+        </div>
+        <div class="opc-row">
+          <div class="opc-f"><span class="opc-fl">From (Date &amp; Time)</span><span class="opc-fv" style="font-size:9px;font-weight:700;color:#0D47A1">${fromDT}</span></div>
+          <div class="opc-f"><span class="opc-fl">To (Date &amp; Time)</span><span class="opc-fv" style="font-size:9px;font-weight:700;color:#0D47A1">${toDT}</span></div>
+        </div>
+        <div class="opc-row" style="margin-top:auto;padding-top:8px">
+          <div class="opc-sign" style="flex:1"><div class="opc-sign-line"></div><div class="opc-sign-lbl">Principal's Signature</div></div>
+          <div class="opc-sign" style="flex:1"><div class="opc-sign-line"></div><div class="opc-sign-lbl">Class Teacher's Signature</div></div>
+          <div class="opc-sign" style="flex:1"><div class="opc-sign-line"></div><div class="opc-sign-lbl">Parent's Signature</div></div>
+        </div>
+      </div>
+      <div class="opc-right">
+        <div class="opc-qr-lbl">SCAN TO VERIFY</div>
+        <div class="opc-qr-wrap" id="op-qr-render"></div>
+        <div class="opc-qr-lbl" style="font-size:6px;color:#8A9AB8;letter-spacing:1px;font-weight:700">${leaveId}</div>
+      </div>
+    </div>
+    <!-- FOOTER -->
+    <div class="opc-ft">
+      <span class="opc-ft-note">★ Keep this pass · Present on return to update leave type to Medical / Official</span>
+      <span class="opc-ft-id">MDIAC · Leave Management</span>
+    </div>
+  </div>`;
+
+  // Show action bar
+  $('op-action-bar').style.display='flex';
+
+  // Generate QR code
+  setTimeout(()=>{
+    const qrEl = $('op-qr-render');
+    if(qrEl && typeof QRCode !== 'undefined'){
+      qrEl.innerHTML='';
+      try{
+        new QRCode(qrEl,{
+          text: leaveId!=='—' ? leaveId : (r.adno||'unknown'),
+          width:76, height:76,
+          colorDark:'#000',colorLight:'#fff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }catch(e){
+        qrEl.innerHTML='<div style="font-size:9px;color:#999;text-align:center;padding:8px">QR<br>unavailable</div>';
+      }
+    }
+  },150);
+}
 
 /* ── SETTINGS ── */
 window.saveSettings = async () => {
@@ -999,7 +1599,110 @@ function fmtDate(d){
   return `${day} ${mon} ${dt.getFullYear()} ${h}:${m}`;
 }
 
-function cap(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):''; }
+function fmtDateFull(d){
+  if(!d) return '—';
+  const dt=new Date(d); if(isNaN(dt.getTime())) return d;
+  const day=String(dt.getDate()).padStart(2,'0');
+  const mon=['January','February','March','April','May','June','July','August','September','October','November','December'][dt.getMonth()];
+  const h=String(dt.getHours()).padStart(2,'0');
+  const m=String(dt.getMinutes()).padStart(2,'0');
+  const ampm=dt.getHours()>=12?'PM':'AM';
+  const h12=dt.getHours()%12||12;
+  return `${day} ${mon} ${dt.getFullYear()},  ${String(h12).padStart(2,'0')}:${m} ${ampm}`;
+}
+
+/* ── MOBILE MENU ── */
+window.toggleMobMenu = () => {
+  const sb = document.querySelector('.sidebar');
+  const ov = $('mob-overlay');
+  sb.classList.toggle('mob-open');
+  ov.classList.toggle('show');
+};
+window.closeMobMenu = () => {
+  document.querySelector('.sidebar').classList.remove('mob-open');
+  $('mob-overlay').classList.remove('show');
+};
+window.mobNavTo = (page, btn) => {
+  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const navBtn = [...document.querySelectorAll('.nav-item')].find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+page+"'"));
+  if(navBtn) navBtn.click();
+  else navTo(page, document.querySelector('.nav-item'));
+  $('mob-page-title').textContent = ({dashboard:'Dashboard',requests:'Requests',approved:'Approved',students:'Students',search:'Leave Type',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
+  closeMobMenu();
+};
+// Keep mob title in sync with sidebar nav
+const _origNavTo = window.navTo;
+window.navTo = (page, btn) => {
+  _origNavTo(page, btn);
+  $('mob-page-title').textContent = ({dashboard:'Dashboard',requests:'Requests',approved:'Approved',students:'Students',search:'Leave Type',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
+  closeMobMenu();
+};
+// Sync badge
+setInterval(()=>{ const b=$('bn-badge'); const rb=$('req-badge'); if(b&&rb) b.textContent=rb.textContent; },500);
+
+/* ── QR SCANNER ── */
+let scanStream = null;
+let scanInterval = null;
+
+window.startScanner = async () => {
+  const video = $('scanner-video');
+  const idle  = $('scanner-idle');
+  const line  = $('scanner-line');
+  const status= $('scan-status');
+  const startBtn = $('scan-start-btn');
+  const stopBtn  = $('scan-stop-btn');
+  try {
+    scanStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal:'environment' }, width:{ideal:640}, height:{ideal:480} }
+    });
+    video.srcObject = scanStream;
+    video.style.display = 'block';
+    idle.style.display  = 'none';
+    line.classList.add('active');
+    startBtn.style.display = 'none';
+    stopBtn.style.display  = '';
+    status.textContent = '🟢 Scanning…';
+    // Poll frames with jsQR if available, else fallback message
+    const canvas = $('scanner-canvas');
+    const ctx = canvas.getContext('2d');
+    scanInterval = setInterval(()=>{
+      if(video.readyState === video.HAVE_ENOUGH_DATA){
+        canvas.width  = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video,0,0);
+        if(typeof jsQR === 'undefined') return;
+        const img = ctx.getImageData(0,0,canvas.width,canvas.height);
+        const code = jsQR(img.data, img.width, img.height, {inversionAttempts:'dontInvert'});
+        if(code && code.data){
+          status.textContent = '✅ Found: ' + code.data;
+          $('leave-search-input').value = code.data;
+          stopScanner();
+          searchLeave();
+        }
+      }
+    },200);
+  } catch(e) {
+    status.textContent = '❌ Camera access denied';
+    idle.style.display = 'flex';
+  }
+};
+
+window.stopScanner = () => {
+  if(scanStream){ scanStream.getTracks().forEach(t=>t.stop()); scanStream=null; }
+  if(scanInterval){ clearInterval(scanInterval); scanInterval=null; }
+  const video = $('scanner-video');
+  const idle  = $('scanner-idle');
+  const line  = $('scanner-line');
+  if(video){ video.style.display='none'; video.srcObject=null; }
+  if(idle)  idle.style.display='flex';
+  if(line)  line.classList.remove('active');
+  const startBtn=$('scan-start-btn'); const stopBtn=$('scan-stop-btn');
+  if(startBtn) startBtn.style.display='';
+  if(stopBtn)  stopBtn.style.display='none';
+  const status=$('scan-status'); if(status) status.textContent='';
+};
+
 
 function statusTagHTML(s){
   const m={pending:'t-yellow ⏳ Pending',approved:'t-green ✅ Approved',completed:'t-grey 🏁 Completed',rejected:'t-red ❌ Rejected'};
