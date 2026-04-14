@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Admin Portal — Malik Deenar Islamic Academy</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <style>
 :root{
   --gold:#0D47A1;--gold-dim:#1565C0;--gold-glow:rgba(13,71,161,0.10);
@@ -236,66 +235,9 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes pdot{0%{box-shadow:0 0 0 0 rgba(39,174,96,.5)}70%{box-shadow:0 0 0 8px rgba(39,174,96,0)}100%{box-shadow:0 0 0 0 rgba(39,174,96,0)}}
-@keyframes scanline{0%{top:8px}50%{top:calc(100% - 8px)}100%{top:8px}}
-
-/* ══ SCANNER ══ */
-.scanner-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:4px;box-shadow:0 2px 8px rgba(13,71,161,0.06)}
-.scanner-title{font-family:'Cinzel',serif;font-size:13px;color:#0D47A1;font-weight:700;margin-bottom:12px}
-.scanner-box{position:relative;width:100%;max-width:340px;height:200px;background:#0a1929;border-radius:10px;overflow:hidden;border:2px solid rgba(13,71,161,0.3)}
-.scanner-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.scanner-frame{width:140px;height:140px;border:2px solid rgba(255,255,255,0.8);border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,0.45)}
-.scanner-line{position:absolute;left:calc(50% - 70px);width:140px;height:2px;background:linear-gradient(90deg,transparent,#00e676,transparent);animation:scanline 2s ease-in-out infinite;display:none}
-.scanner-line.active{display:block}
-.scanner-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a1929}
-
-/* ══ MOBILE HAMBURGER ══ */
-.mob-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(13,71,161,0.08)}
-.mob-topbar h1{font-family:'Cinzel',serif;font-size:14px;color:#0D47A1;font-weight:700;flex:1}
-.mob-menu-btn{background:none;border:none;cursor:pointer;font-size:22px;padding:2px 6px;color:#0D47A1}
-.mob-overlay{display:none;position:fixed;inset:0;z-index:149;background:rgba(0,0,0,0.35);backdrop-filter:blur(2px)}
-.mob-overlay.show{display:block}
-
-/* ══ BOTTOM NAV (mobile) ══ */
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(13,71,161,0.08)}
-.bottom-nav-inner{display:flex;align-items:stretch;justify-content:space-around}
-.bn-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px;border-radius:8px;cursor:pointer;border:none;background:transparent;color:var(--text-dim);font-size:9px;font-weight:700;letter-spacing:.3px;flex:1;transition:color .15s}
-.bn-item .bni{font-size:20px;line-height:1}
-.bn-item.active{color:#0D47A1}
-.bn-item .bn-badge{background:var(--red);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center;margin-top:-2px}
-
-/* ══ RESPONSIVE ══ */
-@media(max-width:768px){
-  :root{--sidebar:0px}
-  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);width:240px;z-index:160}
-  .sidebar.mob-open{transform:translateX(0)}
-  .main-wrap{margin-left:0;padding-top:52px}
-  .topbar{display:none}
-  .mob-topbar{display:flex}
-  .bottom-nav{display:block}
-  .content{padding:16px 14px 80px}
-  .stat-row{grid-template-columns:repeat(2,1fr);gap:10px}
-  .form-row{grid-template-columns:1fr}
-  .req-card-body{grid-template-columns:1fr 1fr}
-  .tbl-wrap{font-size:11px}
-  thead th{padding:9px 10px;font-size:9px}
-  tbody td{padding:8px 10px}
-  .op-toolbar{flex-direction:column;align-items:stretch}
-  .op-toolbar input{min-width:0}
-  .scanner-box{max-width:100%;height:220px}
-  .modal{padding:20px 16px}
-  .btn{font-size:10px;padding:8px 12px}
-}
 </style>
 </head>
 <body>
-<!-- ══ MOBILE TOPBAR ══ -->
-<div class="mob-topbar">
-  <button class="mob-menu-btn" onclick="toggleMobMenu()" aria-label="Menu">☰</button>
-  <h1 id="mob-page-title">Dashboard</h1>
-  <div class="live-dot"></div>
-</div>
-<div class="mob-overlay" id="mob-overlay" onclick="closeMobMenu()"></div>
-
 <div class="app">
 
 <!-- ══ SIDEBAR ══ -->
@@ -400,30 +342,7 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 
     <!-- ═══ SEARCH / LEAVE TYPE ═══ -->
     <div class="panel" id="panel-search">
-      <!-- Scanner card -->
-      <div class="scanner-card" id="scanner-card">
-        <div class="scanner-title">📷 Scan Pass QR Code</div>
-        <div class="scanner-box" id="scanner-box">
-          <video id="scanner-video" playsinline autoplay muted style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:none"></video>
-          <canvas id="scanner-canvas" style="display:none"></canvas>
-          <div class="scanner-overlay" id="scanner-overlay">
-            <div class="scanner-frame"></div>
-            <div class="scanner-line" id="scanner-line"></div>
-          </div>
-          <div class="scanner-idle" id="scanner-idle">
-            <div style="font-size:36px;margin-bottom:8px">📷</div>
-            <div style="font-size:13px;font-weight:700;color:var(--text-dim)">Camera not active</div>
-            <div style="font-size:11px;color:var(--text-dim);margin-top:4px">Tap Start Scanner below</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-          <button class="btn btn-gold" id="scan-start-btn" onclick="startScanner()">▶ Start Scanner</button>
-          <button class="btn btn-red" id="scan-stop-btn" onclick="stopScanner()" style="display:none">■ Stop</button>
-          <span id="scan-status" style="font-size:11px;color:var(--text-dim);align-self:center;margin-left:4px"></span>
-        </div>
-      </div>
-      <!-- Manual search -->
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px;margin-top:18px">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
         <div class="search-wrap" style="flex:1;margin-bottom:0">
           <span class="si">🔍</span>
           <input type="text" id="leave-search-input" placeholder="Enter Leave ID (md0001) or leave type..." onkeydown="if(event.key==='Enter')searchLeave()"/>
@@ -568,17 +487,6 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 
 <div id="loader"><div class="spinner"></div></div>
 <div id="toast"></div>
-
-<!-- ══ BOTTOM NAV ══ -->
-<nav class="bottom-nav">
-  <div class="bottom-nav-inner">
-    <button class="bn-item active" id="bn-dashboard" onclick="navTo('dashboard',document.querySelector('.nav-item.active'));mobNavTo('dashboard',this)"><span class="bni">📊</span>Home</button>
-    <button class="bn-item" id="bn-requests" onclick="mobNavTo('requests',this)"><span class="bni">📥</span><span class="bn-badge" id="bn-badge">0</span></button>
-    <button class="bn-item" id="bn-search" onclick="mobNavTo('search',this)"><span class="bni">🔍</span>Scan</button>
-    <button class="bn-item" id="bn-outpass" onclick="mobNavTo('outpass',this)"><span class="bni">🖨️</span>Print</button>
-    <button class="bn-item" id="bn-more" onclick="toggleMobMenu()"><span class="bni">☰</span>More</button>
-  </div>
-</nav>
 
 <!-- QRCode library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -1219,7 +1127,7 @@ function updateSelBar(){
     btn.textContent = `🖨️ Print ${n} Outpass${n>1?'es':''}`;
   } else {
     const pages = Math.ceil(n/4);
-    $('op-sel-hint').textContent = `→ Will print A4 landscape, 4 per page (${pages} page${pages>1?'s':''})`;
+    $('op-sel-hint').textContent = `→ Will print A4 portrait, 4 per page (${pages} page${pages>1?'s':''})`;
     btn.disabled = false;
     btn.textContent = `🖨️ Print ${n} Outpasses`;
   }
@@ -1611,98 +1519,7 @@ function fmtDateFull(d){
   return `${day} ${mon} ${dt.getFullYear()},  ${String(h12).padStart(2,'0')}:${m} ${ampm}`;
 }
 
-/* ── MOBILE MENU ── */
-window.toggleMobMenu = () => {
-  const sb = document.querySelector('.sidebar');
-  const ov = $('mob-overlay');
-  sb.classList.toggle('mob-open');
-  ov.classList.toggle('show');
-};
-window.closeMobMenu = () => {
-  document.querySelector('.sidebar').classList.remove('mob-open');
-  $('mob-overlay').classList.remove('show');
-};
-window.mobNavTo = (page, btn) => {
-  document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
-  if(btn) btn.classList.add('active');
-  const navBtn = [...document.querySelectorAll('.nav-item')].find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+page+"'"));
-  if(navBtn) navBtn.click();
-  else navTo(page, document.querySelector('.nav-item'));
-  $('mob-page-title').textContent = ({dashboard:'Dashboard',requests:'Requests',approved:'Approved',students:'Students',search:'Leave Type',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
-  closeMobMenu();
-};
-// Keep mob title in sync with sidebar nav
-const _origNavTo = window.navTo;
-window.navTo = (page, btn) => {
-  _origNavTo(page, btn);
-  $('mob-page-title').textContent = ({dashboard:'Dashboard',requests:'Requests',approved:'Approved',students:'Students',search:'Leave Type',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
-  closeMobMenu();
-};
-// Sync badge
-setInterval(()=>{ const b=$('bn-badge'); const rb=$('req-badge'); if(b&&rb) b.textContent=rb.textContent; },500);
-
-/* ── QR SCANNER ── */
-let scanStream = null;
-let scanInterval = null;
-
-window.startScanner = async () => {
-  const video = $('scanner-video');
-  const idle  = $('scanner-idle');
-  const line  = $('scanner-line');
-  const status= $('scan-status');
-  const startBtn = $('scan-start-btn');
-  const stopBtn  = $('scan-stop-btn');
-  try {
-    scanStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal:'environment' }, width:{ideal:640}, height:{ideal:480} }
-    });
-    video.srcObject = scanStream;
-    video.style.display = 'block';
-    idle.style.display  = 'none';
-    line.classList.add('active');
-    startBtn.style.display = 'none';
-    stopBtn.style.display  = '';
-    status.textContent = '🟢 Scanning…';
-    // Poll frames with jsQR if available, else fallback message
-    const canvas = $('scanner-canvas');
-    const ctx = canvas.getContext('2d');
-    scanInterval = setInterval(()=>{
-      if(video.readyState === video.HAVE_ENOUGH_DATA){
-        canvas.width  = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video,0,0);
-        if(typeof jsQR === 'undefined') return;
-        const img = ctx.getImageData(0,0,canvas.width,canvas.height);
-        const code = jsQR(img.data, img.width, img.height, {inversionAttempts:'dontInvert'});
-        if(code && code.data){
-          status.textContent = '✅ Found: ' + code.data;
-          $('leave-search-input').value = code.data;
-          stopScanner();
-          searchLeave();
-        }
-      }
-    },200);
-  } catch(e) {
-    status.textContent = '❌ Camera access denied';
-    idle.style.display = 'flex';
-  }
-};
-
-window.stopScanner = () => {
-  if(scanStream){ scanStream.getTracks().forEach(t=>t.stop()); scanStream=null; }
-  if(scanInterval){ clearInterval(scanInterval); scanInterval=null; }
-  const video = $('scanner-video');
-  const idle  = $('scanner-idle');
-  const line  = $('scanner-line');
-  if(video){ video.style.display='none'; video.srcObject=null; }
-  if(idle)  idle.style.display='flex';
-  if(line)  line.classList.remove('active');
-  const startBtn=$('scan-start-btn'); const stopBtn=$('scan-stop-btn');
-  if(startBtn) startBtn.style.display='';
-  if(stopBtn)  stopBtn.style.display='none';
-  const status=$('scan-status'); if(status) status.textContent='';
-};
-
+function cap(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):''; }
 
 function statusTagHTML(s){
   const m={pending:'t-yellow ⏳ Pending',approved:'t-green ✅ Approved',completed:'t-grey 🏁 Completed',rejected:'t-red ❌ Rejected'};
