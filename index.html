@@ -204,11 +204,11 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 .opc-badge-title{font-size:5.5px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:1.5px;text-transform:uppercase}
 .opc-badge-lid{font-size:13px;font-weight:800;color:#7ecba1;letter-spacing:1.5px;font-family:'Courier New',monospace}
 /* info strip */
-.opc-info{background:#f0f7f3;border-bottom:2px solid #1e3028;padding:5px 14px;display:flex;gap:0;align-items:stretch;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.opc-info-cell{flex:1;padding:0 10px;border-right:1px solid #c8d8c8}
+.opc-info{background:#f0f7f3;border-bottom:2px solid #1e3028;padding:14px 18px;display:flex;gap:0;align-items:stretch;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.opc-info-cell{flex:1;padding:0 16px;border-right:1px solid #c8d8c8}
 .opc-info-cell:first-child{padding-left:0}
 .opc-info-cell:last-child{border-right:none}
-.opc-lbl{font-size:7px;font-weight:700;color:#7a9a88;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:1px}
+.opc-lbl{font-size:7px;font-weight:700;color:#7a9a88;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px}
 .opc-val{font-size:11px;font-weight:800;color:#1e3028}
 .opc-val.lg{font-size:13px}
 /* body */
@@ -1285,17 +1285,18 @@ window.opPrint = () => {
           +'<div class="card-hd-sub">Affiliated to Darul Huda Islamic University · Thalangara, Kasaragod 671122</div>'
           +'<div class="card-hd-doc">✦ STUDENT LEAVE PASS ✦</div>'
         +'</div>'
-        +'<div class="card-hd-badge">'
-          +'<div class="badge-lbl">PASS ID</div>'
-          +'<div class="badge-id">'+lid+'</div>'
-          +'<div class="badge-date">'+today+'</div>'
-        +'</div>'
       +'</div>'
       // ── INFO STRIP: each item on its own line ──
-      +'<div class="card-info">'
-        +'<div class="info-row"><span class="il">AD</span><span class="iv mono">'+(rec.adno||'—')+'</span></div>'
-        +'<div class="info-row"><span class="il">NAME</span><span class="iv iv-name">'+(rec.name||'—')+'</span></div>'
-        +'<div class="info-row"><span class="il">CLASS</span><span class="iv">'+(rec.class||'—')+'</span></div>'
+      +'<div class="card-info" style="display:flex;gap:0">'
+        +'<div style="flex:1">'
+          +'<div class="info-row"><span class="il">AD</span><span class="iv mono">'+(rec.adno||'—')+'</span></div>'
+          +'<div class="info-row"><span class="il">NAME</span><span class="iv iv-name">'+(rec.name||'—')+'</span></div>'
+          +'<div class="info-row"><span class="il">CLASS</span><span class="iv">'+(rec.class||'—')+'</span></div>'
+        +'</div>'
+        +'<div style="border-left:2px solid #1e3028;padding-left:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;min-width:72px;text-align:center">'
+          +'<span style="font-size:5pt;font-weight:700;color:#7a9a88;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px">PASS ID</span>'
+          +'<span style="font-size:11pt;font-weight:800;color:#1e3028;font-family:JetBrains Mono,monospace;letter-spacing:2px;text-transform:uppercase">'+(lid.toUpperCase())+'</span>'
+        +'</div>'
       +'</div>'
       // ── BODY ──
       +'<div class="card-body">'
@@ -1455,11 +1456,6 @@ function renderOutpass(r){
         <div class="opc-sub">Affiliated to Darul Huda Islamic University · Malik Deenar Juma Masjid Committee, Thalangara, Kasaragod 671122 · Ph: 9809575978</div>
         <div class="opc-hd-doc">✦ STUDENT LEAVE PASS ✦</div>
       </div>
-      <div class="opc-badge">
-        <div class="opc-badge-title">PASS ID</div>
-        <div class="opc-badge-lid">${leaveId}</div>
-        <div style="font-size:6px;color:rgba(255,255,255,.45);margin-top:2px">${dateStr}</div>
-      </div>
     </div>
     <!-- INFO STRIP -->
     <div class="opc-info">
@@ -1467,6 +1463,7 @@ function renderOutpass(r){
       <div class="opc-info-cell" style="flex:2"><span class="opc-lbl">STUDENT NAME</span><span class="opc-val lg">${r.name||'—'}</span></div>
       <div class="opc-info-cell"><span class="opc-lbl">CLASS</span><span class="opc-val lg">${r.class||'—'}</span></div>
       <div class="opc-info-cell"><span class="opc-lbl">LEAVE TYPE</span><span class="opc-val" style="color:${ltColor}">${ltype}</span></div>
+      <div class="opc-info-cell" style="border-left:2px solid #1e3028;padding-left:12px;text-align:center;flex-shrink:0;min-width:90px"><span class="opc-lbl">PASS ID</span><span class="opc-val" style="font-family:'Courier New',monospace;letter-spacing:2px;font-size:15px;color:#1e3028;text-transform:uppercase;display:block">${leaveId.toUpperCase()}</span></div>
     </div>
     <!-- BODY -->
     <div class="opc-body">
