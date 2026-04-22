@@ -688,7 +688,7 @@ function startListeners(){
     populateClassFilter();
   });
 
-  onSnapshot(collection(db,'leaveRequests'), snap=>{
+  onSnapshot(collection(db,''), snap=>{
     allRequests = snap.docs.map(normalizeRequest);
     dataReady = true;
     const pending = allRequests.filter(r=>r.status==='pending');
@@ -844,7 +844,7 @@ window.confirmApprove = async () => {
     const r = allRequests.find(x=>x.id===docId);
     const leaveId = await generateLeaveId();
     const days = calcDays(from, to);
-    await updateDoc(doc(db,'leaveRequests',docId),{
+    await updateDoc(doc(db,'',docId),{
       status:'approved', leave_id:leaveId,
       from_datetime:from, to_datetime:to, leave_type:type, days
     });
@@ -859,7 +859,7 @@ window.confirmApprove = async () => {
 };
 
 async function generateLeaveId(){
-  const snap = await getDocs(collection(db,'leaveRequests'));
+  const snap = await getDocs(collection(db,''));
   const nums = snap.docs.map(d=>parseInt((d.data().leave_id||'').replace('md',''))||0);
   const next = (nums.length ? Math.max(...nums) : 0) + 1;
   return 'md' + String(next).padStart(4,'0');
@@ -869,7 +869,7 @@ async function generateLeaveId(){
 window.rejectReq = async (docId) => {
   if(!confirm('Reject this leave request?')) return;
   showLoader();
-  try{ await updateDoc(doc(db,'leaveRequests',docId),{status:'rejected'}); toast('Rejected','info'); }
+  try{ await updateDoc(doc(db,'',docId),{status:'rejected'}); toast('Rejected','info'); }
   catch(e){ toast('Error','error'); }
   hideLoader();
 };
@@ -897,7 +897,7 @@ window.completeWithOption = async (option) => {
   }
   showLoader();
   try{
-    await updateDoc(doc(db,'leaveRequests',docId),{status:'completed', reached_datetime:reached});
+    await updateDoc(doc(db,'',docId),{status:'completed', reached_datetime:reached});
     closeModal('modal-complete');
     toast('Leave completed! 🏁','success');
   }catch(e){ console.error(e); toast('Error','error'); }
@@ -913,7 +913,7 @@ window.openExtend = (docId) => {
   if(isNaN(newDate.getTime())){ toast('Invalid datetime','error'); return; }
   if(newDate <= new Date(r.from_datetime)){ toast('Extended To must be after From','error'); return; }
   showLoader();
-  updateDoc(doc(db,'leaveRequests',docId),{to_datetime:newTo})
+  updateDoc(doc(db,'',docId),{to_datetime:newTo})
     .then(()=>toast('Leave extended! 🔁','success'))
     .catch(()=>toast('Error','error'))
     .finally(hideLoader);
@@ -1045,7 +1045,7 @@ window.changeLeaveType = async (docId, newType) => {
   const days = +(leave.days || calcDays(leave.from_datetime, leave.to_datetime));
   showLoader();
   try{
-    await updateDoc(doc(db,'leaveRequests',docId),{leave_type:newType});
+    await updateDoc(doc(db,'',docId),{leave_type:newType});
     if(counted && leave.adno && days > 0){
       const oldField = typeToField(oldType);
       const newField = typeToField(newType);
