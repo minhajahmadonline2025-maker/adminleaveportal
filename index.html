@@ -4,197 +4,212 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Admin Portal — Malik Deenar Islamic Academy</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 <style>
 :root{
-  --gold:#0D47A1;--gold-dim:#1565C0;--gold-glow:rgba(13,71,161,0.10);
-  --black:#ffffff;--dark:#F0F4FA;--dark2:#ffffff;--dark3:#EEF2FA;--dark4:#D6E0F5;
-  --text:#0A1929;--text-dim:#5A7080;
-  --green:#1A7A42;--green-bg:rgba(26,122,66,0.10);
-  --yellow:#92600A;--yellow-bg:rgba(146,96,10,0.10);
-  --red:#C0392B;--red-bg:rgba(192,57,43,0.09);
-  --blue:#1565C0;--blue-bg:rgba(21,101,192,0.10);
-  --border:rgba(13,71,161,0.14);--radius:11px;
-  --sidebar:220px;
+  --primary:#2563EB;--primary-dark:#1D4ED8;--primary-light:#EFF6FF;--primary-glow:rgba(37,99,235,0.15);
+  --accent:#7C3AED;--accent-light:#F5F3FF;
+  --surface:#FFFFFF;--bg:#F8FAFC;--bg2:#F1F5F9;--bg3:#E2E8F0;
+  --text:#0F172A;--text-2:#334155;--text-3:#64748B;--text-4:#94A3B8;
+  --green:#059669;--green-bg:#ECFDF5;--green-border:#A7F3D0;
+  --yellow:#D97706;--yellow-bg:#FFFBEB;--yellow-border:#FDE68A;
+  --red:#DC2626;--red-bg:#FEF2F2;--red-border:#FECACA;
+  --blue:#2563EB;--blue-bg:#EFF6FF;--blue-border:#BFDBFE;
+  --border:#E2E8F0;--border-2:#CBD5E1;--radius:14px;--radius-sm:8px;--radius-lg:20px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow:0 4px 16px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg:0 20px 48px rgba(0,0,0,0.12),0 4px 16px rgba(0,0,0,0.06);
+  --shadow-blue:0 8px 24px rgba(37,99,235,0.2);
+  --sidebar:256px;
+  --font:'Poppins',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--dark);color:var(--text);font-family:'Lato',sans-serif;font-weight:400;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
-::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--dark3)}::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:4px}
+body{background:var(--bg);color:var(--text);font-family:var(--font);font-weight:400;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:8px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-4)}
 
 .app{display:flex;flex:1;min-height:100vh}
 
 /* ══ SIDEBAR ══ */
 .sidebar{
   width:var(--sidebar);flex-shrink:0;
-  background:linear-gradient(180deg,#0D47A1 0%,#1565C0 100%);
-  border-right:none;
+  background:var(--surface);
+  border-right:1px solid var(--border);
   display:flex;flex-direction:column;
   position:fixed;top:0;left:0;bottom:0;z-index:100;
-  box-shadow:3px 0 20px rgba(13,71,161,0.18);
+  box-shadow:var(--shadow);
 }
-.sb-logo{padding:20px 16px 16px;border-bottom:1px solid rgba(255,255,255,0.12);display:flex;align-items:center;gap:10px}
-.sb-logo-icon{width:38px;height:38px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-family:'Cinzel',serif;flex-shrink:0}
-.sb-logo-text h2{font-family:'Cinzel',serif;font-size:11px;color:#fff;letter-spacing:.5px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sb-logo-text p{font-size:9px;color:rgba(255,255,255,0.55);letter-spacing:1.5px;text-transform:uppercase;margin-top:1px}
-.sb-nav{flex:1;padding:12px 8px;overflow-y:auto}
-.sb-section{font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:1.5px;text-transform:uppercase;padding:10px 8px 5px;margin-top:6px}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;color:rgba(255,255,255,0.65);font-size:12px;font-weight:700;letter-spacing:.3px;transition:all .18s;margin-bottom:2px;border:none;background:transparent;width:100%;text-align:left}
-.nav-item:hover{color:#fff;background:rgba(255,255,255,0.12)}
-.nav-item.active{background:#fff;color:#0D47A1}
-.nav-item .ni{font-size:15px;flex-shrink:0}
-.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px;min-width:18px;text-align:center}
-.sb-clock{padding:12px 14px;border-top:1px solid rgba(255,255,255,0.12);text-align:center}
-.clock-time{font-family:'Cinzel',serif;font-size:22px;color:#fff;letter-spacing:2px}
-.clock-date{font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px;letter-spacing:.5px}
+.sb-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.sb-logo-icon{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;flex-shrink:0;box-shadow:var(--shadow-blue)}
+.sb-logo-text h2{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text);letter-spacing:-.2px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-logo-text p{font-size:10px;color:var(--text-3);letter-spacing:.5px;text-transform:uppercase;margin-top:1px;font-weight:500}
+.sb-nav{flex:1;padding:16px 12px;overflow-y:auto}
+.sb-section{font-size:9.5px;color:var(--text-4);letter-spacing:1.8px;text-transform:uppercase;padding:12px 8px 6px;margin-top:4px;font-weight:600}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);cursor:pointer;color:var(--text-3);font-size:12.5px;font-weight:600;letter-spacing:-.1px;transition:all .18s;margin-bottom:2px;border:none;background:transparent;width:100%;text-align:left;font-family:var(--font)}
+.nav-item:hover{color:var(--primary);background:var(--primary-light)}
+.nav-item.active{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:var(--shadow-blue)}
+.nav-item.active .ni{filter:brightness(10)}
+.nav-item .ni{font-size:16px;flex-shrink:0;width:20px;text-align:center}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;min-width:20px;text-align:center}
+.sb-clock{padding:14px 16px;border-top:1px solid var(--border);background:var(--bg);border-radius:0 0 0 0}
+.clock-time{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:800;color:var(--text);letter-spacing:-1px;line-height:1}
+.clock-date{font-size:10px;color:var(--text-3);margin-top:4px;letter-spacing:.2px;font-weight:500}
 
 /* ══ MAIN ══ */
 .main-wrap{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
-.topbar{padding:12px 24px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(13,71,161,0.08)}
-.topbar h1{font-family:'Cinzel',serif;font-size:16px;color:#0D47A1;font-weight:700;letter-spacing:.5px}
-.topbar-sub{font-size:11px;color:var(--text-dim);margin-left:2px}
+.topbar{padding:14px 28px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:50;box-shadow:var(--shadow-sm)}
+.topbar h1{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.3px}
+.topbar-sub{font-size:11.5px;color:var(--text-3);margin-left:2px;font-weight:400}
 .topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-.admin-badge{display:flex;align-items:center;gap:7px;background:var(--blue-bg);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:#0D47A1;font-weight:700}
-.content{flex:1;padding:22px 24px 50px}
-.panel{display:none;animation:fadeUp .35s ease}
+.admin-badge{display:flex;align-items:center;gap:7px;background:var(--primary-light);border:1px solid var(--blue-border);border-radius:var(--radius-lg);padding:6px 14px;font-size:11.5px;color:var(--primary);font-weight:700;letter-spacing:-.1px}
+.content{flex:1;padding:24px 28px 60px}
+.panel{display:none;animation:fadeUp .3s ease}
 .panel.active{display:block}
 
 /* ══ STATS ══ */
-.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px}
 @media(max-width:700px){.stat-row{grid-template-columns:repeat(2,1fr)}}
-.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 14px;text-align:center;transition:border-color .2s,box-shadow .2s;box-shadow:0 2px 8px rgba(13,71,161,0.06)}
-.stat-card:hover{border-color:var(--gold-dim);box-shadow:0 4px 16px rgba(13,71,161,0.12)}
-.stat-card .sv{font-family:'Cinzel',serif;font-size:28px;font-weight:700;color:#0D47A1;display:block}
-.stat-card .sl{font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 18px;text-align:left;transition:all .2s;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),var(--accent))}
+.stat-card.s-green::before{background:linear-gradient(90deg,var(--green),#34D399)}
+.stat-card.s-yellow::before{background:linear-gradient(90deg,var(--yellow),#FCD34D)}
+.stat-card.s-red::before{background:linear-gradient(90deg,var(--red),#F87171)}
+.stat-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+.stat-card .sv{font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:var(--primary);display:block;letter-spacing:-1.5px;line-height:1}
+.stat-card .sl{font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-top:6px;font-weight:600}
 .stat-card.s-green .sv{color:var(--green)}.stat-card.s-yellow .sv{color:var(--yellow)}.stat-card.s-red .sv{color:var(--red)}
 
 /* ══ SECTION TITLE ══ */
-.sec-title{font-family:'Cinzel',serif;font-size:14px;color:#0D47A1;border-bottom:1.5px solid var(--border);padding-bottom:9px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.sec-title{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--text);border-bottom:2px solid var(--border);padding-bottom:12px;margin-bottom:18px;display:flex;align-items:center;gap:8px;letter-spacing:-.2px}
 
 /* ══ TABLES ══ */
-.tbl-wrap{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;box-shadow:0 2px 8px rgba(13,71,161,0.06)}
+.tbl-wrap{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;box-shadow:var(--shadow-sm)}
 .tbl-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:12px}
-thead{background:linear-gradient(135deg,#0D47A1,#1565C0)}
-thead th{padding:11px 14px;text-align:left;font-family:'Cinzel',serif;font-size:10px;color:rgba(255,255,255,0.9);letter-spacing:1px;text-transform:uppercase;border-bottom:none;white-space:nowrap}
-tbody tr{border-bottom:1px solid rgba(13,71,161,0.06);transition:background .13s}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead{background:var(--bg2)}
+thead th{padding:13px 16px;text-align:left;font-family:'Montserrat',sans-serif;font-size:10.5px;color:var(--text-3);letter-spacing:.8px;text-transform:uppercase;border-bottom:1px solid var(--border);white-space:nowrap;font-weight:700}
+tbody tr{border-bottom:1px solid var(--border);transition:background .12s}
 tbody tr:last-child{border-bottom:none}
-tbody tr:hover{background:rgba(13,71,161,0.04)}
-tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
+tbody tr:hover{background:var(--primary-light)}
+tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight:400}
 
 /* ══ TAGS ══ */
-.tag{display:inline-block;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
-.t-green{background:var(--green-bg);color:var(--green)}.t-yellow{background:var(--yellow-bg);color:var(--yellow)}
-.t-red{background:var(--red-bg);color:var(--red)}.t-blue{background:var(--blue-bg);color:var(--blue)}
-.t-grey{background:rgba(13,71,161,0.07);color:var(--text-dim)}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:var(--radius-lg);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap}
+.t-green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.t-yellow{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-border)}
+.t-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.t-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.t-grey{background:var(--bg2);color:var(--text-3);border:1px solid var(--border)}
 
 /* ══ BUTTONS ══ */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 14px;border-radius:7px;border:none;cursor:pointer;font-family:'Lato',sans-serif;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;transition:all .18s;white-space:nowrap}
-.btn-gold{background:linear-gradient(135deg,#0D47A1,#1976D2);color:#fff;box-shadow:0 2px 10px rgba(13,71,161,0.25)}
-.btn-gold:hover{filter:brightness(1.1);box-shadow:0 4px 16px rgba(13,71,161,0.35)}
-.btn-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(26,122,66,0.25)}
-.btn-green:hover{background:var(--green);color:#fff}
-.btn-red{background:var(--red-bg);color:var(--red);border:1px solid rgba(192,57,43,0.25)}
-.btn-red:hover{background:var(--red);color:#fff}
-.btn-yellow{background:var(--yellow-bg);color:var(--yellow);border:1px solid rgba(146,96,10,0.25)}
-.btn-yellow:hover{background:var(--yellow);color:#fff}
-.btn-blue{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(21,101,192,0.25)}
-.btn-blue:hover{background:var(--blue);color:#fff}
-.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-dim)}
-.btn-outline:hover{border-color:#0D47A1;color:#0D47A1}
-.btn-sm{padding:4px 10px;font-size:10px}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-row{display:flex;gap:6px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 18px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:var(--font);font-size:12px;font-weight:700;letter-spacing:.1px;transition:all .18s;white-space:nowrap}
+.btn-gold{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:var(--shadow-blue)}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(37,99,235,0.3)}
+.btn-green{background:var(--green-bg);color:var(--green);border:1.5px solid var(--green-border)}
+.btn-green:hover{background:var(--green);color:#fff;border-color:var(--green);box-shadow:0 4px 16px rgba(5,150,105,0.3)}
+.btn-red{background:var(--red-bg);color:var(--red);border:1.5px solid var(--red-border)}
+.btn-red:hover{background:var(--red);color:#fff;border-color:var(--red);box-shadow:0 4px 16px rgba(220,38,38,0.3)}
+.btn-yellow{background:var(--yellow-bg);color:var(--yellow);border:1.5px solid var(--yellow-border)}
+.btn-yellow:hover{background:var(--yellow);color:#fff;border-color:var(--yellow)}
+.btn-blue{background:var(--blue-bg);color:var(--blue);border:1.5px solid var(--blue-border)}
+.btn-blue:hover{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:var(--shadow-blue)}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text-3);font-weight:600}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.btn-sm{padding:5px 12px;font-size:11px}
+.btn:disabled{opacity:.4;cursor:not-allowed;transform:none !important}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
 
 /* ══ FIELDS ══ */
-.field{margin-bottom:12px}
-.field label{display:block;font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;font-weight:700}
-.field input,.field select,.field textarea{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:'Lato',sans-serif;font-size:13px;padding:10px 12px;outline:none;transition:border-color .2s}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:#0D47A1;box-shadow:0 0 0 3px rgba(13,71,161,0.08)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:var(--text-3);text-transform:uppercase;letter-spacing:.8px;margin-bottom:6px;font-weight:700}
+.field input,.field select,.field textarea{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font);font-size:13px;font-weight:400;padding:11px 14px;outline:none;transition:all .2s}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
 .field select option{background:#fff}
 .field textarea{resize:vertical;min-height:70px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:500px){.form-row{grid-template-columns:1fr}}
 
 /* ══ REQUEST CARDS ══ */
-.req-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:12px;transition:border-color .2s,box-shadow .2s;box-shadow:0 1px 6px rgba(13,71,161,0.05)}
-.req-card:hover{border-color:rgba(13,71,161,0.3);box-shadow:0 4px 14px rgba(13,71,161,0.09)}
-.req-card-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
-.req-card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
+.req-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;margin-bottom:12px;transition:all .2s;box-shadow:var(--shadow-sm)}
+.req-card:hover{border-color:var(--blue-border);box-shadow:var(--shadow)}
+.req-card-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.req-card-body{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
 @media(max-width:540px){.req-card-body{grid-template-columns:1fr 1fr}}
-.req-field{background:var(--dark3);border-radius:7px;padding:9px 11px;border:1px solid var(--border)}
-.req-field .lbl{font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-weight:700}
-.req-field .val{font-size:12px;color:var(--text);font-weight:500}
+.req-field{background:var(--bg);border-radius:var(--radius-sm);padding:10px 12px;border:1px solid var(--border)}
+.req-field .lbl{font-size:9.5px;color:var(--text-4);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;font-weight:700}
+.req-field .val{font-size:12.5px;color:var(--text-2);font-weight:500}
 
 /* ══ MODAL ══ */
-.modal-bg{display:none;position:fixed;inset:0;z-index:200;background:rgba(13,71,161,0.25);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:16px}
+.modal-bg{display:none;position:fixed;inset:0;z-index:200;background:rgba(15,23,42,0.4);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px}
 .modal-bg.show{display:flex}
-.modal{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px 26px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeUp .3s ease;box-shadow:0 20px 60px rgba(13,71,161,0.18)}
-.modal h3{font-family:'Cinzel',serif;font-size:16px;color:#0D47A1;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid var(--border)}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:30px 28px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:fadeUp .3s ease;box-shadow:var(--shadow-lg)}
+.modal h3{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:800;color:var(--text);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);letter-spacing:-.2px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
 
 /* ══ SEARCH BOX ══ */
 .search-wrap{position:relative;margin-bottom:16px}
-.search-wrap input{width:100%;background:#fff;border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:'Lato',sans-serif;font-size:13px;padding:10px 14px 10px 38px;outline:none;transition:border-color .2s}
-.search-wrap input:focus{border-color:#0D47A1}
-.search-wrap .si{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:14px}
+.search-wrap input{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font);font-size:13px;padding:11px 14px 11px 40px;outline:none;transition:all .2s;font-weight:400}
+.search-wrap input:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-glow)}
+.search-wrap .si{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text-4);font-size:15px}
 
 /* ══ LOADER / TOAST ══ */
-#loader{display:none;position:fixed;inset:0;z-index:999;background:rgba(255,255,255,0.7);backdrop-filter:blur(3px);align-items:center;justify-content:center}
+#loader{display:none;position:fixed;inset:0;z-index:999;background:rgba(255,255,255,0.8);backdrop-filter:blur(4px);align-items:center;justify-content:center}
 #loader.show{display:flex}
-.spinner{width:40px;height:40px;border-radius:50%;border:3px solid var(--dark4);border-top-color:#0D47A1;animation:spin .7s linear infinite}
-#toast{position:fixed;bottom:20px;right:20px;z-index:9999;padding:12px 18px;border-radius:9px;font-size:12px;font-weight:700;letter-spacing:.4px;box-shadow:0 8px 24px rgba(13,71,161,0.2);transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:280px}
+.spinner{width:42px;height:42px;border-radius:50%;border:3px solid var(--border);border-top-color:var(--primary);animation:spin .7s linear infinite}
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;padding:13px 20px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:600;letter-spacing:.1px;box-shadow:var(--shadow-lg);transform:translateY(80px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;max-width:300px}
 #toast.show{transform:translateY(0);opacity:1}
 #toast.success{background:var(--green);color:#fff}
 #toast.error{background:var(--red);color:#fff}
-#toast.info{background:#0D47A1;color:#fff}
+#toast.info{background:var(--primary);color:#fff}
 
 /* ══ EMPTY ══ */
-.empty{text-align:center;padding:40px;color:var(--text-dim);font-size:12px}
-.empty .ei{font-size:32px;margin-bottom:8px}
+.empty{text-align:center;padding:48px 24px;color:var(--text-3);font-size:13px;font-weight:500}
+.empty .ei{font-size:36px;margin-bottom:10px;opacity:.7}
 
 /* ══ SETTINGS ══ */
-.settings-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px;box-shadow:0 1px 6px rgba(13,71,161,0.05)}
-.settings-card h3{font-family:'Cinzel',serif;font-size:13px;color:#0D47A1;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.setting-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid rgba(13,71,161,0.06)}
+.settings-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+.settings-card h3{font-family:'Montserrat',sans-serif;font-size:13.5px;font-weight:800;color:var(--text);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);letter-spacing:-.1px}
+.setting-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border)}
 .setting-row:last-child{border-bottom:none}
-.setting-label{flex:1;font-size:12px;color:var(--text)}
-.setting-input{background:#fff;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12px;padding:5px 10px;outline:none;width:90px;transition:border-color .2s;font-family:'Lato',sans-serif}
-.setting-input:focus{border-color:#0D47A1}
+.setting-label{flex:1;font-size:13px;color:var(--text-2);font-weight:500}
+.setting-input{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-size:13px;padding:7px 11px;outline:none;width:100px;transition:border-color .2s;font-family:var(--font)}
+.setting-input:focus{border-color:var(--primary)}
 
 /* ══ TOOLBAR ══ */
-.toolbar{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
 .toolbar .spacer{flex:1}
 
 /* ══ MISC ══ */
-.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 0 0 rgba(39,174,96,.5);animation:pdot 2s infinite}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.chip-filter{padding:5px 12px;border-radius:20px;border:1.5px solid var(--border);background:#fff;color:var(--text-dim);font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;font-family:'Lato',sans-serif}
-.chip-filter.on{border-color:#0D47A1;background:rgba(13,71,161,0.08);color:#0D47A1}
-.leave-id{font-family:'Cinzel',serif;font-size:11px;color:#0D47A1;background:rgba(13,71,161,0.08);border:1px solid rgba(13,71,161,0.2);padding:2px 8px;border-radius:6px;letter-spacing:1px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;box-shadow:0 0 0 0 rgba(5,150,105,.5);animation:pdot 2s infinite}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip-filter{padding:7px 16px;border-radius:var(--radius-lg);border:1.5px solid var(--border);background:var(--surface);color:var(--text-3);font-size:12px;font-weight:600;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.chip-filter.on{border-color:var(--primary);background:var(--primary-light);color:var(--primary)}
+.leave-id{font-family:'Montserrat',sans-serif;font-size:11.5px;color:var(--primary);background:var(--primary-light);border:1px solid var(--blue-border);padding:3px 10px;border-radius:6px;letter-spacing:.5px;font-weight:700}
 
 /* ══ OUTPASS TOOLBAR & LIST ══ */
-.op-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 16px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;box-shadow:0 1px 6px rgba(13,71,161,0.05)}
-.op-toolbar input{background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);font-family:'Lato',sans-serif;font-size:13px;padding:9px 14px;outline:none;transition:border-color .2s;min-width:220px;flex:1}
-.op-toolbar input:focus{border-color:#0D47A1}
-.op-req-list{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;box-shadow:0 1px 6px rgba(13,71,161,0.05);max-height:240px;overflow-y:auto;display:none}
-.op-req-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid rgba(13,71,161,0.06);cursor:pointer;transition:background .13s;font-size:12px}
+.op-toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.op-toolbar input{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font);font-size:13px;padding:10px 14px;outline:none;transition:all .2s;min-width:220px;flex:1}
+.op-toolbar input:focus{border-color:var(--primary);background:var(--surface)}
+.op-req-list{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;box-shadow:var(--shadow-sm);max-height:260px;overflow-y:auto;display:none}
+.op-req-item{display:flex;align-items:center;gap:10px;padding:11px 18px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s;font-size:12.5px}
 .op-req-item:last-child{border-bottom:none}
-.op-req-item:hover{background:rgba(13,71,161,0.04)}
-.op-req-item.selected{background:rgba(13,71,161,0.08);border-left:3px solid #0D47A1}
-.op-req-item .rn{font-weight:700;color:var(--text);flex:1;font-family:'Cinzel',serif;font-size:11px}
-.op-req-item .rc{font-size:10px;color:var(--text-dim)}
-.op-req-item .rl{font-size:10px;color:#0D47A1;font-weight:700;letter-spacing:.5px}
+.op-req-item:hover{background:var(--primary-light)}
+.op-req-item.selected{background:var(--primary-light);border-left:3px solid var(--primary)}
+.op-req-item .rn{font-weight:700;color:var(--text);flex:1;font-family:'Montserrat',sans-serif;font-size:12px}
+.op-req-item .rc{font-size:11px;color:var(--text-3);font-weight:500}
+.op-req-item .rl{font-size:11px;color:var(--primary);font-weight:700;letter-spacing:.3px}
 
 /* ══ OUTPASS EMPTY STATE ══ */
-.op-empty{text-align:center;padding:44px 20px;color:var(--text-dim);width:100%}
-.op-empty .oi{font-size:36px;margin-bottom:10px}
-.op-empty p{font-size:12px}
+.op-empty{text-align:center;padding:48px 20px;color:var(--text-3);width:100%}
+.op-empty .oi{font-size:40px;margin-bottom:12px;opacity:.6}
+.op-empty p{font-size:13px;font-weight:500}
 
-/* ══ OUTPASS SCREEN PREVIEW - UPGRADED ══ */
-.op-pass-wrap{background:#dde3f0;border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;justify-content:center;align-items:flex-start;overflow-x:auto;box-shadow:0 2px 10px rgba(13,71,161,0.08);min-height:180px}
-.op-preview-card{width:680px;min-width:600px;border-radius:6px;overflow:hidden;font-family:'Montserrat',sans-serif;color:#000;box-shadow:0 6px 28px rgba(13,71,161,0.22);background:#fff;border:2px solid #1e3028}
-/* header - match print */
+/* ══ OUTPASS SCREEN PREVIEW ══ */
+.op-pass-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;justify-content:center;align-items:flex-start;overflow-x:auto;box-shadow:var(--shadow-sm);min-height:180px}
+.op-preview-card{width:680px;min-width:600px;border-radius:8px;overflow:hidden;font-family:'Montserrat',sans-serif;color:#000;box-shadow:var(--shadow-lg);background:#fff;border:2px solid #1e3028}
 .opc-hd{background:#1e3028;padding:8px 12px 6px;display:flex;align-items:flex-start;justify-content:space-between;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .opc-hd-left{flex:1;text-align:center}
 .opc-inst{font-size:15px;font-weight:800;color:#dff0e8;letter-spacing:.6px;text-transform:uppercase;line-height:1.2}
@@ -203,7 +218,6 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 .opc-badge{background:rgba(255,255,255,.13);border-radius:3px;padding:4px 10px;text-align:center;flex-shrink:0;margin-left:10px;border:1px solid rgba(255,255,255,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .opc-badge-title{font-size:5.5px;font-weight:700;color:rgba(255,255,255,.7);letter-spacing:1.5px;text-transform:uppercase}
 .opc-badge-lid{font-size:13px;font-weight:800;color:#7ecba1;letter-spacing:1.5px;font-family:'Courier New',monospace}
-/* info strip */
 .opc-info{background:#f0f7f3;border-bottom:2px solid #1e3028;padding:14px 18px;display:flex;gap:0;align-items:stretch;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .opc-info-cell{flex:1;padding:0 16px;border-right:1px solid #c8d8c8}
 .opc-info-cell:first-child{padding-left:0}
@@ -211,87 +225,81 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 .opc-lbl{font-size:7px;font-weight:700;color:#7a9a88;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px}
 .opc-val{font-size:11px;font-weight:800;color:#1e3028}
 .opc-val.lg{font-size:13px}
-/* body */
 .opc-body{display:flex;flex-direction:row;flex:1}
-.opc-fields{flex:1;padding:8px 14px;display:flex;flex-direction:column;gap:6px;border-right:1px dashed #b8c8b8}
+.opc-fields{flex:1;padding:5px 10px;display:flex;flex-direction:column;gap:3px;border-right:1px dashed #b8c8b8}
 .opc-row{display:flex;gap:10px}
 .opc-f{flex:1;min-width:0}
 .opc-field-inline{display:flex;align-items:baseline;gap:6px;border-bottom:1.5px solid #c8d8c8;padding-bottom:3px;min-height:18px}
 .opc-fl{font-size:8px;font-weight:700;color:#9ab0a0;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap;flex-shrink:0}
 .opc-fv{font-size:10px;font-weight:700;color:#111}
 .opc-fv.big{font-size:12px;font-weight:800;color:#1e3028}
-/* right: QR */
 .opc-right{width:110px;flex-shrink:0;padding:8px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;background:#f0f7f3}
 .opc-qr-wrap{width:80px;height:80px;background:#fff;border:1px solid #c8d8c8;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.opc-qr-lbl{font-size:6px;color:#7aaa90;text-transform:uppercase;letter-spacing:.5px;font-weight:700;text-align:center}
-/* signs in preview */
+.opc-qr-lbl{font-size:9px;color:#1e3028;text-transform:uppercase;letter-spacing:.5px;font-weight:800;text-align:center}
 .opc-signs{width:100%;display:flex;flex-direction:column;gap:8px;margin-top:4px;flex:1;justify-content:flex-end}
 .opc-sign{text-align:center}
 .opc-sign-line{border-bottom:1.5px solid #a0b8a8;height:22px;margin-bottom:2px}
-.opc-sign-lbl{font-size:10px;font-weight:700;color:#1e201f;letter-spacing:.2px;text-transform:uppercase}
-/* footer */
+.opc-sign-lbl{font-size:7px;font-weight:700;color:#1e201f;letter-spacing:.2px;text-transform:uppercase}
 .opc-ft{background:#1e3028;padding:7px 14px;display:flex;align-items:center;justify-content:center;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .opc-ft-note{font-size:8px;color:#7aaa90;font-style:italic;text-align:center}
 
 /* ══ SCANNER ══ */
-.scanner-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(13,71,161,0.06)}
-.scanner-title{font-family:'Cinzel',serif;font-size:13px;color:#0D47A1;font-weight:700;margin-bottom:12px}
-.scanner-box{position:relative;width:100%;max-width:340px;height:200px;background:#0a1929;border-radius:10px;overflow:hidden;border:2px solid rgba(13,71,161,0.3)}
+.scanner-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow-sm)}
+.scanner-title{font-family:'Montserrat',sans-serif;font-size:18px;color:var(--text);font-weight:800;margin-bottom:14px;letter-spacing:-.2px}
+.scanner-box{position:relative;width:100%;max-width:260px;height:170px;background:#0F172A;border-radius:12px;overflow:hidden;border:2px solid var(--border-2)}
 .scanner-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.scanner-frame{width:140px;height:140px;border:2px solid rgba(255,255,255,0.8);border-radius:8px;box-shadow:0 0 0 9999px rgba(0,0,0,0.45)}
-.scanner-line{position:absolute;left:calc(50% - 70px);width:140px;height:2px;background:linear-gradient(90deg,transparent,#00e676,transparent);animation:scanline 2s ease-in-out infinite;display:none}
+.scanner-frame{width:110px;height:110px;border:2px solid rgba(255,255,255,0.85);border-radius:10px;box-shadow:0 0 0 9999px rgba(0,0,0,0.48)}
+.scanner-line{position:absolute;left:calc(50% - 55px);width:110px;height:2px;background:linear-gradient(90deg,transparent,#22C55E,transparent);animation:scanline 2s ease-in-out infinite;display:none}
 .scanner-line.active{display:block}
-.scanner-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0a1929}
+.scanner-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0F172A}
 
-/* ══ MOBILE HAMBURGER ══ */
-.mob-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:#fff;border-bottom:1px solid var(--border);padding:10px 16px;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(13,71,161,0.08)}
-.mob-topbar h1{font-family:'Cinzel',serif;font-size:14px;color:#0D47A1;font-weight:700;flex:1}
-.mob-menu-btn{background:none;border:none;cursor:pointer;font-size:22px;padding:2px 6px;color:#0D47A1}
-.mob-overlay{display:none;position:fixed;inset:0;z-index:149;background:rgba(0,0,0,0.35);backdrop-filter:blur(2px)}
+/* ══ MOBILE ══ */
+.mob-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:var(--surface);border-bottom:1px solid var(--border);padding:11px 16px;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
+.mob-topbar h1{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--text);flex:1;letter-spacing:-.2px}
+.mob-menu-btn{background:none;border:none;cursor:pointer;font-size:22px;padding:2px 6px;color:var(--primary)}
+.mob-overlay{display:none;position:fixed;inset:0;z-index:149;background:rgba(15,23,42,0.4);backdrop-filter:blur(3px)}
 .mob-overlay.show{display:block}
 
-/* ══ BOTTOM NAV (mobile) ══ */
-.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:#fff;border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(13,71,161,0.08)}
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--surface);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,0.08)}
 .bottom-nav-inner{display:flex;align-items:stretch;justify-content:space-around}
-.bn-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 10px;border-radius:8px;cursor:pointer;border:none;background:transparent;color:var(--text-dim);font-size:9px;font-weight:700;letter-spacing:.3px;flex:1;transition:color .15s}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 10px;border-radius:var(--radius-sm);cursor:pointer;border:none;background:transparent;color:var(--text-3);font-size:9.5px;font-weight:700;letter-spacing:.1px;flex:1;transition:color .15s;font-family:var(--font)}
 .bn-item .bni{font-size:20px;line-height:1}
-.bn-item.active{color:#0D47A1}
+.bn-item.active{color:var(--primary)}
 .bn-item .bn-badge{background:var(--red);color:#fff;font-size:8px;font-weight:700;padding:1px 5px;border-radius:10px;min-width:16px;text-align:center;margin-top:-2px}
 
-/* ══ RESPONSIVE ══ */
 @media(max-width:768px){
   :root{--sidebar:0px}
-  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);width:240px;z-index:160}
+  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);width:260px;z-index:160}
   .sidebar.mob-open{transform:translateX(0)}
-  .main-wrap{margin-left:0;padding-top:52px}
+  .main-wrap{margin-left:0;padding-top:54px}
   .topbar{display:none}
   .mob-topbar{display:flex}
   .bottom-nav{display:block}
-  .content{padding:16px 14px 80px;font-size:10px}
+  .content{padding:16px 14px 84px;font-size:10px}
   .stat-row{grid-template-columns:repeat(2,1fr);gap:10px}
   .form-row{grid-template-columns:1fr}
   .req-card-body{grid-template-columns:1fr 1fr}
-  .tbl-wrap{font-size:10px}
-  thead th{padding:9px 10px;font-size:9px}
-  tbody td{padding:8px 10px;font-size:10px}
+  .tbl-wrap{font-size:11px}
+  thead th{padding:10px 12px;font-size:9.5px}
+  tbody td{padding:9px 12px;font-size:11px}
   .op-toolbar{flex-direction:column;align-items:stretch}
   .op-toolbar input{min-width:0}
   .scanner-box{max-width:100%;height:220px}
-  .modal{padding:20px 16px}
-  .btn{font-size:10px;padding:8px 12px}
+  .modal{padding:22px 18px}
+  .btn{font-size:11px;padding:8px 14px}
   .op-pass-wrap{padding:10px}
   .op-preview-card{width:100%;min-width:0}
   .opc-inst{font-size:11px}
 }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes pdot{0%{box-shadow:0 0 0 0 rgba(39,174,96,.5)}70%{box-shadow:0 0 0 8px rgba(39,174,96,0)}100%{box-shadow:0 0 0 0 rgba(39,174,96,0)}}
+@keyframes pdot{0%{box-shadow:0 0 0 0 rgba(5,150,105,.5)}70%{box-shadow:0 0 0 9px rgba(5,150,105,0)}100%{box-shadow:0 0 0 0 rgba(5,150,105,0)}}
 @keyframes scanline{0%{top:8px}50%{top:calc(100% - 8px)}100%{top:8px}}
 </style>
 </head>
 <body>
-<!-- ══ MOBILE TOPBAR ══ -->
+
 <div class="mob-topbar">
   <button class="mob-menu-btn" onclick="toggleMobMenu()" aria-label="Menu">☰</button>
   <h1 id="mob-page-title">Dashboard</h1>
@@ -301,7 +309,6 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 
 <div class="app">
 
-<!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
   <div class="sb-logo">
     <div class="sb-logo-icon">م</div>
@@ -317,9 +324,9 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
     <button class="nav-item" onclick="navTo('approved',this)"><span class="ni">✅</span>Approved</button>
     <div class="sb-section">Management</div>
     <button class="nav-item" onclick="navTo('students',this)"><span class="ni">🧑‍🎓</span>Students</button>
-    <button class="nav-item" onclick="navTo('search',this)"><span class="ni">🔍</span>Leave Type</button>
+    <button class="nav-item" onclick="navTo('leavereports',this)"><span class="ni">📝</span>Edit Leave Reports</button>
     <div class="sb-section">Reports</div>
-    <button class="nav-item" onclick="navTo('reports',this)"><span class="ni">📄</span>Class Reports</button>
+    <button class="nav-item" onclick="navTo('reports',this)"><span class="ni">📄</span>Reports</button>
     <button class="nav-item" onclick="navTo('outpass',this)"><span class="ni">🖨️</span>Outpass Print</button>
     <button class="nav-item" onclick="navTo('settings',this)"><span class="ni">⚙️</span>Settings</button>
   </nav>
@@ -329,12 +336,11 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
   </div>
 </aside>
 
-<!-- ══ MAIN ══ -->
 <div class="main-wrap">
   <div class="topbar">
     <div>
       <h1 id="page-title">Dashboard</h1>
-      <div class="topbar-sub" id="page-sub">Leave Management System</div>
+      <div class="topbar-sub" id="page-sub">Leave Management System · leave-reports</div>
     </div>
     <div class="topbar-right">
       <div class="live-dot"></div>
@@ -380,7 +386,7 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
           <span class="si">🔍</span>
           <input type="text" id="stu-search" placeholder="Search by name, Ad No, class..." oninput="renderStudents()"/>
         </div>
-        <select id="stu-sort" onchange="renderStudents()" style="background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-family:'Lato',sans-serif;font-size:12px;outline:none">
+        <select id="stu-sort" onchange="renderStudents()" style="background:#fff;border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-family:var(--font);font-size:12px;outline:none">
           <option value="class">Sort by Class</option>
           <option value="adno">Sort by Ad No</option>
           <option value="name">Sort by Name</option>
@@ -401,105 +407,186 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
       </div>
     </div>
 
-    <!-- ═══ SEARCH / LEAVE TYPE ═══ -->
-    <div class="panel" id="panel-search">
-      <!-- Scanner card -->
-      <div class="scanner-card">
-        <div class="scanner-title">📷 Scan Pass QR — Auto Detect Leave</div>
-        <div class="scanner-box" id="scanner-box">
-          <video id="scanner-video" playsinline autoplay muted style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:none"></video>
-          <canvas id="scanner-canvas" style="display:none"></canvas>
-          <div class="scanner-overlay" id="scanner-overlay">
-            <div class="scanner-frame"></div>
-            <div class="scanner-line" id="scanner-line"></div>
+    <!-- ═══ EDIT LEAVE REPORTS ═══ -->
+    <div class="panel" id="panel-leavereports">
+      <div class="sec-title">📝 Edit Leave Reports</div>
+      <div class="chips" style="margin-bottom:16px">
+        <button class="chip-filter on" id="lr-tab-adno" onclick="lrTab('adno',this)">🔢 Ad Number</button>
+        <button class="chip-filter" id="lr-tab-lid"  onclick="lrTab('lid',this)">🏷 Leave ID</button>
+        <button class="chip-filter" id="lr-tab-scan" onclick="lrTab('scan',this)">📷 Scan QR</button>
+      </div>
+
+      <!-- Ad Number mode -->
+      <div id="lr-mode-adno">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+          <div class="search-wrap" style="flex:1;margin-bottom:0">
+            <span class="si">🔍</span>
+            <input type="text" id="lr-adno-input" placeholder="Enter Admission Number to load all leaves..." onkeydown="if(event.key==='Enter')loadLeaveReports()"/>
           </div>
-          <div class="scanner-idle" id="scanner-idle">
-            <div style="font-size:36px;margin-bottom:8px">📷</div>
-            <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.6)">Camera not active</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px">Tap Start Scanner below</div>
-          </div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
-          <button class="btn btn-gold" id="scan-start-btn" onclick="startScanner()">▶ Start Scanner</button>
-          <button class="btn btn-red" id="scan-stop-btn" onclick="stopScanner()" style="display:none">■ Stop</button>
-          <span id="scan-status" style="font-size:10px;color:var(--text-dim);margin-left:4px"></span>
+          <button class="btn btn-gold" onclick="loadLeaveReports()">🔍 Load Leaves</button>
         </div>
       </div>
-      <!-- Manual search -->
-      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
-        <div class="search-wrap" style="flex:1;margin-bottom:0">
-          <span class="si">🔍</span>
-          <input type="text" id="leave-search-input" placeholder="Enter Leave ID (md0001) or search manually..." onkeydown="if(event.key==='Enter')searchLeave()"/>
+
+      <!-- Leave ID mode -->
+      <div id="lr-mode-lid" style="display:none">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px">
+          <div class="search-wrap" style="flex:1;margin-bottom:0">
+            <span class="si">🏷</span>
+            <input type="text" id="lr-lid-input" placeholder="Enter Leave ID (e.g. md0001)..." onkeydown="if(event.key==='Enter')loadLeaveByLid()"/>
+          </div>
+          <button class="btn btn-gold" onclick="loadLeaveByLid()">🔍 Load Leave</button>
         </div>
-        <button class="btn btn-gold" onclick="searchLeave()">Search</button>
       </div>
-      <div id="leave-search-result"></div>
+
+      <!-- Scanner mode -->
+      <div id="lr-mode-scan" style="display:none">
+        <div class="scanner-card">
+          <div class="scanner-title">📷 Scan Leave Pass QR</div>
+          <div class="scanner-box" id="scanner-box">
+            <video id="scanner-video" playsinline autoplay muted style="width:100%;height:100%;object-fit:cover;border-radius:8px;display:none"></video>
+            <canvas id="scanner-canvas" style="display:none"></canvas>
+            <div class="scanner-overlay" id="scanner-overlay">
+              <div class="scanner-frame"></div>
+              <div class="scanner-line" id="scanner-line"></div>
+            </div>
+            <div class="scanner-idle" id="scanner-idle">
+              <div style="font-size:36px;margin-bottom:8px">📷</div>
+              <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.6)">Camera not active</div>
+              <div style="font-size:10px;color:rgba(255,255,255,0.4);margin-top:4px">Tap Start Scanner below</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
+            <button class="btn btn-gold" id="scan-start-btn" onclick="startScanner()">▶ Start Scanner</button>
+            <button class="btn btn-red"  id="scan-stop-btn"  onclick="stopScanner()" style="display:none">■ Stop</button>
+            <span id="scan-status" style="font-size:10px;color:var(--text-3);margin-left:4px"></span>
+          </div>
+          <div id="scan-result-info" style="display:none;margin-top:12px;padding:12px 16px;background:#0A1929;border-radius:10px;border:1.5px solid rgba(13,71,161,0.3)">
+            <div style="font-size:10px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Scanned Pass Info</div>
+            <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+              <div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Pass Number</div>
+                <span id="sri-passid" style="font-size:22px;font-weight:800;color:#7ecba1;font-family:'Courier New',monospace;letter-spacing:3px"></span>
+              </div>
+              <div>
+                <div style="font-size:10px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px">Student</div>
+                <span id="sri-name" style="font-size:14px;font-weight:700;color:rgba(255,255,255,0.8)"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="lr-result"></div>
     </div>
 
     <!-- ═══ REPORTS ═══ -->
     <div class="panel" id="panel-reports">
       <div class="sec-title">📄 Class-wise Leave Report</div>
       <div class="toolbar" style="gap:10px">
-        <select id="report-class" style="background:var(--dark2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-family:'Lato',sans-serif;font-size:12px;outline:none">
+        <select id="report-class" style="background:var(--dark2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-family:var(--font);font-size:12px;outline:none">
           <option value="all">All Classes</option>
         </select>
         <button class="btn btn-gold" onclick="generateReport()">📄 Generate Report</button>
         <button class="btn btn-blue" onclick="printReport()">🖨️ Print / Save PDF</button>
+        <button class="btn btn-green" onclick="exportReportCSV()">⬇️ Export CSV</button>
       </div>
       <div id="report-preview" style="margin-top:18px"></div>
     </div>
 
     <!-- ═══ OUTPASS PRINT ═══ -->
     <div class="panel" id="panel-outpass">
-
-      <!-- Toolbar -->
       <div class="op-toolbar">
         <span style="font-size:12px;color:var(--text-dim);font-weight:700;white-space:nowrap">🔍 Search:</span>
-        <input type="text" id="op-search-input"
-          placeholder="Filter by name, Ad No or Leave ID..."
-          oninput="opSearch()" />
+        <input type="text" id="op-search-input" placeholder="Filter by name, Ad No or Leave ID..." oninput="opSearch()"/>
         <button class="btn btn-outline btn-sm" onclick="opClear()">✕ Clear</button>
         <button class="btn btn-gold" id="op-print-btn" onclick="opPrint()" disabled>🖨️ Print Outpass</button>
       </div>
-
-      <!-- Selection info bar -->
       <div id="op-sel-bar" style="display:none;background:rgba(13,71,161,0.07);border:1px solid rgba(13,71,161,0.18);border-radius:8px;padding:8px 14px;margin-bottom:10px;align-items:center;gap:10px;font-size:12px;color:#0D47A1;font-weight:700">
         <span id="op-sel-count">0 selected</span>
         <span id="op-sel-hint" style="font-weight:400;color:var(--text-dim)"></span>
         <button class="btn btn-outline btn-sm" style="margin-left:auto" onclick="opSelectAll()">☑ Select All</button>
         <button class="btn btn-outline btn-sm" onclick="opDeselectAll()">☐ Deselect All</button>
       </div>
-
-      <!-- All approved leaves list (sorted by from date) -->
       <div class="op-req-list" id="op-req-list" style="display:block;max-height:280px"></div>
-
-      <!-- Outpass preview -->
       <div class="op-pass-wrap" id="op-pass-wrap">
         <div class="op-empty">
           <div class="oi">🖨️</div>
           <p>Tick checkboxes above to select outpasses to print.<br>
-          <strong>1–3 selected</strong> → A6 landscape, 1 per page &nbsp;|&nbsp; <strong>4+ selected</strong> → A4 portrait, 4 per page.</p>
+          <strong>1–8 selected</strong> → A4 portrait, 2×4 per sheet.</p>
         </div>
       </div>
-
-      <!-- Action bar -->
-      <div id="op-action-bar" style="display:none;margin-top:12px;gap:8px;justify-content:flex-end">
-      </div>
+      <div id="op-action-bar" style="display:none;margin-top:12px;gap:8px;justify-content:flex-end"></div>
     </div>
 
     <!-- ═══ SETTINGS ═══ -->
     <div class="panel" id="panel-settings">
       <div class="settings-card">
         <h3>⏰ Attendance Timings</h3>
-        <div class="setting-row"><div class="setting-label">Morning Half (AM)</div><input type="time" class="setting-input" id="set-morning" value="07:30"/></div>
-        <div class="setting-row"><div class="setting-label">Afternoon Half (PM)</div><input type="time" class="setting-input" id="set-afternoon" value="13:40"/></div>
-        <div class="setting-row"><div class="setting-label">Late Grace Period (min)</div><input type="number" class="setting-input" id="set-grace" value="120" min="0" max="240"/></div>
+        <div class="tbl-wrap" style="margin-bottom:0">
+          <div class="tbl-scroll">
+            <table>
+              <thead><tr>
+                <th>Day Type</th>
+                <th>Session</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Count</th>
+                <th>Configure</th>
+              </tr></thead>
+              <tbody>
+                <tr>
+                  <td><span class="tag t-blue">Mon – Thu · Sat – Sun</span></td>
+                  <td><strong style="color:var(--primary)">Morning (AM)</strong></td>
+                  <td><input type="time" class="setting-input" id="set-morning" value="07:30" style="width:110px"/></td>
+                  <td><span style="font-size:12px;color:var(--text-3)">+20 min window</span></td>
+                  <td><span class="tag t-green">0.5 day</span></td>
+                  <td><span style="font-size:11px;color:var(--text-3)">Arrival by window = present</span></td>
+                </tr>
+                <tr>
+                  <td><span class="tag t-blue">Mon – Thu · Sat – Sun</span></td>
+                  <td><strong style="color:var(--primary)">Afternoon (PM)</strong></td>
+                  <td><input type="time" class="setting-input" id="set-afternoon" value="13:40" style="width:110px"/></td>
+                  <td><span style="font-size:12px;color:var(--text-3)">+30 min window</span></td>
+                  <td><span class="tag t-green">0.5 day</span></td>
+                  <td><span style="font-size:11px;color:var(--text-3)">Arrival by window = present</span></td>
+                </tr>
+                <tr>
+                  <td><span class="tag t-yellow">Friday</span></td>
+                  <td><strong style="color:var(--yellow)">Session 1 (Morning)</strong></td>
+                  <td style="font-size:12px;color:var(--text-2);font-weight:600">00:00</td>
+                  <td style="font-size:12px;color:var(--text-2)">00:20</td>
+                  <td><span class="tag t-green">0.5 day</span></td>
+                  <td><span style="font-size:11px;color:var(--text-3)">Fixed — Friday schedule</span></td>
+                </tr>
+                <tr>
+                  <td><span class="tag t-yellow">Friday</span></td>
+                  <td><strong style="color:var(--yellow)">Session 2 (Evening)</strong></td>
+                  <td style="font-size:12px;color:var(--text-2);font-weight:600">19:30</td>
+                  <td style="font-size:12px;color:var(--text-2)">19:50</td>
+                  <td><span class="tag t-green">0.5 day</span></td>
+                  <td><span style="font-size:11px;color:var(--text-3)">Fixed — Friday schedule</span></td>
+                </tr>
+                <tr>
+                  <td colspan="2"><strong style="font-size:12px;color:var(--text-2)">Late Grace Period</strong></td>
+                  <td colspan="2"><input type="number" class="setting-input" id="set-grace" value="120" min="0" max="240" style="width:90px"/> <span style="font-size:11px;color:var(--text-3)">minutes</span></td>
+                  <td colspan="2"><span style="font-size:11px;color:var(--text-3)">Max allowed late arrival before marked absent</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
       <div class="settings-card">
         <h3>📊 Leave Limits</h3>
         <div class="setting-row"><div class="setting-label">Unofficial Leave Limit</div><input type="number" class="setting-input" id="set-unoff-limit" value="10" min="0"/></div>
         <div class="setting-row"><div class="setting-label">Medical Leave Limit</div><input type="number" class="setting-input" id="set-med-limit" value="30" min="0"/></div>
         <div class="setting-row"><div class="setting-label">Official Leave Limit</div><input type="number" class="setting-input" id="set-off-limit" value="30" min="0"/></div>
+      </div>
+      <div class="settings-card">
+        <h3>🔗 Firebase Connection</h3>
+        <div class="setting-row"><div class="setting-label">Project</div><span style="font-size:12px;color:#0D47A1;font-weight:700;font-family:monospace">leave-reports</span></div>
+        <div class="setting-row"><div class="setting-label">Students Collection</div><span style="font-size:12px;color:var(--text);font-family:monospace">students</span></div>
+        <div class="setting-row"><div class="setting-label">Leave Requests Collection</div><span style="font-size:12px;color:var(--text);font-family:monospace">leaveRequests</span></div>
       </div>
       <button class="btn btn-gold" onclick="saveSettings()" style="margin-top:6px">💾 Save Settings</button>
     </div>
@@ -513,15 +600,13 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
   <div class="bottom-nav-inner">
     <button class="bn-item active" id="bn-dashboard" onclick="mobNavTo('dashboard',this)"><span class="bni">📊</span>Home</button>
     <button class="bn-item" id="bn-requests" onclick="mobNavTo('requests',this)"><span class="bni">📥</span><span class="bn-badge" id="bn-badge">0</span></button>
-    <button class="bn-item" id="bn-search" onclick="mobNavTo('search',this)"><span class="bni">🔍</span>Scan</button>
+    <button class="bn-item" id="bn-leavereports" onclick="mobNavTo('leavereports',this)"><span class="bni">📝</span>Edit</button>
     <button class="bn-item" id="bn-outpass" onclick="mobNavTo('outpass',this)"><span class="bni">🖨️</span>Print</button>
     <button class="bn-item" id="bn-more" onclick="toggleMobMenu()"><span class="bni">☰</span>More</button>
   </div>
 </nav>
 
 <!-- ══ MODALS ══ -->
-
-<!-- Approve Modal -->
 <div class="modal-bg" id="modal-approve">
   <div class="modal">
     <h3>✅ Approve Leave Request</h3>
@@ -546,10 +631,9 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
   </div>
 </div>
 
-<!-- Complete Modal -->
 <div class="modal-bg" id="modal-complete">
   <div class="modal">
-    <h3>🏁 Mark Leave as Completed</h3>
+    <h3>🏁 Leave Completed</h3>
     <div id="complete-student-info" style="background:var(--dark3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px"></div>
     <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px">Select when the student returned:</p>
     <div class="btn-row" style="flex-direction:column;gap:8px">
@@ -565,7 +649,6 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
   </div>
 </div>
 
-<!-- Add/Edit Student Modal -->
 <div class="modal-bg" id="modal-student">
   <div class="modal">
     <h3 id="modal-student-title">➕ Add Student</h3>
@@ -583,7 +666,6 @@ tbody td{padding:10px 14px;color:var(--text);vertical-align:middle}
 <div id="loader"><div class="spinner"></div></div>
 <div id="toast"></div>
 
-<!-- QRCode library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script type="module">
@@ -595,22 +677,32 @@ import {
   serverTimestamp, increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+// ══════════════════════════════════════════════════
+//  FIREBASE — leave-reports project
+//  Same DB used by the Student Upload page
+// ══════════════════════════════════════════════════
 const app = initializeApp({
-  apiKey:"AIzaSyDmO5EaJjDOnvmxtoHX_czjhDyU01BjYZg",
-  authDomain:"leave-portal-e3234.firebaseapp.com",
-  projectId:"leave-portal-e3234",
-  storageBucket:"leave-portal-e3234.firebasestorage.app",
-  messagingSenderId:"431358369719",
-  appId:"1:431358369719:web:49664e46dbc4de9c53d232",
-  measurementId:"G-V704ZLDZLP"
+  apiKey:            "AIzaSyACe-Wd7Lw18UqEJVFeFrM-Jw6Ml2Xbcws",
+  authDomain:        "leave-reports.firebaseapp.com",
+  projectId:         "leave-reports",
+  storageBucket:     "leave-reports.firebasestorage.app",
+  messagingSenderId: "542083419531",
+  appId:             "1:542083419531:web:2235f6d012cd194f0bf38e",
+  measurementId:     "G-6V8DSMTDGG"
 });
 const db = getFirestore(app);
+
+// ── COLLECTION NAMES ─────────────────────────────
+// Change these to match your actual Firestore collection names
+const COL_STUDENTS = 'students';
+const COL_REQUESTS = 'leaveRequests';   // ← update if your collection has a different name
+const COL_SETTINGS = 'settings';
 
 let allStudents = [];
 let allRequests = [];
 let reqFilter   = 'pending';
-let opSelectedIds = new Set();  // IDs of checked outpasses
-let opPreviewRec  = null;       // first selected record (for preview)
+let opSelectedIds = new Set();
+let opPreviewRec  = null;
 
 const $ = id => document.getElementById(id);
 const showLoader = () => $('loader').classList.add('show');
@@ -639,25 +731,21 @@ window.navTo = (page,btn) => {
   $('panel-'+page).classList.add('active');
   const titles={
     dashboard:'Dashboard',requests:'Leave Requests',approved:'Approved Leaves',
-    students:'Students',search:'Leave Type',reports:'Class Reports',
+    students:'Students',leavereports:'Edit Leave Reports',reports:'Reports',
     outpass:'Outpass Print',settings:'Settings'
   };
   $('page-title').textContent = titles[page]||page;
   if(page==='students') renderStudents();
   if(page==='reports')  populateClassFilter();
   if(page==='outpass')  renderOpList();
-  if(page==='search'){
-    stopScanner();
-    setTimeout(()=>startScanner(),250);
-    if(!dataReady){
-      $('leave-search-result').innerHTML='<div class="empty"><div class="ei">⏳</div><strong>Connecting…</strong><br><span style="font-size:10px;color:var(--text-dim)">Data loading, scanner ready</span></div>';
-    }
+  if(page==='leavereports'){
+    // stop scanner if switching away from scan tab
   } else {
     stopScanner();
   }
 };
 
-/* ── NORMALIZE ── */
+/* ── NORMALIZE REQUEST ── */
 function normalizeRequest(d){
   const r=d.data()||{};
   return {
@@ -674,21 +762,23 @@ function normalizeRequest(d){
     status:(r.status||'pending').toString().trim(),
     createdAt:r.createdAt||null,
     reason:r.reason||'',
+    days:r.days||0,
     ...r
   };
 }
 
-/* ── LISTENERS ── */
+/* ── REAL-TIME LISTENERS ── */
 function startListeners(){
-  onSnapshot(collection(db,'students'), snap=>{
+  // Students
+  onSnapshot(collection(db, COL_STUDENTS), snap=>{
     allStudents = snap.docs.map(d=>({id:d.id,...d.data()}));
     $('ds-total').textContent = allStudents.length;
-    recalcAllStudentTotals();
     renderStudents();
     populateClassFilter();
   });
 
-  onSnapshot(collection(db,''), snap=>{
+  // Leave Requests
+  onSnapshot(collection(db, COL_REQUESTS), snap=>{
     allRequests = snap.docs.map(normalizeRequest);
     dataReady = true;
     const pending = allRequests.filter(r=>r.status==='pending');
@@ -702,8 +792,13 @@ function startListeners(){
     renderRequestList();
     renderApprovedPanel();
     renderDashboardCards();
-    // Refresh outpass list if panel is active
     if(document.getElementById('panel-outpass').classList.contains('active')) renderOpList();
+    // Auto-search if QR was scanned before data loaded
+    const res=$('leave-search-result');
+    if(res && res.dataset.waiting==='1'){
+      res.removeAttribute('data-waiting');
+      searchLeave();
+    }
   });
 }
 startListeners();
@@ -720,13 +815,6 @@ function getStudentLeaveTotals(adNo){
   };
 }
 
-function recalcAllStudentTotals(){
-  allStudents = allStudents.map(s=>{
-    const totals = getStudentLeaveTotals(s.adno||s.id);
-    return {...s, ...totals};
-  });
-}
-
 /* ── DASHBOARD ── */
 function renderDashboardCards(){
   const pending = allRequests.filter(r=>r.status==='pending').slice(0,5);
@@ -736,7 +824,7 @@ function renderDashboardCards(){
   const approved = allRequests.filter(r=>r.status==='approved').slice(0,5);
   $('dash-approved-list').innerHTML = approved.length
     ? approved.map(r=>approvedCardHTML(r)).join('')
-    : '<div class="empty"><div class="ei">🏖️</div>No one currently on leave</div>';
+    : '<div class="empty"><div class="ei">✅</div>No one currently on leave</div>';
 }
 
 /* ── REQUESTS ── */
@@ -762,7 +850,7 @@ function reqCardHTML(r){
   const typeIcon = r.leave_type==='medical'?'🏥':r.leave_type==='official'?'🏛':'🏠';
   return `<div class="req-card">
     <div class="req-card-header">
-      <strong style="font-family:'Cinzel',serif;color:var(--gold);font-size:13px">${r.name||'—'}</strong>
+      <strong style="font-family:'Montserrat',sans-serif;color:var(--gold);font-size:13px">${r.name||'—'}</strong>
       <span class="tag t-grey">Ad No: ${r.adno||'—'}</span>
       <span class="tag t-grey">Class ${r.class||'—'}</span>
       ${stTag}
@@ -781,8 +869,7 @@ function reqCardHTML(r){
       <button class="btn btn-red"   onclick="rejectReq('${r.id}')">❌ Reject</button>
     </div>`:r.status==='approved'?`
     <div class="btn-row">
-      <button class="btn btn-blue"   onclick="completeLeave('${r.id}')">🏁 Mark Completed</button>
-      <button class="btn btn-yellow" onclick="openExtend('${r.id}')">🔁 Extend</button>
+      <button class="btn btn-blue" id="complete-btn-${r.id}" onclick="completeLeave('${r.id}',this)">🏁 Leave Completed</button>
     </div>`:''}
   </div>`;
 }
@@ -793,17 +880,17 @@ function renderApprovedPanel(){
     .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
   $('approved-list').innerHTML = list.length
     ? list.map(r=>approvedCardHTML(r)).join('')
-    : '<div class="empty"><div class="ei">🏖️</div>No approved leaves</div>';
+    : '<div class="empty"><div class="ei">✅</div>No approved leaves</div>';
 }
 
 function approvedCardHTML(r){
   const days = calcDays(r.from_datetime, r.to_datetime);
   return `<div class="req-card" style="border-color:rgba(39,174,96,0.25)">
     <div class="req-card-header">
-      <strong style="font-family:'Cinzel',serif;color:var(--gold)">${r.name||'—'}</strong>
+      <strong style="font-family:'Montserrat',sans-serif;color:var(--gold)">${r.name||'—'}</strong>
       <span class="tag t-grey">Ad ${r.adno||'—'}</span>
       <span class="tag t-grey">Class ${r.class||'—'}</span>
-      <span class="tag t-green">✅ On Leave</span>
+      <span class="tag t-green">On Leave</span>
       ${r.leave_id?`<span class="leave-id">${r.leave_id}</span>`:''}
       <span style="margin-left:auto;font-size:11px;color:var(--gold)">⏱ ${days} day${days!==1?'s':''}</span>
     </div>
@@ -813,8 +900,7 @@ function approvedCardHTML(r){
       <div class="req-field"><div class="lbl">📅 To</div><div class="val">${fmtDate(r.to_datetime)}</div></div>
     </div>
     <div class="btn-row">
-      <button class="btn btn-blue" onclick="completeLeave('${r.id}')">🏁 Mark Completed</button>
-      <button class="btn btn-yellow" onclick="openExtend('${r.id}')">🔁 Extend</button>
+      <button class="btn btn-blue" id="complete-btn-${r.id}" onclick="completeLeave('${r.id}',this)">🏁 Leave Completed</button>
     </div>
   </div>`;
 }
@@ -844,22 +930,27 @@ window.confirmApprove = async () => {
     const r = allRequests.find(x=>x.id===docId);
     const leaveId = await generateLeaveId();
     const days = calcDays(from, to);
-    await updateDoc(doc(db,'',docId),{
+    await updateDoc(doc(db, COL_REQUESTS, docId),{
       status:'approved', leave_id:leaveId,
       from_datetime:from, to_datetime:to, leave_type:type, days
     });
     if(r?.adno){
       const field = typeToField(type);
-      await updateDoc(doc(db,'students',r.adno),{[field]:increment(days)});
+      // Update student leave count (using increment for safety)
+      const stuRef = doc(db, COL_STUDENTS, r.adno);
+      const stuSnap = await getDoc(stuRef);
+      if(stuSnap.exists()){
+        await updateDoc(stuRef, {[field]: increment(days)});
+      }
     }
     closeModal('modal-approve');
     toast(`Leave approved! ID: ${leaveId}`,'success');
-  }catch(e){ console.error(e); toast('Error approving leave','error'); }
+  }catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
   hideLoader();
 };
 
 async function generateLeaveId(){
-  const snap = await getDocs(collection(db,''));
+  const snap = await getDocs(collection(db, COL_REQUESTS));
   const nums = snap.docs.map(d=>parseInt((d.data().leave_id||'').replace('md',''))||0);
   const next = (nums.length ? Math.max(...nums) : 0) + 1;
   return 'md' + String(next).padStart(4,'0');
@@ -869,14 +960,21 @@ async function generateLeaveId(){
 window.rejectReq = async (docId) => {
   if(!confirm('Reject this leave request?')) return;
   showLoader();
-  try{ await updateDoc(doc(db,'',docId),{status:'rejected'}); toast('Rejected','info'); }
-  catch(e){ toast('Error','error'); }
+  try{ await updateDoc(doc(db, COL_REQUESTS, docId),{status:'rejected'}); toast('Rejected','info'); }
+  catch(e){ toast('Error: '+e.message,'error'); }
   hideLoader();
 };
 
 /* ── COMPLETE ── */
-window.completeLeave = (docId) => {
+window.completeLeave = (docId, btn) => {
   const r = allRequests.find(x=>x.id===docId); if(!r) return;
+  // Immediately update button appearance
+  if(btn){
+    btn.textContent='✅ Completed';
+    btn.disabled=true;
+    btn.classList.remove('btn-blue');
+    btn.classList.add('btn-green');
+  }
   $('complete-doc-id').value = docId;
   $('complete-student-info').innerHTML = `
     <strong style="color:var(--gold)">${r.name}</strong> &nbsp;|&nbsp; Ad No: ${r.adno} &nbsp;|&nbsp; Class ${r.class}<br/>
@@ -895,12 +993,50 @@ window.completeWithOption = async (option) => {
     case 'seventh': reached = `${today}T13:39`; break;
     case 'ontime':  reached = r.to_datetime; break;
   }
+
+  // Calculate leave_taken using session-based half-day system
+  const leave_taken = calcDays(r.from_datetime, reached || r.to_datetime);
+
   showLoader();
   try{
-    await updateDoc(doc(db,'',docId),{status:'completed', reached_datetime:reached});
+    await updateDoc(doc(db, COL_REQUESTS, docId),{
+      status:'completed',
+      reached_datetime: reached,
+      leave_taken: leave_taken
+    });
+
+    // Update student totals based on adno and leave_type
+    if(r.adno){
+      // Collect all requests for this student (approved/completed), including this one
+      const stuRequests = allRequests.filter(x =>
+        (x.adno===r.adno || x.adNo===r.adno) &&
+        (x.status==='approved' || x.status==='completed' || x.id===docId)
+      );
+      let total_official=0, total_medical=0, total_unofficial=0;
+      stuRequests.forEach(req=>{
+        // Use leave_taken if completed, else calcDays from from/to
+        const lt = req.id===docId
+          ? leave_taken
+          : (req.leave_taken !== undefined && req.leave_taken !== null
+              ? +req.leave_taken
+              : +(req.days || calcDays(req.from_datetime, req.to_datetime)));
+        if(req.leave_type==='official')       total_official   += lt;
+        else if(req.leave_type==='medical')   total_medical    += lt;
+        else                                  total_unofficial += lt;
+      });
+      const total_leaves = total_official + total_medical + total_unofficial;
+      const stuRef = doc(db, COL_STUDENTS, r.adno);
+      const stuSnap = await getDoc(stuRef);
+      if(stuSnap.exists()){
+        await updateDoc(stuRef,{
+          total_leaves, total_official, total_medical, total_unofficial
+        });
+      }
+    }
+
     closeModal('modal-complete');
-    toast('Leave completed! 🏁','success');
-  }catch(e){ console.error(e); toast('Error','error'); }
+    toast(`Leave completed! leave_taken: ${leave_taken} day(s) 🏁`,'success');
+  }catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
   hideLoader();
 };
 
@@ -913,9 +1049,9 @@ window.openExtend = (docId) => {
   if(isNaN(newDate.getTime())){ toast('Invalid datetime','error'); return; }
   if(newDate <= new Date(r.from_datetime)){ toast('Extended To must be after From','error'); return; }
   showLoader();
-  updateDoc(doc(db,'',docId),{to_datetime:newTo})
+  updateDoc(doc(db, COL_REQUESTS, docId),{to_datetime:newTo})
     .then(()=>toast('Leave extended! 🔁','success'))
-    .catch(()=>toast('Error','error'))
+    .catch(e=>toast('Error: '+e.message,'error'))
     .finally(hideLoader);
 };
 
@@ -931,16 +1067,19 @@ window.renderStudents = () => {
 
   $('students-body').innerHTML = list.length
     ? list.map((s,i)=>{
-        const totals = getStudentLeaveTotals(s.adno||s.id);
-        const total  = totals.official + totals.medical + totals.unofficial;
+        // Read directly from student collection fields
+        const official   = +(s.total_official   || 0);
+        const medical    = +(s.total_medical    || 0);
+        const unofficial = +(s.total_unofficial || 0);
+        const total      = +(s.total_leaves     || (official + medical + unofficial));
         return `<tr>
           <td style="color:var(--text-dim)">${i+1}</td>
           <td><strong style="color:var(--gold)">${s.adno||s.id}</strong></td>
           <td>${s.name||'—'}</td>
           <td><span class="tag t-grey">Class ${s.class||'—'}</span></td>
-          <td><span style="color:var(--blue)">${totals.official}</span></td>
-          <td><span style="color:var(--green)">${totals.medical}</span></td>
-          <td><span style="color:${totals.unofficial>=10?'var(--red)':'var(--yellow)'}">${totals.unofficial}</span></td>
+          <td><span style="color:var(--blue)">${official}</span></td>
+          <td><span style="color:var(--green)">${medical}</span></td>
+          <td><span style="color:${unofficial>=10?'var(--red)':'var(--yellow)'}">${unofficial}</span></td>
           <td><strong style="color:var(--gold)">${total}</strong></td>
           <td>
             <div class="btn-row">
@@ -975,92 +1114,62 @@ window.saveStudent = async () => {
   showLoader();
   try{
     if(editId){
-      await updateDoc(doc(db,'students',editId),{name,class:cls});
+      await updateDoc(doc(db, COL_STUDENTS, editId),{name,class:cls});
     } else {
       if(!adno){ toast('Admission number required','error'); hideLoader(); return; }
-      await setDoc(doc(db,'students',adno),{adno,name,class:cls,total_official:0,total_medical:0,total_unofficial:0});
+      await setDoc(doc(db, COL_STUDENTS, adno),{
+        adno, name, class:cls,
+        total_official:0, total_medical:0, total_unofficial:0
+      });
     }
     closeModal('modal-student');
     toast(editId?'Student updated':'Student added','success');
-  }catch(e){ console.error(e); toast('Error saving','error'); }
+  }catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
   hideLoader();
 };
 
 window.deleteStudent = async (id) => {
   if(!confirm('Delete this student record?')) return;
   showLoader();
-  try{ await deleteDoc(doc(db,'students',id)); toast('Deleted','info'); }
-  catch(e){ toast('Error','error'); }
+  try{ await deleteDoc(doc(db, COL_STUDENTS, id)); toast('Deleted','info'); }
+  catch(e){ toast('Error: '+e.message,'error'); }
   hideLoader();
 };
 
-/* ── SEARCH / CHANGE LEAVE TYPE ── */
-window.searchLeave = async () => {
-  const q = $('leave-search-input').value.trim().toLowerCase();
-  if(!q){ toast('Enter a leave ID or type','error'); return; }
-  const matches = allRequests.filter(r=>{
-    const id   = (r.leave_id||'').toLowerCase();
-    const type = (r.leave_type||'').toLowerCase();
-    return id===q || type===q;
-  });
-  if(!matches.length){
-    $('leave-search-result').innerHTML=`<div class="empty"><div class="ei">🔍</div>No leave found for: <strong>${q}</strong></div>`;
+/* ── EDIT LEAVE REPORTS — TAB SWITCHER ── */
+window.lrTab = (mode, btn) => {
+  document.querySelectorAll('#panel-leavereports .chip-filter').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  $('lr-mode-adno').style.display = mode==='adno' ? '' : 'none';
+  $('lr-mode-lid').style.display  = mode==='lid'  ? '' : 'none';
+  $('lr-mode-scan').style.display = mode==='scan' ? '' : 'none';
+  if(mode==='scan'){
+    stopScanner();
+    setTimeout(()=>startScanner(), 250);
+  } else {
+    stopScanner();
+  }
+  $('lr-result').innerHTML='';
+};
+
+/* ── EDIT LEAVE REPORTS — LOAD BY LEAVE ID ── */
+window.loadLeaveByLid = () => {
+  const lid = ($('lr-lid-input').value||'').trim().toLowerCase();
+  if(!lid){ toast('Enter a Leave ID','error'); return; }
+  const leave = allRequests.find(r=>(r.leave_id||'').toLowerCase()===lid);
+  if(!leave){
+    $('lr-result').innerHTML=`<div class="empty"><div class="ei">🔍</div>No leave found for ID: <strong>${lid}</strong></div>`;
     return;
   }
-  $('leave-search-result').innerHTML = matches.map(found=>{
-    const days = calcDays(found.from_datetime, found.to_datetime);
-    return `
-    <div class="req-card" style="border-color:var(--gold-dim)">
-      <div class="req-card-header">
-        <span class="leave-id" style="font-size:14px">${found.leave_id||'—'}</span>
-        <strong style="font-family:'Cinzel',serif;color:var(--gold);font-size:14px">${found.name}</strong>
-        <span class="tag t-grey">Ad ${found.adno}</span>
-        <span class="tag t-grey">Class ${found.class}</span>
-        ${statusTagHTML(found.status)}
-      </div>
-      <div class="req-card-body">
-        <div class="req-field"><div class="lbl">📍 Destination</div><div class="val">${found.destination||'—'}</div></div>
-        <div class="req-field"><div class="lbl">📅 From</div><div class="val">${fmtDate(found.from_datetime)}</div></div>
-        <div class="req-field"><div class="lbl">📅 To</div><div class="val">${fmtDate(found.to_datetime)}</div></div>
-        <div class="req-field"><div class="lbl">⏱ Days</div><div class="val" style="color:var(--gold);font-weight:700">${days}</div></div>
-        <div class="req-field"><div class="lbl">Type</div><div class="val">${cap(found.leave_type||'unofficial')}</div></div>
-        ${found.reached_datetime?`<div class="req-field"><div class="lbl">Returned</div><div class="val">${fmtDate(found.reached_datetime)}</div></div>`:''}
-      </div>
-      <div class="sec-title" style="margin-top:10px;font-size:12px">Change Leave Type</div>
-      <div class="btn-row">
-        <button class="btn btn-outline btn-sm ${found.leave_type==='unofficial'?'btn-gold':''}" onclick="changeLeaveType('${found.id}','unofficial')">🏠 Unofficial</button>
-        <button class="btn btn-outline btn-sm ${found.leave_type==='official'?'btn-gold':''}"   onclick="changeLeaveType('${found.id}','official')">🏛 Official</button>
-        <button class="btn btn-outline btn-sm ${found.leave_type==='medical'?'btn-gold':''}"    onclick="changeLeaveType('${found.id}','medical')">🏥 Medical</button>
-      </div>
-    </div>`;
-  }).join('');
-};
-
-window.changeLeaveType = async (docId, newType) => {
-  const leave = allRequests.find(r=>r.id===docId);
-  if(!leave){ toast('Leave not found','error'); return; }
-  const oldType = (leave.leave_type||'unofficial').toLowerCase();
-  if(oldType === newType){ toast('Already set to '+cap(newType),'info'); return; }
-  const counted = leave.status==='approved' || leave.status==='completed';
-  const days = +(leave.days || calcDays(leave.from_datetime, leave.to_datetime));
-  showLoader();
-  try{
-    await updateDoc(doc(db,'',docId),{leave_type:newType});
-    if(counted && leave.adno && days > 0){
-      const oldField = typeToField(oldType);
-      const newField = typeToField(newType);
-      await updateDoc(doc(db,'students',leave.adno),{
-        [oldField]: increment(-days),
-        [newField]: increment(days)
-      });
-    }
-    toast(`Type changed to ${cap(newType)} ✅`,'success');
-    searchLeave();
-  }catch(e){
-    console.error(e);
-    toast('Error changing type','error');
-  }
-  hideLoader();
+  const stu = allStudents.find(s=>s.adno===leave.adno||s.id===leave.adno);
+  const stuName = stu ? stu.name : leave.name;
+  $('lr-result').innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:12px">
+      <strong style="font-family:'Montserrat',sans-serif;color:var(--primary);font-size:14px">${stuName}</strong>
+      &nbsp;|&nbsp; Ad No: <strong>${leave.adno||'—'}</strong>
+      ${leave.class?`&nbsp;|&nbsp; Class <strong>${leave.class}</strong>`:''}
+    </div>
+    ${lrCardHTML(leave)}`;
 };
 
 /* ── REPORTS ── */
@@ -1080,9 +1189,9 @@ window.generateReport = () => {
   classes.forEach(c=>{
     const stus=list.filter(s=>s.class===c).sort((a,b)=>+(a.adno||a.id||0)-+(b.adno||b.id||0));
     html+=`<div style="page-break-after:always;margin-bottom:30px;background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
-      <div style="background:linear-gradient(135deg,#120F07,#1A1508);padding:16px 20px;border-bottom:1px solid var(--border)">
-        <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--gold)">Malik Deenar Islamic Academy</div>
-        <div style="font-size:11px;color:var(--text-dim);margin-top:2px">Class ${c} — Leave Report · ${new Date().toLocaleDateString('en-IN')}</div>
+      <div style="background:linear-gradient(135deg,#0D47A1,#1565C0);padding:16px 20px;border-bottom:1px solid var(--border)">
+        <div style="font-family:'Montserrat',sans-serif;font-size:14px;color:#fff">Malik Deenar Islamic Academy</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px">Class ${c} — Leave Report · ${new Date().toLocaleDateString('en-IN')}</div>
       </div>
       <div class="tbl-scroll">
         <table>
@@ -1110,10 +1219,39 @@ window.generateReport = () => {
 
 window.printReport = () => { generateReport(); setTimeout(()=>window.print(),400); };
 
-/* ════════════════════════════════════════════
-   OUTPASS PRINT SECTION
-   ════════════════════════════════════════════ */
+window.exportReportCSV = () => {
+  const cls = $('report-class').value;
+  let list = allStudents;
+  if(cls!=='all') list=list.filter(s=>s.class===cls);
+  const classes = cls==='all'
+    ? [...new Set(list.map(s=>s.class).filter(Boolean))].sort()
+    : [cls];
 
+  let csvRows = ['Class,SL,Ad No,Name,Official,Medical,Unofficial,Total'];
+  classes.forEach(c=>{
+    const stus = list.filter(s=>s.class===c).sort((a,b)=>+(a.adno||a.id||0)-+(b.adno||b.id||0));
+    stus.forEach((s,i)=>{
+      const t = getStudentLeaveTotals(s.adno||s.id);
+      const total = t.official+t.medical+t.unofficial;
+      const name = (s.name||'').replace(/,/g,' ');
+      csvRows.push(`${c},${i+1},${s.adno||s.id},${name},${t.official},${t.medical},${t.unofficial},${total}`);
+    });
+    csvRows.push(''); // blank line between classes
+  });
+
+  const blob = new Blob([csvRows.join('\n')],{type:'text/csv;charset=utf-8;'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `LeaveReport_${cls==='all'?'AllClasses':cls}_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast('CSV exported! ⬇️','success');
+};
+
+/* ══════════════════════════════════════════════════
+   OUTPASS PRINT
+══════════════════════════════════════════════════ */
 window.opSearch = () => { renderOpList(); };
 
 function renderOpList() {
@@ -1140,7 +1278,7 @@ function renderOpList() {
   listEl._matches = list;
 
   if(!list.length){
-    listEl.innerHTML = `<div style="padding:14px 16px;font-size:12px;color:var(--text-dim)">No approved leaves found${q?' for "<strong>'+q+'</strong>"':''}.</div>`;
+    listEl.innerHTML = `<div style="padding:14px 16px;font-size:12px;color:var(--text-dim)">No approved leaves found${q?' for "'+q+'"':''}.</div>`;
     updateSelBar();
     return;
   }
@@ -1163,38 +1301,20 @@ function renderOpList() {
 }
 
 window.opToggleRow = (id, idx) => {
-  const listEl = $('op-req-list');
-  const matches = listEl._matches || [];
-  if(!matches[idx] && !allRequests.find(r=>r.id===id)) return;
-
-  if(opSelectedIds.has(id)){
-    opSelectedIds.delete(id);
-  } else {
-    opSelectedIds.add(id);
-  }
-
-  // Re-render list (syncs checkboxes + highlight + sel bar)
+  if(opSelectedIds.has(id)){ opSelectedIds.delete(id); }
+  else { opSelectedIds.add(id); }
   renderOpList();
-
-  // Update preview to first selected record (sorted by from_datetime)
   const firstSel = allRequests
     .filter(r => opSelectedIds.has(r.id))
     .sort((a,b) => {
       const da = a.from_datetime ? new Date(a.from_datetime).getTime() : 0;
-      const db = b.from_datetime ? new Date(b.from_datetime).getTime() : 0;
-      return da - db;
+      const db2 = b.from_datetime ? new Date(b.from_datetime).getTime() : 0;
+      return da - db2;
     })[0] || null;
-
-  if(firstSel){
-    opPreviewRec = firstSel;
-    renderOutpass(firstSel);
-  } else {
+  if(firstSel){ opPreviewRec = firstSel; renderOutpass(firstSel); }
+  else {
     opPreviewRec = null;
-    $('op-pass-wrap').innerHTML=`<div class="op-empty">
-      <div class="oi">🖨️</div>
-      <p>Tick checkboxes to select outpasses to print.<br>
-      <strong>1–3 selected</strong> → A6 landscape &nbsp;|&nbsp; <strong>4+ selected</strong> → A4 portrait, 4 per page.</p>
-    </div>`;
+    $('op-pass-wrap').innerHTML=`<div class="op-empty"><div class="oi">🖨️</div><p>Tick checkboxes to select outpasses to print.</p></div>`;
     $('op-action-bar').style.display='none';
   }
 };
@@ -1203,18 +1323,14 @@ window.opSelectAll = () => {
   const listEl = $('op-req-list');
   (listEl._matches||[]).forEach(r => opSelectedIds.add(r.id));
   renderOpList();
-  const first = (listEl._matches||[]).find(r => opSelectedIds.has(r.id));
+  const first = (listEl._matches||[])[0];
   if(first){ opPreviewRec=first; renderOutpass(first); }
 };
 
 window.opDeselectAll = () => {
-  opSelectedIds.clear();
-  opPreviewRec=null;
+  opSelectedIds.clear(); opPreviewRec=null;
   renderOpList();
-  $('op-pass-wrap').innerHTML=`<div class="op-empty">
-    <div class="oi">🖨️</div>
-    <p>Tick checkboxes to select outpasses to print.</p>
-  </div>`;
+  $('op-pass-wrap').innerHTML=`<div class="op-empty"><div class="oi">🖨️</div><p>Tick checkboxes to select outpasses to print.</p></div>`;
   $('op-action-bar').style.display='none';
 };
 
@@ -1228,35 +1344,27 @@ function updateSelBar(){
     $('op-sel-hint').textContent = '— tick rows to select';
     btn.disabled = true;
     btn.textContent = '🖨️ Print Outpass';
-  } else if(n <= 3){
-    $('op-sel-hint').textContent = `→ Will print A6 landscape (${n} page${n>1?'s':''})`;
+  } else {
+    const pages = Math.ceil(n/8);
+    $('op-sel-hint').textContent = `→ A4 portrait, 2×4 per page (${pages} page${pages>1?'s':''})`;
     btn.disabled = false;
     btn.textContent = `🖨️ Print ${n} Outpass${n>1?'es':''}`;
-  } else {
-    const pages = Math.ceil(n/4);
-    $('op-sel-hint').textContent = `→ Will print A4 portrait, 4 per page (${pages} page${pages>1?'s':''})`;
-    btn.disabled = false;
-    btn.textContent = `🖨️ Print ${n} Outpasses`;
   }
 }
 
 window.opClear = () => {
   $('op-search-input').value='';
-  opSelectedIds.clear();
-  opPreviewRec=null;
+  opSelectedIds.clear(); opPreviewRec=null;
   $('op-action-bar').style.display='none';
-  $('op-pass-wrap').innerHTML=`<div class="op-empty">
-    <div class="oi">🖨️</div>
+  $('op-pass-wrap').innerHTML=`<div class="op-empty"><div class="oi">🖨️</div>
     <p>Tick checkboxes to select outpasses to print.<br>
-    <strong>1–3 selected</strong> → A6 landscape, 1 per page &nbsp;|&nbsp; <strong>4+ selected</strong> → A4 portrait, 4 per page.</p>
+    <strong>A4 Portrait</strong> — 2 columns × 4 rows = 8 per page.</p>
   </div>`;
   renderOpList();
 };
 
 window.opPrint = () => {
   if(opSelectedIds.size === 0){ toast('Select at least one outpass','error'); return; }
-
-  // Collect selected records in from_datetime order
   const allSorted = allRequests
     .filter(r => r.status==='approved')
     .sort((a,b)=>{
@@ -1266,19 +1374,14 @@ window.opPrint = () => {
     });
   const selected = allSorted.filter(r => opSelectedIds.has(r.id));
   if(!selected.length){ toast('No records to print','error'); return; }
-
   const n = selected.length;
-  const today = new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
 
-  // ── Build one outpass card inner HTML ──
   function buildCard(rec){
     const lid    = rec.leave_id || '—';
     const fromDT = rec.from_datetime ? fmtDateFull(rec.from_datetime) : '—';
     const toDT   = rec.to_datetime   ? fmtDateFull(rec.to_datetime)   : '—';
     const qrId   = 'qr-'+lid.replace(/[^a-z0-9]/gi,'_')+'-'+Math.random().toString(36).slice(2,6);
-
     return (
-      // ── HEADER ──
       '<div class="card-hd">'
         +'<div class="card-hd-left">'
           +'<div class="card-hd-title">MALIK DEENAR ISLAMIC ACADEMY</div>'
@@ -1286,152 +1389,116 @@ window.opPrint = () => {
           +'<div class="card-hd-doc">✦ STUDENT LEAVE PASS ✦</div>'
         +'</div>'
       +'</div>'
-      // ── INFO STRIP: each item on its own line ──
-      +'<div class="card-info" style="display:flex;gap:0">'
-        +'<div style="flex:1">'
-          +'<div class="info-row"><span class="il">AD</span><span class="iv mono">'+(rec.adno||'—')+'</span></div>'
-          +'<div class="info-row"><span class="il">NAME</span><span class="iv iv-name">'+(rec.name||'—')+'</span></div>'
-          +'<div class="info-row"><span class="il">CLASS</span><span class="iv">'+(rec.class||'—')+'</span></div>'
-        +'</div>'
-        +'<div style="border-left:2px solid #1e3028;padding-left:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;min-width:72px;text-align:center">'
-          +'<span style="font-size:5pt;font-weight:700;color:#7a9a88;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:3px">PASS ID</span>'
-          +'<span style="font-size:11pt;font-weight:800;color:#1e3028;font-family:JetBrains Mono,monospace;letter-spacing:2px;text-transform:uppercase">'+(lid.toUpperCase())+'</span>'
+      +'<div class="card-info">'
+        +'<div class="info-row" style="gap:8px;align-items:baseline;flex-wrap:wrap">'
+          +'<span class="il">AD</span><span class="iv mono">'+(rec.adno||'—')+'</span>'
+          +'<span style="color:#b8c8b8;font-weight:700;font-size:9pt;margin:0 2px">·</span>'
+          +'<span class="il">NAME</span><span class="iv iv-name">'+(rec.name||'—')+'</span>'
+          +'<span style="color:#b8c8b8;font-weight:700;font-size:9pt;margin:0 2px">·</span>'
+          +'<span class="il">CLASS</span><span class="iv">'+(rec.class||'—')+'</span>'
         +'</div>'
       +'</div>'
-      // ── BODY ──
       +'<div class="card-body">'
         +'<div class="body-left">'
-          +'<div class="field-inline">'
-            +'<span class="fb-lbl">DESTINATION</span>'
-            +'<span class="fb-val">'+(rec.destination||rec.place||'—')+'</span>'
-          +'</div>'
-          +'<div class="field-inline">'
-            +'<span class="fb-lbl">REASON</span>'
-            +'<span class="fb-val wrap">'+(rec.reason||'—')+'</span>'
-          +'</div>'
-          +'<div class="field-inline">'
-            +'<span class="fb-lbl">FROM DATE &amp; TIME</span>'
-            +'<span class="fb-val dt">'+fromDT+'</span>'
-          +'</div>'
-          +'<div class="field-inline">'
-            +'<span class="fb-lbl">TO DATE &amp; TIME</span>'
-            +'<span class="fb-val dt">'+toDT+'</span>'
-          +'</div>'
+          +'<div class="field-inline"><span class="fb-lbl">DESTINATION</span><span class="fb-val">'+(rec.destination||rec.place||'—')+'</span></div>'
+          +'<div class="field-inline"><span class="fb-lbl">REASON</span><span class="fb-val wrap">'+(rec.reason||'—')+'</span></div>'
+          +'<div class="field-inline"><span class="fb-lbl">FROM DATE &amp; TIME</span><span class="fb-val dt">'+fromDT+'</span></div>'
+          +'<div class="field-inline"><span class="fb-lbl">TO DATE &amp; TIME</span><span class="fb-val dt">'+toDT+'</span></div>'
           +'<div class="signs">'
             +'<div class="sign"><div class="sign-line"></div><div class="sign-lbl">Principal</div></div>'
             +'<div class="sign"><div class="sign-line"></div><div class="sign-lbl">Class Teacher</div></div>'
           +'</div>'
         +'</div>'
         +'<div class="body-qr">'
-          +'<div class="qr-lbl">SCAN TO CHANGE LEAVE TYPE</div>'
+          +'<div class="qr-lbl">SCAN TO<br>CHANGE TYPE</div>'
           +'<div class="qr-box" id="'+qrId+'" data-lid="'+lid+'"></div>'
           +'<div class="qr-id">'+lid+'</div>'
         +'</div>'
       +'</div>'
-      // ── FOOTER ──
-      +'<div class="card-ft">'
-        +'<span class="ft-note">★ Keep this pass · Present on return to update leave type to Medical or Official if applicable</span>'
-      +'</div>'
+      +'<div class="card-ft"><span class="ft-note">★ Keep this pass · Present on return to update leave type to Medical or Official if applicable</span></div>'
     );
   }
 
-  // ── Shared CSS (billing-matched: dark green #1e3028, JetBrains Mono + Nunito) ──
   const BASE_CSS=`
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#fff;font-family:'Nunito',sans-serif;color:#111;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.card{width:100%;height:100%;border:1.5px solid #1e3028;border-radius:4px;display:flex;flex-direction:column;overflow:hidden;background:#fff}
-.card-hd{background:#1e3028;padding:5px 9px;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#fff;font-family:'Nunito',sans-serif;color:#000;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.card{width:100%;height:100%;border:2px solid #000;border-radius:4px;display:flex;flex-direction:column;overflow:hidden;background:#fff}
+.card-hd{background:#000;padding:4px 8px;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .card-hd-left{flex:1;text-align:center}
-.card-hd-title{font-size:9pt;font-weight:800;letter-spacing:.5px;color:#dff0e8;line-height:1.2}
-.card-hd-sub{font-size:5.5pt;color:#7aaa90;margin-top:2px;line-height:1.5;text-align:center}
-.card-hd-doc{font-size:5.5pt;font-weight:800;color:rgba(223,240,232,.85);letter-spacing:2px;text-transform:uppercase;margin-top:4px;border-top:1px solid rgba(255,255,255,.2);padding-top:3px;text-align:center}
-.card-hd-badge{background:rgba(255,255,255,.13);border-radius:3px;padding:4px 8px;text-align:center;flex-shrink:0;margin-left:7px;border:1px solid rgba(255,255,255,.2)}
-.badge-lbl{font-size:4.5pt;font-weight:700;color:rgba(255,255,255,.55);letter-spacing:1px;text-transform:uppercase}
-.badge-id{font-size:10pt;font-weight:700;color:#7ecba1;font-family:'JetBrains Mono',monospace;letter-spacing:1.5px;line-height:1.1;margin-top:1px}
-.badge-date{font-size:4.5pt;color:rgba(255,255,255,.45);margin-top:2px;letter-spacing:.3px}
-.card-info{padding:4px 8px;background:#f0f7f3;border-bottom:1.5px solid #1e3028;flex-shrink:0}
-.info-row{display:flex;align-items:baseline;gap:5px;margin-bottom:2px;flex-wrap:wrap}
+.card-hd-title{font-size:9pt;font-weight:900;letter-spacing:.5px;color:#fff;line-height:1.2}
+.card-hd-sub{font-size:5.5pt;color:#ccc;margin-top:2px;line-height:1.5;text-align:center}
+.card-hd-doc{font-size:5.5pt;font-weight:800;color:#fff;letter-spacing:2px;text-transform:uppercase;margin-top:4px;border-top:1px solid rgba(255,255,255,.4);padding-top:3px;text-align:center}
+.card-info{padding:3px 7px;background:#eee;border-bottom:2px solid #000;flex-shrink:0}
+.info-row{display:flex;align-items:baseline;gap:5px;margin-bottom:1px;flex-wrap:wrap}
 .info-row:last-child{margin-bottom:0}
-.il{font-size:5.5pt;font-weight:700;color:#7a9a88;text-transform:uppercase;letter-spacing:.2px;flex-shrink:0}
-.iv{font-size:8pt;font-weight:700;color:#1e3028;font-family:'JetBrains Mono',monospace}
-.iv-name{font-size:8.5pt;font-weight:800;color:#1e3028;font-family:'Nunito',sans-serif}
+.il{font-size:5.5pt;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.2px;flex-shrink:0}
+.iv{font-size:8pt;font-weight:700;color:#000;font-family:'JetBrains Mono',monospace}
+.iv-name{font-size:8.5pt;font-weight:900;color:#000;font-family:'Nunito',sans-serif}
 .mono{font-family:'JetBrains Mono',monospace;letter-spacing:1px}
 .card-body{flex:1;display:flex;flex-direction:row;overflow:hidden;min-height:0}
-.body-left{flex:1;padding:5px 8px;display:flex;flex-direction:column;gap:5px;border-right:1px solid #d0e8d8;overflow:hidden}
-.body-qr{width:28mm;flex-shrink:0;background:#f0f7f3;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4px 3px;gap:3px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.field-inline{display:flex;align-items:baseline;gap:5px;border-bottom:1px solid #d0e8d8;padding-bottom:3px;min-height:14px}
-.fb-lbl{font-size:6pt;font-weight:700;color:#9ab0a0;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;flex-shrink:0}
-.fb-val{font-size:10pt;font-weight:700;color:#1e3028;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.fb-val.wrap{white-space:normal;font-size:9.5pt}
-.fb-val.dt{font-size:9pt;font-weight:800;color:#1e3028;white-space:normal;line-height:1.3}
-.signs{display:flex;gap:6px;margin-top:auto;padding-top:4px;flex-shrink:0}
+.body-left{flex:1;padding:4px 7px;display:flex;flex-direction:column;gap:3px;border-right:1.5px solid #000;overflow:hidden}
+.body-qr{width:28mm;flex-shrink:0;background:#f5f5f5;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3px 3px;gap:2px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.field-inline{display:flex;align-items:baseline;gap:4px;border-bottom:1px solid #999;padding-bottom:2px;min-height:13px}
+.fb-lbl{font-size:5.5pt;font-weight:800;color:#333;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;flex-shrink:0}
+.fb-val{font-size:9.5pt;font-weight:700;color:#000;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fb-val.wrap{white-space:normal;font-size:9pt}
+.fb-val.dt{font-size:8.5pt;font-weight:800;color:#000;white-space:normal;line-height:1.3}
+.signs{display:flex;gap:6px;margin-top:auto;padding-top:3px;flex-shrink:0}
 .sign{flex:1;text-align:center}
-.sign-line{border-bottom:1.5px solid #a0b8a8;height:16px;margin-bottom:2px}
-.sign-lbl{font-size:8pt;font-weight:700;color:#6a9a80;text-transform:uppercase;letter-spacing:.2px}
-.qr-lbl{font-size:5pt;font-weight:700;color:#7aaa90;text-transform:uppercase;letter-spacing:.5px;text-align:center}
-.qr-box{width:60px;height:60px;background:#fff;border:1px solid #c8d8c8;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.qr-id{font-size:4.5pt;color:#8aaa90;letter-spacing:.5px;text-align:center;font-family:'JetBrains Mono',monospace}
-.card-ft{background:#1e3028;padding:6px 10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.ft-note{font-size:8pt;color:#7aaa90;font-style:italic;text-align:center}
-.empty-slot{width:100%;height:100%;background:#fafaf8;border:1px dashed #ddd;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#ccc;font-style:italic}`;
+.sign-line{border-bottom:1.5px solid #000;height:14px;margin-bottom:2px}
+.sign-lbl{font-size:6pt;font-weight:800;color:#000;text-transform:uppercase;letter-spacing:.2px}
+.qr-lbl{font-size:6.5pt;font-weight:900;color:#000;text-transform:uppercase;letter-spacing:.5px;text-align:center}
+.qr-box{width:60px;height:60px;background:#fff;border:1.5px solid #000;border-radius:2px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.qr-id{font-size:6pt;color:#000;letter-spacing:.5px;text-align:center;font-family:'JetBrains Mono',monospace;font-weight:700;margin-top:1px}
+.card-ft{background:#000;padding:5px 10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ft-note{font-size:7pt;color:#fff;font-style:italic;text-align:center;font-weight:700}
+.empty-slot{width:100%;height:100%;background:#fafaf8;border:1px dashed #bbb;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#bbb;font-style:italic}`;
 
   let css, body;
 
-  if(n <= 3){
-    // ── A6 LANDSCAPE: 1 card per page, 148mm × 105mm ──
-    css = BASE_CSS + `
-@page{size:148mm 105mm landscape;margin:0}
-body{width:148mm;height:105mm}
-.page{width:148mm;height:105mm;padding:2.5mm 3mm;display:flex;flex-direction:column;page-break-after:always;overflow:hidden}`;
-    body = selected.map(rec =>
-      '<div class="page"><div class="card">'+buildCard(rec)+'</div></div>'
-    ).join('');
+  // Always A4 portrait, 2 columns × 4 rows = 8 outpasses per page
+  // Each slot: ~98mm wide × 68mm tall (A4 portrait: 210×297mm, 2 cols × 4 rows with small margin)
+  css = BASE_CSS + `
+@page{size:210mm 297mm portrait;margin:0}
+body{width:210mm;min-height:297mm}
+.a4page{width:210mm;height:297mm;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);page-break-after:always;overflow:hidden;background:#fff;gap:0}
+.slot{padding:1.5mm 2mm;display:flex;flex-direction:column;overflow:hidden;border-right:1px dashed #aaa;border-bottom:1px dashed #aaa}
+.slot:nth-child(even){border-right:none}
+.slot:nth-child(7),.slot:nth-child(8){border-bottom:none}`;
 
-  } else {
-    // ── A4 LANDSCAPE: 2×2 grid of A6 landscape cards (148mm×105mm each) ──
-    css = BASE_CSS + `
-@page{size:297mm 210mm landscape;margin:0}
-body{width:297mm}
-.a4page{width:297mm;height:210mm;display:flex;flex-direction:column;page-break-after:always;overflow:hidden;background:#fff}
-.row{width:297mm;height:105mm;display:flex;flex-direction:row;flex-shrink:0;overflow:hidden}
-.slot{width:148.5mm;height:105mm;padding:2.5mm 3mm;display:flex;flex-direction:column;overflow:hidden;flex-shrink:0}
-.left-slot{border-right:1px dashed #ccc}
-.top-row{border-bottom:1px dashed #ccc}`;
-
-    const emptyCard='<div class="empty-slot">Empty</div>';
-
-    body='';
-    for(let p=0;p<Math.ceil(n/4);p++){
-      const g=selected.slice(p*4,p*4+4);
-      while(g.length<4) g.push(null);
-      body+='<div class="a4page">'
-        +'<div class="row top-row">'
-          +'<div class="slot left-slot">'+(g[0]?'<div class="card">'+buildCard(g[0])+'</div>':emptyCard)+'</div>'
-          +'<div class="slot">'+(g[1]?'<div class="card">'+buildCard(g[1])+'</div>':emptyCard)+'</div>'
-        +'</div>'
-        +'<div class="row">'
-          +'<div class="slot left-slot">'+(g[2]?'<div class="card">'+buildCard(g[2])+'</div>':emptyCard)+'</div>'
-          +'<div class="slot">'+(g[3]?'<div class="card">'+buildCard(g[3])+'</div>':emptyCard)+'</div>'
-        +'</div>'
-      +'</div>';
-    }
+  body = '';
+  const perPage = 8;
+  for(let p = 0; p < Math.ceil(n/perPage); p++){
+    const g = selected.slice(p*perPage, p*perPage+perPage);
+    while(g.length < perPage) g.push(null);
+    body += '<div class="a4page">'
+      + g.map(rec => '<div class="slot">'
+          + (rec ? '<div class="card">'+buildCard(rec)+'</div>' : '<div class="empty-slot">Empty</div>')
+          + '</div>').join('')
+      + '</div>';
   }
 
   const title = n===1 ? 'Leave Pass – '+(selected[0].name||'Student') : n+' Leave Passes';
   const w=window.open('','_blank');
   w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>'+title+'</title>'
-    +'<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">'
+    +'<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">'
     +'<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"><\/script>'
-    +'<style>'+css+'</style></head><body>'+body
+    +'<style>'+css+`
+@media print{
+  body{margin:0;padding:0}
+  .a4page{page-break-after:always;break-after:page}
+  .a4page:last-child{page-break-after:auto;break-after:auto}
+}
+`+'</style></head><body>'+body
     +'<script>window.addEventListener("load",function(){'
       +'document.querySelectorAll(".qr-box[data-lid]").forEach(function(el){'
         +'var lid=el.getAttribute("data-lid");'
         +'if(lid&&lid!=="—"&&typeof QRCode!=="undefined"){'
-          +'try{new QRCode(el,{text:lid,width:58,height:58,colorDark:"#1e3028",colorLight:"#fff",correctLevel:QRCode.CorrectLevel.M});}'
+          +'try{new QRCode(el,{text:lid,width:58,height:58,colorDark:"#000",colorLight:"#fff",correctLevel:QRCode.CorrectLevel.M});}'
           +'catch(e){el.textContent=lid;}'
         +'}'
       +'})'
-      +';setTimeout(function(){window.print();},1400);'
+      +';setTimeout(function(){window.print();window.close();},900);'
     +'});<\/script>'
     +'</body></html>');
   w.document.close();
@@ -1440,8 +1507,6 @@ body{width:297mm}
 
 function renderOutpass(r){
   const leaveId = r.leave_id || '—';
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
   const fromDT = r.from_datetime ? fmtDateFull(r.from_datetime) : '—';
   const toDT   = r.to_datetime   ? fmtDateFull(r.to_datetime)   : '—';
   const ltype  = cap(r.leave_type||'unofficial');
@@ -1449,7 +1514,6 @@ function renderOutpass(r){
 
   $('op-pass-wrap').innerHTML = `
   <div class="op-preview-card">
-    <!-- HEADER — matches print -->
     <div class="opc-hd">
       <div class="opc-hd-left">
         <div class="opc-inst">MALIK DEENAR ISLAMIC ACADEMY</div>
@@ -1457,56 +1521,24 @@ function renderOutpass(r){
         <div class="opc-hd-doc">✦ STUDENT LEAVE PASS ✦</div>
       </div>
     </div>
-    <!-- INFO STRIP -->
     <div class="opc-info">
       <div class="opc-info-cell"><span class="opc-lbl">AD NO</span><span class="opc-val" style="font-family:'Courier New',monospace;letter-spacing:1px">${r.adno||'—'}</span></div>
       <div class="opc-info-cell" style="flex:2"><span class="opc-lbl">STUDENT NAME</span><span class="opc-val lg">${r.name||'—'}</span></div>
       <div class="opc-info-cell"><span class="opc-lbl">CLASS</span><span class="opc-val lg">${r.class||'—'}</span></div>
       <div class="opc-info-cell"><span class="opc-lbl">LEAVE TYPE</span><span class="opc-val" style="color:${ltColor}">${ltype}</span></div>
-      <div class="opc-info-cell" style="border-left:2px solid #1e3028;padding-left:12px;text-align:center;flex-shrink:0;min-width:90px"><span class="opc-lbl">PASS ID</span><span class="opc-val" style="font-family:'Courier New',monospace;letter-spacing:2px;font-size:15px;color:#1e3028;text-transform:uppercase;display:block">${leaveId.toUpperCase()}</span></div>
     </div>
-    <!-- BODY -->
     <div class="opc-body">
       <div class="opc-fields">
-        <div class="opc-f">
-          <div class="opc-field-inline">
-            <span class="opc-fl">DESTINATION / PLACE</span>
-            <span class="opc-fv">${r.destination||r.place||'—'}</span>
-          </div>
-        </div>
-        <div class="opc-f">
-          <div class="opc-field-inline">
-            <span class="opc-fl">REASON FOR LEAVE</span>
-            <span class="opc-fv">${r.reason||'—'}</span>
-          </div>
-        </div>
+        <div class="opc-f"><div class="opc-field-inline"><span class="opc-fl">DESTINATION / PLACE</span><span class="opc-fv">${r.destination||r.place||'—'}</span></div></div>
+        <div class="opc-f"><div class="opc-field-inline"><span class="opc-fl">REASON FOR LEAVE</span><span class="opc-fv">${r.reason||'—'}</span></div></div>
         <div class="opc-row">
-          <div class="opc-f">
-            <div class="opc-field-inline">
-              <span class="opc-fl">FROM DATE &amp; TIME</span>
-              <span class="opc-fv" style="color:#1e3028;font-weight:800">${fromDT}</span>
-            </div>
-          </div>
-          <div class="opc-f">
-            <div class="opc-field-inline">
-              <span class="opc-fl">TO DATE &amp; TIME</span>
-              <span class="opc-fv" style="color:#1e3028;font-weight:800">${toDT}</span>
-            </div>
-          </div>
+          <div class="opc-f"><div class="opc-field-inline"><span class="opc-fl">FROM DATE &amp; TIME</span><span class="opc-fv" style="color:#1e3028;font-weight:800">${fromDT}</span></div></div>
+          <div class="opc-f"><div class="opc-field-inline"><span class="opc-fl">TO DATE &amp; TIME</span><span class="opc-fv" style="color:#1e3028;font-weight:800">${toDT}</span></div></div>
         </div>
         <div class="opc-row" style="margin-top:auto;padding-top:8px">
-          <div style="flex:1;text-align:center">
-            <div style="border-bottom:1.5px solid #a0b8a8;height:24px;margin-bottom:3px"></div>
-            <div class="opc-sign-lbl">PRINCIPAL</div>
-          </div>
-          <div style="flex:1;text-align:center">
-            <div style="border-bottom:1.5px solid #a0b8a8;height:24px;margin-bottom:3px"></div>
-            <div class="opc-sign-lbl">CLASS TEACHER</div>
-          </div>
-          <div style="flex:1;text-align:center">
-            <div style="border-bottom:1.5px solid #a0b8a8;height:24px;margin-bottom:3px"></div>
-            <div class="opc-sign-lbl">PARENT</div>
-          </div>
+          <div style="flex:1;text-align:center"><div style="border-bottom:1.5px solid #a0b8a8;height:24px;margin-bottom:3px"></div><div class="opc-sign-lbl">PRINCIPAL</div></div>
+          <div style="flex:1;text-align:center"><div style="border-bottom:1.5px solid #a0b8a8;height:24px;margin-bottom:3px"></div><div class="opc-sign-lbl">CLASS TEACHER</div></div>
+          <div style="flex:1;text-align:center"><div style="border-bottom:1.5px solid #a0b8a8;height:24px;margin-bottom:3px"></div><div class="opc-sign-lbl">PARENT</div></div>
         </div>
       </div>
       <div class="opc-right">
@@ -1515,10 +1547,7 @@ function renderOutpass(r){
         <div class="opc-qr-lbl" style="font-size:7px;color:#7aaa90;margin-top:2px">${leaveId}</div>
       </div>
     </div>
-    <!-- FOOTER -->
-    <div class="opc-ft">
-      <span class="opc-ft-note">★ Keep this pass · Present on return to update leave type to Medical or Official if applicable</span>
-    </div>
+    <div class="opc-ft"><span class="opc-ft-note">★ Keep this pass · Present on return to update leave type to Medical or Official if applicable</span></div>
   </div>`;
 
   $('op-action-bar').style.display='flex';
@@ -1531,7 +1560,7 @@ function renderOutpass(r){
         new QRCode(qrEl,{
           text: leaveId!=='—' ? leaveId : (r.adno||'unknown'),
           width:76, height:76,
-          colorDark:'#1e3028',colorLight:'#fff',
+          colorDark:'#1e3028', colorLight:'#fff',
           correctLevel: QRCode.CorrectLevel.M
         });
       }catch(e){
@@ -1541,34 +1570,152 @@ function renderOutpass(r){
   },150);
 }
 
+
+/* ── EDIT LEAVE REPORTS ── */
+function lrCardHTML(r){
+  const adno = r.adno||'';
+  return `
+    <div class="req-card" id="lr-card-${r.id}">
+      <div class="req-card-header">
+        ${r.leave_id?`<span class="leave-id">${r.leave_id}</span>`:''}
+        ${statusTagHTML(r.status)}
+        <span class="tag t-grey">${cap(r.leave_type||'unofficial')}</span>
+        <span style="margin-left:auto;font-size:11px;color:var(--text-3)">${fmtDate(r.createdAt?.toDate?r.createdAt.toDate():r.createdAt)}</span>
+      </div>
+      <div class="req-card-body">
+        <div class="req-field"><div class="lbl">📍 Destination</div>
+          <input style="width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:var(--font)" id="lr-dest-${r.id}" value="${(r.destination||r.place||'').replace(/"/g,'&quot;')}"/></div>
+        <div class="req-field"><div class="lbl">📝 Reason</div>
+          <input style="width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:var(--font)" id="lr-reason-${r.id}" value="${(r.reason||'').replace(/"/g,'&quot;')}"/></div>
+        <div class="req-field"><div class="lbl">🏷 Leave Type</div>
+          <select id="lr-type-${r.id}" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:var(--font)">
+            <option value="unofficial" ${r.leave_type==='unofficial'?'selected':''}>🏠 Unofficial</option>
+            <option value="official"   ${r.leave_type==='official'  ?'selected':''}>🏛 Official</option>
+            <option value="medical"    ${r.leave_type==='medical'   ?'selected':''}>🏥 Medical</option>
+          </select></div>
+        <div class="req-field"><div class="lbl">📅 From</div>
+          <input type="datetime-local" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:var(--font)" id="lr-from-${r.id}" value="${toLocalDT(r.from_datetime)}"/></div>
+        <div class="req-field"><div class="lbl">📅 To</div>
+          <input type="datetime-local" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:var(--font)" id="lr-to-${r.id}" value="${toLocalDT(r.to_datetime)}"/></div>
+        <div class="req-field"><div class="lbl">🏁 Status</div>
+          <select id="lr-status-${r.id}" style="width:100%;border:1px solid var(--border);border-radius:6px;padding:5px 8px;font-size:11px;font-family:var(--font)">
+            <option value="pending"   ${r.status==='pending'  ?'selected':''}>⏳ Pending</option>
+            <option value="approved"  ${r.status==='approved' ?'selected':''}>On Leave</option>
+            <option value="completed" ${r.status==='completed'?'selected':''}>🏁 Completed</option>
+            <option value="rejected"  ${r.status==='rejected' ?'selected':''}>❌ Rejected</option>
+          </select></div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-gold btn-sm" onclick="saveLrEdit('${r.id}','${adno}')">💾 Save Changes</button>
+        <button class="btn btn-red btn-sm"  onclick="deleteLrLeave('${r.id}','${adno}')">🗑 Delete</button>
+      </div>
+    </div>`;
+}
+
+window.loadLeaveReports = async () => {
+  const adno = $('lr-adno-input').value.trim();
+  if(!adno){ toast('Enter an Admission Number','error'); return; }
+  const leaves = allRequests.filter(r =>
+    (r.adno===adno || r.adNo===adno)
+  ).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+  if(!leaves.length){
+    $('lr-result').innerHTML=`<div class="empty"><div class="ei">🔍</div>No leaves found for Ad No: <strong>${adno}</strong></div>`;
+    return;
+  }
+  const stu = allStudents.find(s=>s.adno===adno||s.id===adno);
+  const stuName = stu ? stu.name : adno;
+  $('lr-result').innerHTML = `
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px;font-size:12px">
+      <strong style="font-family:'Montserrat',sans-serif;color:var(--primary);font-size:14px">${stuName}</strong>
+      &nbsp;|&nbsp; Ad No: <strong>${adno}</strong>
+      ${stu?`&nbsp;|&nbsp; Class <strong>${stu.class||'—'}</strong>`:''}
+    </div>
+    ${leaves.map(r=>lrCardHTML(r)).join('')}`;
+};
+
+window.saveLrEdit = async (docId, adno) => {
+  const dest   = document.getElementById('lr-dest-'+docId).value.trim();
+  const reason = document.getElementById('lr-reason-'+docId).value.trim();
+  const type   = document.getElementById('lr-type-'+docId).value;
+  const from   = document.getElementById('lr-from-'+docId).value;
+  const to     = document.getElementById('lr-to-'+docId).value;
+  const status = document.getElementById('lr-status-'+docId).value;
+  if(!from||!to){ toast('From and To dates required','error'); return; }
+  const days = calcDays(from, to);
+  showLoader();
+  try{
+    await updateDoc(doc(db, COL_REQUESTS, docId),{
+      destination: dest, reason, leave_type: type,
+      from_datetime: from, to_datetime: to, status, days
+    });
+    // Recalculate student totals
+    if(adno){
+      const updatedRequests = allRequests.map(x => x.id===docId ? {...x, leave_type:type, from_datetime:from, to_datetime:to, status, days} : x);
+      const stuRequests = updatedRequests.filter(x =>
+        (x.adno===adno || x.adNo===adno) &&
+        (x.status==='approved' || x.status==='completed')
+      );
+      let total_official=0, total_medical=0, total_unofficial=0;
+      stuRequests.forEach(req=>{
+        const lt = +(req.leave_taken !== undefined && req.leave_taken !== null ? req.leave_taken : (req.days || calcDays(req.from_datetime, req.to_datetime)));
+        if(req.leave_type==='official')       total_official   += lt;
+        else if(req.leave_type==='medical')   total_medical    += lt;
+        else                                  total_unofficial += lt;
+      });
+      const total_leaves = total_official + total_medical + total_unofficial;
+      const stuRef = doc(db, COL_STUDENTS, adno);
+      const stuSnap = await getDoc(stuRef);
+      if(stuSnap.exists()) await updateDoc(stuRef,{total_leaves, total_official, total_medical, total_unofficial});
+    }
+    toast('Leave updated & totals recalculated ✅','success');
+    // Reload whichever search mode is active
+    setTimeout(()=>{
+      if($('lr-mode-lid').style.display!=='none') loadLeaveByLid();
+      else loadLeaveReports();
+    }, 800);
+  }catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
+  hideLoader();
+};
+
+window.deleteLrLeave = async (docId, adno) => {
+  if(!confirm('Delete this leave record?')) return;
+  showLoader();
+  try{
+    await deleteDoc(doc(db, COL_REQUESTS, docId));
+    toast('Leave record deleted','info');
+    setTimeout(()=>loadLeaveReports(), 600);
+  }catch(e){ toast('Error: '+e.message,'error'); }
+  hideLoader();
+};
+
 /* ── SETTINGS ── */
 window.saveSettings = async () => {
   showLoader();
   try{
-    await setDoc(doc(db,'settings','main'),{
-      morning_time:   $('set-morning').value,
-      afternoon_time: $('set-afternoon').value,
-      grace_minutes:  +$('set-grace').value,
+    await setDoc(doc(db, COL_SETTINGS,'main'),{
+      morning_time:    $('set-morning').value,
+      afternoon_time:  $('set-afternoon').value,
+      grace_minutes:   +$('set-grace').value,
       limit_unofficial:+$('set-unoff-limit').value,
-      limit_medical:  +$('set-med-limit').value,
-      limit_official: +$('set-off-limit').value,
+      limit_medical:   +$('set-med-limit').value,
+      limit_official:  +$('set-off-limit').value,
     });
     toast('Settings saved! ⚙️','success');
-  }catch(e){ toast('Error saving','error'); }
+  }catch(e){ toast('Error: '+e.message,'error'); }
   hideLoader();
 };
 
 (async()=>{
   try{
-    const snap=await getDoc(doc(db,'settings','main'));
+    const snap=await getDoc(doc(db, COL_SETTINGS,'main'));
     if(snap.exists()){
       const d=snap.data();
-      if(d.morning_time)    $('set-morning').value=d.morning_time;
-      if(d.afternoon_time)  $('set-afternoon').value=d.afternoon_time;
-      if(d.grace_minutes)   $('set-grace').value=d.grace_minutes;
-      if(d.limit_unofficial)$('set-unoff-limit').value=d.limit_unofficial;
-      if(d.limit_medical)   $('set-med-limit').value=d.limit_medical;
-      if(d.limit_official)  $('set-off-limit').value=d.limit_official;
+      if(d.morning_time)     $('set-morning').value=d.morning_time;
+      if(d.afternoon_time)   $('set-afternoon').value=d.afternoon_time;
+      if(d.grace_minutes)    $('set-grace').value=d.grace_minutes;
+      if(d.limit_unofficial) $('set-unoff-limit').value=d.limit_unofficial;
+      if(d.limit_medical)    $('set-med-limit').value=d.limit_medical;
+      if(d.limit_official)   $('set-off-limit').value=d.limit_official;
     }
   }catch(e){}
 })();
@@ -1589,18 +1736,29 @@ function typeToField(type){
 function calcDays(from, to){
   if(!from||!to) return 0;
   const s=new Date(from), e=new Date(to);
-  if(isNaN(s.getTime())||isNaN(e.getTime())||e<s) return 0;
+  if(isNaN(s.getTime())||isNaN(e.getTime())||e<=s) return 0;
   let tot=0;
   const cur=new Date(s); cur.setHours(0,0,0,0);
   const last=new Date(e); last.setHours(0,0,0,0);
-  const ov=(a,b,c,d)=>a<d&&b>c;
   while(cur<=last){
-    const mgf=new Date(cur); mgf.setHours(7,30,0,0);
-    const mgt=new Date(cur); mgt.setHours(7,50,0,0);
-    const agf=new Date(cur); agf.setHours(13,40,0,0);
-    const agt=new Date(cur); agt.setHours(14,10,0,0);
-    if(ov(s,e,mgf,mgt)) tot+=0.5;
-    if(ov(s,e,agf,agt)) tot+=0.5;
+    const dow=cur.getDay(); // 0=Sun,1=Mon,...,5=Fri,6=Sat
+    if(dow===5){
+      // Friday sessions: 00:00-00:20 and 19:30-19:50
+      const s1s=new Date(cur); s1s.setHours(0,0,0,0);
+      const s1e=new Date(cur); s1e.setHours(0,20,0,0);
+      const s2s=new Date(cur); s2s.setHours(19,30,0,0);
+      const s2e=new Date(cur); s2e.setHours(19,50,0,0);
+      if(s<=s1s && e>=s1e) tot+=0.5;
+      if(s<=s2s && e>=s2e) tot+=0.5;
+    } else {
+      // Normal days: Morning 07:30-07:50, Afternoon 13:40-14:10
+      const mgs=new Date(cur); mgs.setHours(7,30,0,0);
+      const mge=new Date(cur); mge.setHours(7,50,0,0);
+      const ags=new Date(cur); ags.setHours(13,40,0,0);
+      const age=new Date(cur); age.setHours(14,10,0,0);
+      if(s<=mgs && e>=mge) tot+=0.5;
+      if(s<=ags && e>=age) tot+=0.5;
+    }
     cur.setDate(cur.getDate()+1);
   }
   return tot;
@@ -1627,17 +1785,16 @@ function fmtDateFull(d){
   const dt=new Date(d); if(isNaN(dt.getTime())) return d;
   const day=String(dt.getDate()).padStart(2,'0');
   const mon=['January','February','March','April','May','June','July','August','September','October','November','December'][dt.getMonth()];
-  const h=String(dt.getHours()).padStart(2,'0');
+  const h12=dt.getHours()%12||12;
   const m=String(dt.getMinutes()).padStart(2,'0');
   const ampm=dt.getHours()>=12?'PM':'AM';
-  const h12=dt.getHours()%12||12;
   return `${day} ${mon} ${dt.getFullYear()},  ${String(h12).padStart(2,'0')}:${m} ${ampm}`;
 }
 
 function cap(s){ return s?s.charAt(0).toUpperCase()+s.slice(1):''; }
 
 function statusTagHTML(s){
-  const m={pending:'t-yellow ⏳ Pending',approved:'t-green ✅ Approved',completed:'t-grey 🏁 Completed',rejected:'t-red ❌ Rejected'};
+  const m={pending:'t-yellow ⏳ Pending',approved:'t-green On Leave',completed:'t-grey 🏁 Completed',rejected:'t-red ❌ Rejected'};
   const v=m[s]||('t-grey '+cap(s)); const [cls,...rest]=v.split(' ');
   return `<span class="tag ${cls}">${rest.join(' ')}</span>`;
 }
@@ -1647,53 +1804,60 @@ let scanStream = null;
 let scanInterval = null;
 
 window.startScanner = async () => {
-  const video = $('scanner-video');
-  const idle  = $('scanner-idle');
-  const line  = $('scanner-line');
-  const status= $('scan-status');
-  const startBtn = $('scan-start-btn');
-  const stopBtn  = $('scan-stop-btn');
+  const video=$('scanner-video'), idle=$('scanner-idle'), line=$('scanner-line');
+  const status=$('scan-status'), startBtn=$('scan-start-btn'), stopBtn=$('scan-stop-btn');
   if(!video) return;
   try {
     scanStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal:'environment' }, width:{ideal:640}, height:{ideal:480} }
+      video:{ facingMode:{ideal:'environment'}, width:{ideal:640}, height:{ideal:480} }
     });
     video.srcObject = scanStream;
     video.style.display = 'block';
-    if(idle) idle.style.display = 'none';
+    if(idle) idle.style.display='none';
     if(line) line.classList.add('active');
-    if(startBtn) startBtn.style.display = 'none';
-    if(stopBtn)  stopBtn.style.display  = '';
-    if(status)   status.textContent = '🟢 Scanning…';
-    const canvas = $('scanner-canvas');
-    const ctx = canvas.getContext('2d');
-    scanInterval = setInterval(()=>{
-      if(video.readyState === video.HAVE_ENOUGH_DATA){
-        canvas.width  = video.videoWidth;
-        canvas.height = video.videoHeight;
+    if(startBtn) startBtn.style.display='none';
+    if(stopBtn)  stopBtn.style.display='';
+    if(status)   status.textContent='🟢 Scanning…';
+    const canvas=$('scanner-canvas');
+    const ctx=canvas.getContext('2d');
+    scanInterval=setInterval(()=>{
+      if(video.readyState===video.HAVE_ENOUGH_DATA){
+        canvas.width=video.videoWidth; canvas.height=video.videoHeight;
         ctx.drawImage(video,0,0);
-        if(typeof jsQR === 'undefined') return;
-        const img = ctx.getImageData(0,0,canvas.width,canvas.height);
-        const code = jsQR(img.data, img.width, img.height, {inversionAttempts:'dontInvert'});
-        if(code && code.data){
-          if(status) status.textContent = '✅ ' + code.data;
-          $('leave-search-input').value = code.data;
+        if(typeof jsQR==='undefined') return;
+        const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+        const code=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
+        if(code&&code.data){
+          if(status) status.textContent='✅ '+code.data;
           stopScanner();
+          // Show scanned pass info
+          const scannedId = code.data.trim().toLowerCase();
+          const found = dataReady ? allRequests.find(r=>(r.leave_id||'').toLowerCase()===scannedId) : null;
+          const sri = $('scan-result-info');
+          if(sri){
+            $('sri-passid').textContent = code.data.toUpperCase();
+            if(found){
+              $('sri-name').textContent = found.name + (found.class ? ' · Class '+found.class : '');
+            } else {
+              $('sri-name').textContent = '';
+            }
+            sri.style.display='block';
+          }
+          // Populate Leave ID field and load
+          const lidInput = $('lr-lid-input');
+          if(lidInput) lidInput.value = code.data;
           if(dataReady){
-            searchLeave();
-            setTimeout(()=>{
-              const res=$('leave-search-result');
-              if(res) res.scrollIntoView({behavior:'smooth',block:'start'});
-            },400);
+            loadLeaveByLid();
+            setTimeout(()=>{ const res=$('lr-result'); if(res) res.scrollIntoView({behavior:'smooth',block:'start'}); },400);
           } else {
-            $('leave-search-result').innerHTML='<div class="empty"><div class="ei">⏳</div><strong>QR scanned! Loading data…</strong><br><span style="font-size:10px;color:var(--text-dim)">Results appear automatically once connected.</span></div>';
-            $('leave-search-result').dataset.waiting='1';
+            const res=$('lr-result');
+            if(res) res.innerHTML='<div class="empty"><div class="ei">⏳</div><strong>QR scanned! Loading data…</strong></div>';
           }
         }
       }
     },200);
   } catch(e) {
-    if(status) status.textContent = '❌ Camera access denied';
+    if(status) status.textContent='❌ Camera access denied';
   }
 };
 
@@ -1702,12 +1866,12 @@ window.stopScanner = () => {
   if(scanInterval){ clearInterval(scanInterval); scanInterval=null; }
   const video=$('scanner-video'), idle=$('scanner-idle'), line=$('scanner-line');
   if(video){ video.style.display='none'; video.srcObject=null; }
-  if(idle)  idle.style.display='flex';
-  if(line)  line.classList.remove('active');
+  if(idle) idle.style.display='flex';
+  if(line) line.classList.remove('active');
   const sb=$('scan-start-btn'), stb=$('scan-stop-btn');
-  if(sb) sb.style.display='';
-  if(stb) stb.style.display='none';
+  if(sb) sb.style.display=''; if(stb) stb.style.display='none';
   const st=$('scan-status'); if(st) st.textContent='';
+  const sri=$('scan-result-info'); if(sri) sri.style.display='none';
 };
 
 /* ── MOBILE MENU ── */
@@ -1722,14 +1886,12 @@ window.closeMobMenu = () => {
 window.mobNavTo = (page, btn) => {
   document.querySelectorAll('.bn-item').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
-  const navBtn = [...document.querySelectorAll('.nav-item')].find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+page+"'"));
-  navTo(page, navBtn || document.querySelector('.nav-item'));
-  $('mob-page-title').textContent = ({dashboard:'Dashboard',requests:'Requests',approved:'Approved',students:'Students',search:'Leave Type',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
+  const navBtn=[...document.querySelectorAll('.nav-item')].find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+page+"'"));
+  navTo(page, navBtn||document.querySelector('.nav-item'));
+  $('mob-page-title').textContent=({dashboard:'Dashboard',requests:'Requests',approved:'Approved',students:'Students',leavereports:'Edit Leave Reports',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
   closeMobMenu();
 };
-// Keep badge in sync
 setInterval(()=>{ const b=$('bn-badge'), rb=$('req-badge'); if(b&&rb) b.textContent=rb.textContent; },500);
-
 </script>
 </body>
 </html>
