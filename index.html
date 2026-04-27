@@ -253,11 +253,27 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
 .scanner-line.active{display:block}
 .scanner-idle{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0F172A}
 
+/* ══ APPLY LEAVE PANEL ══ */
+.apply-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.apply-card h3{font-family:'Montserrat',sans-serif;font-size:13.5px;font-weight:800;color:var(--text);margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+
+/* Student info preview chip after Ad No lookup */
+.stu-preview{display:none;align-items:center;gap:10px;background:var(--primary-light);border:1.5px solid var(--blue-border);border-radius:var(--radius-sm);padding:10px 14px;margin-top:8px;animation:fadeUp .2s ease}
+.stu-preview.show{display:flex}
+.stu-preview-avatar{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--accent));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#fff;flex-shrink:0;font-family:'Montserrat',sans-serif}
+.stu-preview-name{font-size:13px;font-weight:700;color:var(--primary);font-family:'Montserrat',sans-serif}
+.stu-preview-meta{font-size:8px;color:var(--text-3);margin-top:1px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+
+/* Duration box */
+.dur-box{background:linear-gradient(135deg,var(--primary-light),#EEF4FF);border:1.5px solid var(--blue-border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:14px;display:flex;align-items:center;gap:14px}
+.dur-val{font-family:'Montserrat',sans-serif;font-size:28px;font-weight:800;color:var(--primary);letter-spacing:-1px;white-space:nowrap}
+.dur-lbl{font-size:11px;color:var(--text-3);line-height:1.7;font-weight:500}
+
 /* ══ MOBILE ══ */
-.mob-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:200;background:var(--surface);border-bottom:1px solid var(--border);padding:11px 16px;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
+.mob-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:300;background:var(--surface);border-bottom:1px solid var(--border);padding:11px 16px;align-items:center;gap:12px;box-shadow:var(--shadow-sm)}
 .mob-topbar h1{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;color:var(--text);flex:1;letter-spacing:-.2px}
 .mob-menu-btn{background:none;border:none;cursor:pointer;font-size:22px;padding:2px 6px;color:var(--primary)}
-.mob-overlay{display:none;position:fixed;inset:0;z-index:149;background:rgba(15,23,42,0.4);backdrop-filter:blur(3px)}
+.mob-overlay{display:none;position:fixed;top:54px;left:0;right:0;bottom:0;z-index:149;background:rgba(15,23,42,0.4);backdrop-filter:blur(3px)}
 .mob-overlay.show{display:block}
 
 .bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--surface);border-top:1px solid var(--border);padding:6px 0 max(6px,env(safe-area-inset-bottom));box-shadow:0 -4px 16px rgba(0,0,0,0.08)}
@@ -269,7 +285,7 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
 
 @media(max-width:768px){
   :root{--sidebar:0px}
-  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);width:260px;z-index:160}
+  .sidebar{transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);width:260px;z-index:160;top:54px}
   .sidebar.mob-open{transform:translateX(0)}
   .main-wrap{margin-left:0;padding-top:54px}
   .topbar{display:none}
@@ -323,9 +339,10 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
     <button class="nav-item" onclick="navTo('requests',this)"><span class="ni">📥</span>Requests<span class="nav-badge" id="req-badge">0</span></button>
     <button class="nav-item" onclick="navTo('approved',this)"><span class="ni">✅</span>On Leave</button>
     <div class="sb-section">Management</div>
-    <button class="nav-item" onclick="navTo('students',this)"><span class="ni">🧑‍🎓</span>Students</button>
-    <button class="nav-item" onclick="navTo('leavereports',this)"><span class="ni">📝</span>Edit Leave Reports</button>
+    <button class="nav-item" onclick="navTo('applyleave',this)"><span class="ni">📝</span>Apply Leave</button>
+    <button class="nav-item" onclick="navTo('leavereports',this)"><span class="ni">✏️</span>Edit Leave</button>
     <div class="sb-section">Reports</div>
+    <button class="nav-item" onclick="navTo('students',this)"><span class="ni">🧑‍🎓</span>Students</button>
     <button class="nav-item" onclick="navTo('reports',this)"><span class="ni">📄</span>Reports</button>
     <button class="nav-item" onclick="navTo('outpass',this)"><span class="ni">🖨️</span>Outpass Print</button>
     <button class="nav-item" onclick="navTo('settings',this)"><span class="ni">⚙️</span>Settings</button>
@@ -358,6 +375,13 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
         <div class="stat-card s-green"><span class="sv" id="ds-approved">0</span><div class="sl">On Leave Now</div></div>
         <div class="stat-card s-red"><span class="sv" id="ds-unofficial">0</span><div class="sl">Total Unofficial</div></div>
       </div>
+
+      <!-- Dashboard search bar -->
+      <div class="search-wrap" style="margin-bottom:20px">
+        <span class="si">🔍</span>
+        <input type="text" id="dash-search" placeholder="Search all requests by name, Ad No, Leave ID..." oninput="renderDashboardCards()"/>
+      </div>
+
       <div class="sec-title">📥 Recent Pending Requests</div>
       <div id="dash-pending-list"><div class="empty"><div class="ei">⏳</div>Loading...</div></div>
       <div class="sec-title" style="margin-top:20px">✅ Currently Approved (On Leave)</div>
@@ -366,6 +390,11 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
 
     <!-- ═══ REQUESTS ═══ -->
     <div class="panel" id="panel-requests">
+      <!-- Search bar for requests -->
+      <div class="search-wrap" style="margin-bottom:12px">
+        <span class="si">🔍</span>
+        <input type="text" id="req-search" placeholder="Search requests by name, Ad No, Leave ID, class..." oninput="renderRequestList()"/>
+      </div>
       <div class="chips">
         <button class="chip-filter on" onclick="filterReqs('pending',this)">⏳ Pending</button>
         <button class="chip-filter" onclick="filterReqs('all',this)">📋 All</button>
@@ -374,8 +403,13 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
       <div id="req-list"><div class="empty"><div class="ei">⏳</div>Loading...</div></div>
     </div>
 
-    <!-- ═══ APPROVED ═══ -->
+    <!-- ═══ APPROVED / ON LEAVE ═══ -->
     <div class="panel" id="panel-approved">
+      <!-- Search bar for on-leave -->
+      <div class="search-wrap" style="margin-bottom:16px">
+        <span class="si">🔍</span>
+        <input type="text" id="approved-search" placeholder="Search by name, Ad No, Leave ID, class..." oninput="renderApprovedPanel()"/>
+      </div>
       <div id="approved-list"><div class="empty"><div class="ei">⏳</div>Loading...</div></div>
     </div>
 
@@ -407,9 +441,90 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
       </div>
     </div>
 
+    <!-- ═══ APPLY LEAVE (Admin) ═══ -->
+    <div class="panel" id="panel-applyleave">
+      <div class="sec-title">📝 Apply Leave on Behalf of Student</div>
+
+      <div class="apply-card">
+        <h3>🔍 Student Lookup</h3>
+        <div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap">
+          <div class="field" style="flex:1;margin-bottom:0">
+            <label>Admission Number</label>
+            <input type="text" id="al-adno" placeholder="Enter Ad No to look up student..." oninput="alLookup()" onkeydown="if(event.key==='Enter')alLookup()"/>
+          </div>
+        </div>
+        <!-- Auto-displayed student info -->
+        <div class="stu-preview" id="al-stu-preview">
+          <div class="stu-preview-avatar" id="al-stu-avatar">?</div>
+          <div>
+            <div class="stu-preview-name" id="al-stu-name">—</div>
+            <div class="stu-preview-meta" id="al-stu-meta">—</div>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag t-blue" id="al-stu-unoff-tag"></span>
+            <span class="tag t-green" id="al-stu-offic-tag"></span>
+          </div>
+        </div>
+        <!-- Not found message -->
+        <div id="al-stu-notfound" style="display:none;margin-top:8px;font-size:11px;color:var(--red);font-weight:600;padding:8px 12px;background:var(--red-bg);border-radius:6px;border:1px solid var(--red-border)">
+          ❌ No student found for this admission number.
+        </div>
+      </div>
+
+      <div class="apply-card" id="al-form-card" style="display:none">
+        <h3>📋 Leave Application Details</h3>
+
+        <div class="form-row">
+          <div class="field">
+            <label>Place / Destination</label>
+            <input type="text" id="al-place" placeholder="Where is the student going?"/>
+          </div>
+          <div class="field">
+            <label>Leave Type</label>
+            <select id="al-type">
+              <option value="unofficial">🏠 Unofficial</option>
+              <option value="official">🏛 Official</option>
+              <option value="medical">🏥 Medical</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Reason</label>
+          <textarea id="al-reason" placeholder="Describe the reason for leave..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label>From Date &amp; Time</label>
+            <input type="datetime-local" id="al-from" onchange="alUpdateDays()"/>
+          </div>
+          <div class="field">
+            <label>To Date &amp; Time</label>
+            <input type="datetime-local" id="al-to" onchange="alUpdateDays()"/>
+          </div>
+        </div>
+
+        <div class="dur-box" id="al-dur-box" style="display:none">
+          <div class="dur-val" id="al-dur-val">—</div>
+          <div class="dur-lbl">Calculated leave duration<br><span style="font-size:10px;color:var(--text-4)">Based on session schedule (half-day system)</span></div>
+        </div>
+
+        <!-- Unofficial limit warning -->
+        <div id="al-warn-box" style="display:none;margin-bottom:14px;padding:10px 14px;background:var(--yellow-bg);border:1.5px solid var(--yellow-border);border-radius:var(--radius-sm);font-size:12px;font-weight:600;color:var(--yellow)">
+          ⚠️ <span id="al-warn-msg"></span>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-gold" id="al-submit-btn" onclick="alSubmit()">✅ Submit Leave Application</button>
+          <button class="btn btn-outline" onclick="alReset()">🔄 Reset Form</button>
+        </div>
+      </div>
+    </div>
+
     <!-- ═══ EDIT LEAVE REPORTS ═══ -->
     <div class="panel" id="panel-leavereports">
-      <div class="sec-title">📝 Edit Leave Reports</div>
+      <div class="sec-title">✏️ Edit Leave Reports</div>
       <div class="chips" style="margin-bottom:16px">
         <button class="chip-filter on" id="lr-tab-adno" onclick="lrTab('adno',this)">🔢 Ad Number</button>
         <button class="chip-filter" id="lr-tab-lid"  onclick="lrTab('lid',this)">🏷 Leave ID</button>
@@ -598,11 +713,11 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
 <!-- ══ BOTTOM NAV ══ -->
 <nav class="bottom-nav">
   <div class="bottom-nav-inner">
-    <button class="bn-item active" id="bn-dashboard" onclick="mobNavTo('dashboard',this)"><span class="bni">📊</span>Home</button>
-    <button class="bn-item" id="bn-requests" onclick="mobNavTo('requests',this)"><span class="bni">📥</span><span class="bn-badge" id="bn-badge">0</span></button>
-    <button class="bn-item" id="bn-leavereports" onclick="mobNavTo('leavereports',this)"><span class="bni">📝</span>Edit</button>
+    <button class="bn-item active" id="bn-dashboard" onclick="mobNavTo('dashboard',this)"><span class="bni">🏠</span>Home</button>
+    <button class="bn-item" id="bn-requests" onclick="mobNavTo('requests',this)"><span class="bni">📥</span>Request<span class="bn-badge" id="bn-badge">0</span></button>
+    <button class="bn-item" id="bn-approved" onclick="mobNavTo('approved',this)"><span class="bni">✅</span>On Leave</button>
     <button class="bn-item" id="bn-outpass" onclick="mobNavTo('outpass',this)"><span class="bni">🖨️</span>Print</button>
-    <button class="bn-item" id="bn-more" onclick="toggleMobMenu()"><span class="bni">☰</span>More</button>
+    <button class="bn-item" id="bn-more" onclick="toggleMobMenu()"><span class="bni">☰</span>Menu</button>
   </div>
 </nav>
 
@@ -610,7 +725,7 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
 <div class="modal-bg" id="modal-approve">
   <div class="modal">
     <h3>✅ Approve Leave Request</h3>
-    <div id="approve-student-info" style="background:var(--dark3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px"></div>
+    <div id="approve-student-info" style="background:var(--bg2);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px"></div>
     <div class="form-row">
       <div class="field"><label>From Date & Time</label><input type="datetime-local" id="ap-from"/></div>
       <div class="field"><label>To Date & Time</label><input type="datetime-local" id="ap-to"/></div>
@@ -634,8 +749,8 @@ tbody td{padding:12px 16px;color:var(--text-2);vertical-align:middle;font-weight
 <div class="modal-bg" id="modal-complete">
   <div class="modal">
     <h3>🏁 Leave Completed</h3>
-    <div id="complete-student-info" style="background:var(--dark3);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px"></div>
-    <p style="font-size:12px;color:var(--text-dim);margin-bottom:14px">Select when the student returned:</p>
+    <div id="complete-student-info" style="background:var(--bg2);border-radius:8px;padding:12px;margin-bottom:16px;font-size:12px"></div>
+    <p style="font-size:12px;color:var(--text-3);margin-bottom:14px">Select when the student returned:</p>
     <div class="btn-row" style="flex-direction:column;gap:8px">
       <button class="btn btn-blue"    onclick="completeWithOption('now')">🕐 Reached Now</button>
       <button class="btn btn-green"   onclick="completeWithOption('first')">📚 Reached First Period (7:29 AM)</button>
@@ -677,10 +792,6 @@ import {
   serverTimestamp, increment
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// ══════════════════════════════════════════════════
-//  FIREBASE — leave-reports project
-//  Same DB used by the Student Upload page
-// ══════════════════════════════════════════════════
 const app = initializeApp({
   apiKey:            "AIzaSyACe-Wd7Lw18UqEJVFeFrM-Jw6Ml2Xbcws",
   authDomain:        "leave-reports.firebaseapp.com",
@@ -692,10 +803,8 @@ const app = initializeApp({
 });
 const db = getFirestore(app);
 
-// ── COLLECTION NAMES ─────────────────────────────
-// Change these to match your actual Firestore collection names
 const COL_STUDENTS = 'students';
-const COL_REQUESTS = 'leaveRequests';   // ← update if your collection has a different name
+const COL_REQUESTS = 'leaveRequests';
 const COL_SETTINGS = 'settings';
 
 let allStudents = [];
@@ -703,6 +812,10 @@ let allRequests = [];
 let reqFilter   = 'pending';
 let opSelectedIds = new Set();
 let opPreviewRec  = null;
+
+// Apply Leave state
+let alStudent = null;
+let alLookupTimer = null;
 
 const $ = id => document.getElementById(id);
 const showLoader = () => $('loader').classList.add('show');
@@ -730,19 +843,15 @@ window.navTo = (page,btn) => {
   if(btn) btn.classList.add('active');
   $('panel-'+page).classList.add('active');
   const titles={
-    dashboard:'Dashboard',requests:'Leave Requests',approved:'Approved Leaves',
-    students:'Students',leavereports:'Edit Leave Reports',reports:'Reports',
-    outpass:'Outpass Print',settings:'Settings'
+    dashboard:'Dashboard',requests:'Leave Requests',approved:'On Leave',
+    students:'Students',applyleave:'Apply Leave',leavereports:'Edit Leave Reports',
+    reports:'Reports',outpass:'Outpass Print',settings:'Settings'
   };
   $('page-title').textContent = titles[page]||page;
   if(page==='students') renderStudents();
   if(page==='reports')  populateClassFilter();
   if(page==='outpass')  renderOpList();
-  if(page==='leavereports'){
-    // stop scanner if switching away from scan tab
-  } else {
-    stopScanner();
-  }
+  if(page!=='leavereports') stopScanner();
 };
 
 /* ── NORMALIZE REQUEST ── */
@@ -769,7 +878,6 @@ function normalizeRequest(d){
 
 /* ── REAL-TIME LISTENERS ── */
 function startListeners(){
-  // Students
   onSnapshot(collection(db, COL_STUDENTS), snap=>{
     allStudents = snap.docs.map(d=>({id:d.id,...d.data()}));
     $('ds-total').textContent = allStudents.length;
@@ -777,7 +885,6 @@ function startListeners(){
     populateClassFilter();
   });
 
-  // Leave Requests
   onSnapshot(collection(db, COL_REQUESTS), snap=>{
     allRequests = snap.docs.map(normalizeRequest);
     dataReady = true;
@@ -793,12 +900,6 @@ function startListeners(){
     renderApprovedPanel();
     renderDashboardCards();
     if(document.getElementById('panel-outpass').classList.contains('active')) renderOpList();
-    // Auto-search if QR was scanned before data loaded
-    const res=$('leave-search-result');
-    if(res && res.dataset.waiting==='1'){
-      res.removeAttribute('data-waiting');
-      searchLeave();
-    }
   });
 }
 startListeners();
@@ -815,13 +916,25 @@ function getStudentLeaveTotals(adNo){
   };
 }
 
+/* ── SEARCH HELPER ── */
+function matchesSearch(r, q) {
+  if (!q) return true;
+  const s = q.toLowerCase();
+  return (r.name||'').toLowerCase().includes(s) ||
+    (r.adno||'').toLowerCase().includes(s) ||
+    (r.leave_id||'').toLowerCase().includes(s) ||
+    (r.class||'').toLowerCase().includes(s) ||
+    (r.destination||'').toLowerCase().includes(s);
+}
+
 /* ── DASHBOARD ── */
 function renderDashboardCards(){
-  const pending = allRequests.filter(r=>r.status==='pending').slice(0,5);
+  const q = ($('dash-search')||{}).value||'';
+  const pending = allRequests.filter(r=>r.status==='pending' && matchesSearch(r, q)).slice(0,5);
   $('dash-pending-list').innerHTML = pending.length
     ? pending.map(r=>reqCardHTML(r)).join('')
     : '<div class="empty"><div class="ei">✅</div>No pending requests</div>';
-  const approved = allRequests.filter(r=>r.status==='approved').slice(0,5);
+  const approved = allRequests.filter(r=>r.status==='approved' && matchesSearch(r, q)).slice(0,5);
   $('dash-approved-list').innerHTML = approved.length
     ? approved.map(r=>approvedCardHTML(r)).join('')
     : '<div class="empty"><div class="ei">✅</div>No one currently on leave</div>';
@@ -830,19 +943,21 @@ function renderDashboardCards(){
 /* ── REQUESTS ── */
 window.filterReqs = (f,btn) => {
   reqFilter=f;
-  document.querySelectorAll('.chip-filter').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('#panel-requests .chip-filter').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   renderRequestList();
 };
 
 function renderRequestList(){
+  const q = ($('req-search')||{}).value||'';
   let list = allRequests;
   if(reqFilter==='pending')  list=list.filter(r=>r.status==='pending');
   if(reqFilter==='rejected') list=list.filter(r=>r.status==='rejected');
+  list = list.filter(r=>matchesSearch(r, q));
   list = list.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
   $('req-list').innerHTML = list.length
     ? list.map(r=>reqCardHTML(r)).join('')
-    : '<div class="empty"><div class="ei">📭</div>No requests found</div>';
+    : `<div class="empty"><div class="ei">📭</div>${q?'No results for "'+q+'"':'No requests found'}</div>`;
 }
 
 function reqCardHTML(r){
@@ -850,7 +965,7 @@ function reqCardHTML(r){
   const typeIcon = r.leave_type==='medical'?'🏥':r.leave_type==='official'?'🏛':'🏠';
   return `<div class="req-card">
     <div class="req-card-header">
-      <strong style="font-family:'Montserrat',sans-serif;color:var(--gold);font-size:13px">${r.name||'—'}</strong>
+      <strong style="font-family:'Montserrat',sans-serif;color:var(--primary);font-size:13px">${r.name||'—'}</strong>
       <span class="tag t-grey">Ad No: ${r.adno||'—'}</span>
       <span class="tag t-grey">Class ${r.class||'—'}</span>
       ${stTag}
@@ -876,23 +991,24 @@ function reqCardHTML(r){
 
 /* ── APPROVED PANEL ── */
 function renderApprovedPanel(){
-  const list = allRequests.filter(r=>r.status==='approved')
+  const q = ($('approved-search')||{}).value||'';
+  const list = allRequests.filter(r=>r.status==='approved' && matchesSearch(r, q))
     .sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
   $('approved-list').innerHTML = list.length
     ? list.map(r=>approvedCardHTML(r)).join('')
-    : '<div class="empty"><div class="ei">✅</div>No approved leaves</div>';
+    : `<div class="empty"><div class="ei">✅</div>${q?'No results for "'+q+'"':'No approved leaves'}</div>`;
 }
 
 function approvedCardHTML(r){
   const days = calcDays(r.from_datetime, r.to_datetime);
-  return `<div class="req-card" style="border-color:rgba(39,174,96,0.25)">
+  return `<div class="req-card" style="border-color:rgba(5,150,105,0.25)">
     <div class="req-card-header">
-      <strong style="font-family:'Montserrat',sans-serif;color:var(--gold)">${r.name||'—'}</strong>
+      <strong style="font-family:'Montserrat',sans-serif;color:var(--primary)">${r.name||'—'}</strong>
       <span class="tag t-grey">Ad ${r.adno||'—'}</span>
       <span class="tag t-grey">Class ${r.class||'—'}</span>
       <span class="tag t-green">On Leave</span>
       ${r.leave_id?`<span class="leave-id">${r.leave_id}</span>`:''}
-      <span style="margin-left:auto;font-size:11px;color:var(--gold)">⏱ ${days} day${days!==1?'s':''}</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--text-3)">⏱ ${days} day${days!==1?'s':''}</span>
     </div>
     <div class="req-card-body">
       <div class="req-field"><div class="lbl">📍 Destination</div><div class="val">${r.destination||'—'}</div></div>
@@ -913,8 +1029,8 @@ window.openApprove = (docId) => {
   $('ap-to').value     = toLocalDT(r.to_datetime);
   $('ap-leave-type').value = r.leave_type||'unofficial';
   $('approve-student-info').innerHTML = `
-    <strong style="color:var(--gold)">${r.name}</strong> &nbsp;|&nbsp; Ad No: ${r.adno} &nbsp;|&nbsp; Class ${r.class}<br/>
-    <span style="color:var(--text-dim);margin-top:4px;display:block">📍 ${r.destination||'—'}</span>`;
+    <strong style="color:var(--primary)">${r.name}</strong> &nbsp;|&nbsp; Ad No: ${r.adno} &nbsp;|&nbsp; Class ${r.class}<br/>
+    <span style="color:var(--text-3);margin-top:4px;display:block">📍 ${r.destination||'—'}</span>`;
   $('modal-approve').classList.add('show');
 };
 
@@ -936,7 +1052,6 @@ window.confirmApprove = async () => {
     });
     if(r?.adno){
       const field = typeToField(type);
-      // Update student leave count (using increment for safety)
       const stuRef = doc(db, COL_STUDENTS, r.adno);
       const stuSnap = await getDoc(stuRef);
       if(stuSnap.exists()){
@@ -968,7 +1083,6 @@ window.rejectReq = async (docId) => {
 /* ── COMPLETE ── */
 window.completeLeave = (docId, btn) => {
   const r = allRequests.find(x=>x.id===docId); if(!r) return;
-  // Immediately update button appearance
   if(btn){
     btn.textContent='✅ Completed';
     btn.disabled=true;
@@ -977,8 +1091,8 @@ window.completeLeave = (docId, btn) => {
   }
   $('complete-doc-id').value = docId;
   $('complete-student-info').innerHTML = `
-    <strong style="color:var(--gold)">${r.name}</strong> &nbsp;|&nbsp; Ad No: ${r.adno} &nbsp;|&nbsp; Class ${r.class}<br/>
-    <span style="color:var(--text-dim);margin-top:4px;display:block">📍 ${r.destination||'—'}</span>`;
+    <strong style="color:var(--primary)">${r.name}</strong> &nbsp;|&nbsp; Ad No: ${r.adno} &nbsp;|&nbsp; Class ${r.class}<br/>
+    <span style="color:var(--text-3);margin-top:4px;display:block">📍 ${r.destination||'—'}</span>`;
   $('modal-complete').classList.add('show');
 };
 
@@ -993,33 +1107,22 @@ window.completeWithOption = async (option) => {
     case 'seventh': reached = `${today}T13:39`; break;
     case 'ontime':  reached = r.to_datetime; break;
   }
-
-  // Calculate leave_taken using session-based half-day system
   const leave_taken = calcDays(r.from_datetime, reached || r.to_datetime);
-
   showLoader();
   try{
     await updateDoc(doc(db, COL_REQUESTS, docId),{
-      status:'completed',
-      reached_datetime: reached,
-      leave_taken: leave_taken
+      status:'completed', reached_datetime: reached, leave_taken: leave_taken
     });
-
-    // Update student totals based on adno and leave_type
     if(r.adno){
-      // Collect all requests for this student (approved/completed), including this one
       const stuRequests = allRequests.filter(x =>
         (x.adno===r.adno || x.adNo===r.adno) &&
         (x.status==='approved' || x.status==='completed' || x.id===docId)
       );
       let total_official=0, total_medical=0, total_unofficial=0;
       stuRequests.forEach(req=>{
-        // Use leave_taken if completed, else calcDays from from/to
-        const lt = req.id===docId
-          ? leave_taken
-          : (req.leave_taken !== undefined && req.leave_taken !== null
-              ? +req.leave_taken
-              : +(req.days || calcDays(req.from_datetime, req.to_datetime)));
+        const lt = req.id===docId ? leave_taken
+          : (req.leave_taken !== undefined && req.leave_taken !== null ? +req.leave_taken
+            : +(req.days || calcDays(req.from_datetime, req.to_datetime)));
         if(req.leave_type==='official')       total_official   += lt;
         else if(req.leave_type==='medical')   total_medical    += lt;
         else                                  total_unofficial += lt;
@@ -1028,31 +1131,152 @@ window.completeWithOption = async (option) => {
       const stuRef = doc(db, COL_STUDENTS, r.adno);
       const stuSnap = await getDoc(stuRef);
       if(stuSnap.exists()){
-        await updateDoc(stuRef,{
-          total_leaves, total_official, total_medical, total_unofficial
-        });
+        await updateDoc(stuRef,{total_leaves, total_official, total_medical, total_unofficial});
       }
     }
-
     closeModal('modal-complete');
     toast(`Leave completed! leave_taken: ${leave_taken} day(s) 🏁`,'success');
   }catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
   hideLoader();
 };
 
-/* ── EXTEND ── */
-window.openExtend = (docId) => {
-  const r = allRequests.find(x=>x.id===docId); if(!r) return;
-  const newTo = prompt(`Extend leave for ${r.name}\nCurrent To: ${r.to_datetime}\nNew To (YYYY-MM-DDTHH:MM):`);
-  if(!newTo) return;
-  const newDate = new Date(newTo);
-  if(isNaN(newDate.getTime())){ toast('Invalid datetime','error'); return; }
-  if(newDate <= new Date(r.from_datetime)){ toast('Extended To must be after From','error'); return; }
+/* ══════════════════════════════════
+   APPLY LEAVE (Admin)
+══════════════════════════════════ */
+
+// Debounced lookup as admin types Ad No
+window.alLookup = () => {
+  clearTimeout(alLookupTimer);
+  alLookupTimer = setTimeout(()=>{
+    const adno = ($('al-adno').value||'').trim();
+    const notfound = $('al-stu-notfound');
+    const preview = $('al-stu-preview');
+    const formCard = $('al-form-card');
+
+    if(!adno){
+      preview.classList.remove('show');
+      notfound.style.display='none';
+      formCard.style.display='none';
+      alStudent = null;
+      return;
+    }
+
+    const stu = allStudents.find(s=>s.adno===adno||s.id===adno);
+    if(!stu){
+      preview.classList.remove('show');
+      notfound.style.display='block';
+      formCard.style.display='none';
+      alStudent = null;
+      return;
+    }
+
+    alStudent = stu;
+    notfound.style.display='none';
+
+    // Show preview chip
+    const initials = (stu.name||'?').charAt(0).toUpperCase();
+    $('al-stu-avatar').textContent = initials;
+    $('al-stu-name').textContent = stu.name||'—';
+    $('al-stu-meta').textContent = `Ad No: ${stu.adno||stu.id}  ·  Class ${stu.class||'—'}`;
+
+    const unoff = +(stu.total_unofficial||0);
+    const offic = +(stu.total_official||0);
+    $('al-stu-unoff-tag').textContent = `Unofficial: ${unoff}`;
+    $('al-stu-offic-tag').textContent = `Official: ${offic}`;
+
+    // Warn if near/at limit
+    const warn = $('al-warn-box');
+    const warnMsg = $('al-warn-msg');
+    if(unoff >= 10){
+      warn.style.display='block';
+      warnMsg.textContent = `This student has ${unoff} unofficial leaves and is at/over the 10-day limit.`;
+    } else if(unoff >= 7){
+      warn.style.display='block';
+      warnMsg.textContent = `This student has ${unoff} unofficial leaves — approaching the 10-day limit.`;
+    } else {
+      warn.style.display='none';
+    }
+
+    preview.classList.add('show');
+    formCard.style.display='block';
+  }, 350);
+};
+
+window.alUpdateDays = () => {
+  const f = ($('al-from')||{}).value, t = ($('al-to')||{}).value;
+  const durBox = $('al-dur-box');
+  const durVal = $('al-dur-val');
+  if(f && t && new Date(t) >= new Date(f)){
+    const d = calcDays(f, t);
+    durVal.textContent = d + ' day' + (d!==1?'s':'');
+    durBox.style.display = 'flex';
+  } else {
+    durVal.textContent = '—';
+    durBox.style.display = 'none';
+  }
+};
+
+window.alSubmit = async () => {
+  if(!alStudent){ toast('Look up a student first','error'); return; }
+  const place  = ($('al-place').value||'').trim();
+  const reason = ($('al-reason').value||'').trim();
+  const type   = $('al-type').value;
+  const from   = ($('al-from').value||'').trim();
+  const to     = ($('al-to').value||'').trim();
+  if(!place)  { toast('Enter destination/place','error'); return; }
+  if(!reason) { toast('Enter reason for leave','error'); return; }
+  if(!from)   { toast('Select From date & time','error'); return; }
+  if(!to)     { toast('Select To date & time','error'); return; }
+  if(new Date(to) < new Date(from)){ toast('To cannot be before From','error'); return; }
+
+  const days = calcDays(from, to);
+
   showLoader();
-  updateDoc(doc(db, COL_REQUESTS, docId),{to_datetime:newTo})
-    .then(()=>toast('Leave extended! 🔁','success'))
-    .catch(e=>toast('Error: '+e.message,'error'))
-    .finally(hideLoader);
+  try{
+    const leaveId = await generateLeaveId();
+    await setDoc(doc(db, COL_REQUESTS, leaveId), {
+      adno:    alStudent.adno || alStudent.id,
+      name:    alStudent.name,
+      class:   alStudent.class,
+      leave_type: type,
+      destination: place,
+      reason,
+      from_datetime: from,
+      to_datetime:   to,
+      days,
+      leave_id: leaveId,
+      status:  'approved',
+      createdAt: serverTimestamp(),
+      addedByAdmin: true,
+    });
+
+    // Update student totals
+    const field = typeToField(type);
+    const stuRef = doc(db, COL_STUDENTS, alStudent.adno || alStudent.id);
+    const stuSnap = await getDoc(stuRef);
+    if(stuSnap.exists()){
+      await updateDoc(stuRef, { [field]: increment(days) });
+    }
+
+    toast(`Leave applied for ${alStudent.name}! ID: ${leaveId} ✅`, 'success');
+    alReset();
+  } catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
+  hideLoader();
+};
+
+window.alReset = () => {
+  $('al-adno').value='';
+  $('al-place').value='';
+  $('al-reason').value='';
+  $('al-type').value='unofficial';
+  $('al-from').value='';
+  $('al-to').value='';
+  $('al-stu-preview').classList.remove('show');
+  $('al-stu-notfound').style.display='none';
+  $('al-form-card').style.display='none';
+  $('al-dur-box').style.display='none';
+  $('al-warn-box').style.display='none';
+  alStudent = null;
 };
 
 /* ── STUDENTS ── */
@@ -1067,20 +1291,19 @@ window.renderStudents = () => {
 
   $('students-body').innerHTML = list.length
     ? list.map((s,i)=>{
-        // Read directly from student collection fields
         const official   = +(s.total_official   || 0);
         const medical    = +(s.total_medical    || 0);
         const unofficial = +(s.total_unofficial || 0);
         const total      = +(s.total_leaves     || (official + medical + unofficial));
         return `<tr>
-          <td style="color:var(--text-dim)">${i+1}</td>
-          <td><strong style="color:var(--gold)">${s.adno||s.id}</strong></td>
+          <td style="color:var(--text-3)">${i+1}</td>
+          <td><strong style="color:var(--primary)">${s.adno||s.id}</strong></td>
           <td>${s.name||'—'}</td>
           <td><span class="tag t-grey">Class ${s.class||'—'}</span></td>
           <td><span style="color:var(--blue)">${official}</span></td>
           <td><span style="color:var(--green)">${medical}</span></td>
           <td><span style="color:${unofficial>=10?'var(--red)':'var(--yellow)'}">${unofficial}</span></td>
-          <td><strong style="color:var(--gold)">${total}</strong></td>
+          <td><strong style="color:var(--primary)">${total}</strong></td>
           <td>
             <div class="btn-row">
               <button class="btn btn-outline btn-sm" onclick="editStudent('${s.id}')">✏️</button>
@@ -1098,7 +1321,6 @@ window.openAddStudent = () => {
   $('ms-adno').disabled=false;
   $('modal-student').classList.add('show');
 };
-
 window.editStudent = (id) => {
   const s=allStudents.find(x=>x.id===id); if(!s) return;
   $('ms-edit-id').value=id; $('ms-adno').value=s.adno||id; $('ms-name').value=s.name||''; $('ms-class').value=s.class||'';
@@ -1106,7 +1328,6 @@ window.editStudent = (id) => {
   $('ms-adno').disabled=true;
   $('modal-student').classList.add('show');
 };
-
 window.saveStudent = async () => {
   const editId=$('ms-edit-id').value, adno=$('ms-adno').value.trim();
   const name=$('ms-name').value.trim(), cls=$('ms-class').value.trim();
@@ -1127,7 +1348,6 @@ window.saveStudent = async () => {
   }catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
   hideLoader();
 };
-
 window.deleteStudent = async (id) => {
   if(!confirm('Delete this student record?')) return;
   showLoader();
@@ -1136,23 +1356,18 @@ window.deleteStudent = async (id) => {
   hideLoader();
 };
 
-/* ── EDIT LEAVE REPORTS — TAB SWITCHER ── */
+/* ── EDIT LEAVE REPORTS ── */
 window.lrTab = (mode, btn) => {
   document.querySelectorAll('#panel-leavereports .chip-filter').forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   $('lr-mode-adno').style.display = mode==='adno' ? '' : 'none';
   $('lr-mode-lid').style.display  = mode==='lid'  ? '' : 'none';
   $('lr-mode-scan').style.display = mode==='scan' ? '' : 'none';
-  if(mode==='scan'){
-    stopScanner();
-    setTimeout(()=>startScanner(), 250);
-  } else {
-    stopScanner();
-  }
+  if(mode==='scan'){ stopScanner(); setTimeout(()=>startScanner(), 250); }
+  else stopScanner();
   $('lr-result').innerHTML='';
 };
 
-/* ── EDIT LEAVE REPORTS — LOAD BY LEAVE ID ── */
 window.loadLeaveByLid = () => {
   const lid = ($('lr-lid-input').value||'').trim().toLowerCase();
   if(!lid){ toast('Enter a Leave ID','error'); return; }
@@ -1188,8 +1403,8 @@ window.generateReport = () => {
   let html='';
   classes.forEach(c=>{
     const stus=list.filter(s=>s.class===c).sort((a,b)=>+(a.adno||a.id||0)-+(b.adno||b.id||0));
-    html+=`<div style="page-break-after:always;margin-bottom:30px;background:var(--dark2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
-      <div style="background:linear-gradient(135deg,#0D47A1,#1565C0);padding:16px 20px;border-bottom:1px solid var(--border)">
+    html+=`<div style="page-break-after:always;margin-bottom:30px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden">
+      <div style="background:linear-gradient(135deg,var(--primary),var(--primary-dark));padding:16px 20px;border-bottom:1px solid var(--border)">
         <div style="font-family:'Montserrat',sans-serif;font-size:14px;color:#fff">Malik Deenar Islamic Academy</div>
         <div style="font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px">Class ${c} — Leave Report · ${new Date().toLocaleDateString('en-IN')}</div>
       </div>
@@ -1201,12 +1416,12 @@ window.generateReport = () => {
               const totals=getStudentLeaveTotals(s.adno||s.id);
               const total=totals.official+totals.medical+totals.unofficial;
               return `<tr>
-                <td style="color:var(--text-dim)">${i+1}</td>
+                <td style="color:var(--text-3)">${i+1}</td>
                 <td>${s.adno||s.id}</td><td>${s.name||'—'}</td>
                 <td style="color:var(--blue)">${totals.official}</td>
                 <td style="color:var(--green)">${totals.medical}</td>
                 <td style="color:${totals.unofficial>=10?'var(--red)':'var(--yellow)'}">${totals.unofficial}</td>
-                <td style="color:var(--gold);font-weight:700">${total}</td>
+                <td style="color:var(--primary);font-weight:700">${total}</td>
               </tr>`;
             }).join('')}
           </tbody>
@@ -1226,7 +1441,6 @@ window.exportReportCSV = () => {
   const classes = cls==='all'
     ? [...new Set(list.map(s=>s.class).filter(Boolean))].sort()
     : [cls];
-
   let csvRows = ['Class,SL,Ad No,Name,Official,Medical,Unofficial,Total'];
   classes.forEach(c=>{
     const stus = list.filter(s=>s.class===c).sort((a,b)=>+(a.adno||a.id||0)-+(b.adno||b.id||0));
@@ -1236,28 +1450,24 @@ window.exportReportCSV = () => {
       const name = (s.name||'').replace(/,/g,' ');
       csvRows.push(`${c},${i+1},${s.adno||s.id},${name},${t.official},${t.medical},${t.unofficial},${total}`);
     });
-    csvRows.push(''); // blank line between classes
+    csvRows.push('');
   });
-
   const blob = new Blob([csvRows.join('\n')],{type:'text/csv;charset=utf-8;'});
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
-  a.href     = url;
-  a.download = `LeaveReport_${cls==='all'?'AllClasses':cls}_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+  a.href=url; a.download=`LeaveReport_${cls==='all'?'AllClasses':cls}_${new Date().toLocaleDateString('en-IN').replace(/\//g,'-')}.csv`;
+  a.click(); URL.revokeObjectURL(url);
   toast('CSV exported! ⬇️','success');
 };
 
-/* ══════════════════════════════════════════════════
+/* ══════════════════════════════════
    OUTPASS PRINT
-══════════════════════════════════════════════════ */
+══════════════════════════════════ */
 window.opSearch = () => { renderOpList(); };
 
 function renderOpList() {
   const q = ($('op-search-input').value || '').trim().toLowerCase();
   const listEl = $('op-req-list');
-
   let list = allRequests
     .filter(r => r.status === 'approved')
     .sort((a, b) => {
@@ -1265,7 +1475,6 @@ function renderOpList() {
       const db2 = b.from_datetime ? new Date(b.from_datetime).getTime() : 0;
       return da - db2;
     });
-
   if(q){
     list = list.filter(r =>
       (r.name||'').toLowerCase().includes(q) ||
@@ -1274,29 +1483,24 @@ function renderOpList() {
       (r.class||'').toLowerCase().includes(q)
     );
   }
-
   listEl._matches = list;
-
   if(!list.length){
-    listEl.innerHTML = `<div style="padding:14px 16px;font-size:12px;color:var(--text-dim)">No approved leaves found${q?' for "'+q+'"':''}.</div>`;
-    updateSelBar();
-    return;
+    listEl.innerHTML = `<div style="padding:14px 16px;font-size:12px;color:var(--text-3)">No approved leaves found${q?' for "'+q+'"':''}.</div>`;
+    updateSelBar(); return;
   }
-
   listEl.innerHTML = list.map((r, i) => {
     const fromStr = r.from_datetime ? fmtDate(r.from_datetime) : '—';
     const checked = opSelectedIds.has(r.id) ? 'checked' : '';
     const selClass = opSelectedIds.has(r.id) ? 'selected' : '';
     return `<div class="op-req-item ${selClass}" id="op-row-${r.id}" onclick="opToggleRow('${r.id}',${i})">
       <input type="checkbox" ${checked} onclick="event.stopPropagation();opToggleRow('${r.id}',${i})"
-        style="width:15px;height:15px;accent-color:#0D47A1;cursor:pointer;flex-shrink:0"/>
+        style="width:15px;height:15px;accent-color:var(--primary);cursor:pointer;flex-shrink:0"/>
       <span class="rn">${r.name||'—'}</span>
       <span class="rc">Ad ${r.adno||'—'} | Class ${r.class||'—'}</span>
       <span class="rc">📅 ${fromStr}</span>
       <span class="rl">${r.leave_id||'(no ID)'}</span>
     </div>`;
   }).join('');
-
   updateSelBar();
 }
 
@@ -1326,7 +1530,6 @@ window.opSelectAll = () => {
   const first = (listEl._matches||[])[0];
   if(first){ opPreviewRec=first; renderOutpass(first); }
 };
-
 window.opDeselectAll = () => {
   opSelectedIds.clear(); opPreviewRec=null;
   renderOpList();
@@ -1454,11 +1657,7 @@ body{background:#fff;font-family:'Nunito',sans-serif;color:#000;-webkit-print-co
 .ft-note{font-size:7pt;color:#fff;font-style:italic;text-align:center;font-weight:700}
 .empty-slot{width:100%;height:100%;background:#fafaf8;border:1px dashed #bbb;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:7pt;color:#bbb;font-style:italic}`;
 
-  let css, body;
-
-  // Always A4 portrait, 2 columns × 4 rows = 8 outpasses per page
-  // Each slot: ~98mm wide × 68mm tall (A4 portrait: 210×297mm, 2 cols × 4 rows with small margin)
-  css = BASE_CSS + `
+  let css = BASE_CSS + `
 @page{size:210mm 297mm portrait;margin:0}
 body{width:210mm;min-height:297mm}
 .a4page{width:210mm;height:297mm;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);page-break-after:always;overflow:hidden;background:#fff;gap:0}
@@ -1466,7 +1665,7 @@ body{width:210mm;min-height:297mm}
 .slot:nth-child(even){border-right:none}
 .slot:nth-child(7),.slot:nth-child(8){border-bottom:none}`;
 
-  body = '';
+  let body = '';
   const perPage = 8;
   for(let p = 0; p < Math.ceil(n/perPage); p++){
     const g = selected.slice(p*perPage, p*perPage+perPage);
@@ -1570,7 +1769,6 @@ function renderOutpass(r){
   },150);
 }
 
-
 /* ── EDIT LEAVE REPORTS ── */
 function lrCardHTML(r){
   const adno = r.adno||'';
@@ -1648,7 +1846,6 @@ window.saveLrEdit = async (docId, adno) => {
       destination: dest, reason, leave_type: type,
       from_datetime: from, to_datetime: to, status, days
     });
-    // Recalculate student totals
     if(adno){
       const updatedRequests = allRequests.map(x => x.id===docId ? {...x, leave_type:type, from_datetime:from, to_datetime:to, status, days} : x);
       const stuRequests = updatedRequests.filter(x =>
@@ -1668,7 +1865,6 @@ window.saveLrEdit = async (docId, adno) => {
       if(stuSnap.exists()) await updateDoc(stuRef,{total_leaves, total_official, total_medical, total_unofficial});
     }
     toast('Leave updated & totals recalculated ✅','success');
-    // Reload whichever search mode is active
     setTimeout(()=>{
       if($('lr-mode-lid').style.display!=='none') loadLeaveByLid();
       else loadLeaveReports();
@@ -1741,9 +1937,8 @@ function calcDays(from, to){
   const cur=new Date(s); cur.setHours(0,0,0,0);
   const last=new Date(e); last.setHours(0,0,0,0);
   while(cur<=last){
-    const dow=cur.getDay(); // 0=Sun,1=Mon,...,5=Fri,6=Sat
+    const dow=cur.getDay();
     if(dow===5){
-      // Friday sessions: 00:00-00:20 and 19:30-19:50
       const s1s=new Date(cur); s1s.setHours(0,0,0,0);
       const s1e=new Date(cur); s1e.setHours(0,20,0,0);
       const s2s=new Date(cur); s2s.setHours(19,30,0,0);
@@ -1751,7 +1946,6 @@ function calcDays(from, to){
       if(s<=s1s && e>=s1e) tot+=0.5;
       if(s<=s2s && e>=s2e) tot+=0.5;
     } else {
-      // Normal days: Morning 07:30-07:50, Afternoon 13:40-14:10
       const mgs=new Date(cur); mgs.setHours(7,30,0,0);
       const mge=new Date(cur); mge.setHours(7,50,0,0);
       const ags=new Date(cur); ags.setHours(13,40,0,0);
@@ -1830,28 +2024,19 @@ window.startScanner = async () => {
         if(code&&code.data){
           if(status) status.textContent='✅ '+code.data;
           stopScanner();
-          // Show scanned pass info
           const scannedId = code.data.trim().toLowerCase();
           const found = dataReady ? allRequests.find(r=>(r.leave_id||'').toLowerCase()===scannedId) : null;
           const sri = $('scan-result-info');
           if(sri){
             $('sri-passid').textContent = code.data.toUpperCase();
-            if(found){
-              $('sri-name').textContent = found.name + (found.class ? ' · Class '+found.class : '');
-            } else {
-              $('sri-name').textContent = '';
-            }
+            $('sri-name').textContent = found ? found.name + (found.class ? ' · Class '+found.class : '') : '';
             sri.style.display='block';
           }
-          // Populate Leave ID field and load
           const lidInput = $('lr-lid-input');
           if(lidInput) lidInput.value = code.data;
           if(dataReady){
             loadLeaveByLid();
             setTimeout(()=>{ const res=$('lr-result'); if(res) res.scrollIntoView({behavior:'smooth',block:'start'}); },400);
-          } else {
-            const res=$('lr-result');
-            if(res) res.innerHTML='<div class="empty"><div class="ei">⏳</div><strong>QR scanned! Loading data…</strong></div>';
           }
         }
       }
@@ -1888,7 +2073,7 @@ window.mobNavTo = (page, btn) => {
   if(btn) btn.classList.add('active');
   const navBtn=[...document.querySelectorAll('.nav-item')].find(b=>b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'"+page+"'"));
   navTo(page, navBtn||document.querySelector('.nav-item'));
-  $('mob-page-title').textContent=({dashboard:'Dashboard',requests:'Requests',approved:'Approved',students:'Students',leavereports:'Edit Leave Reports',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
+  $('mob-page-title').textContent=({dashboard:'Dashboard',requests:'Request',approved:'On Leave',students:'Reports',applyleave:'Apply Leave',leavereports:'Edit Leave',reports:'Reports',outpass:'Print',settings:'Settings'})[page]||page;
   closeMobMenu();
 };
 setInterval(()=>{ const b=$('bn-badge'), rb=$('req-badge'); if(b&&rb) b.textContent=rb.textContent; },500);
