@@ -788,7 +788,7 @@ import {
   getFirestore, collection, doc,
   getDoc, getDocs, setDoc, updateDoc, deleteDoc,
   query, where, onSnapshot,
-  serverTimestamp, increment
+  serverTimestamp, increment, writeBatch
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const app = initializeApp({
@@ -1324,26 +1324,53 @@ window.editStudent = (id) => {
   const s=allStudents.find(x=>x.id===id); if(!s) return;
   $('ms-edit-id').value=id; $('ms-adno').value=s.adno||id; $('ms-name').value=s.name||''; $('ms-class').value=s.class||'';
   $('modal-student-title').textContent='✏️ Edit Student';
-  $('ms-adno').disabled=true;
+  $('ms-adno').disabled=false;
   $('modal-student').classList.add('show');
 };
 window.saveStudent = async () => {
   const editId=$('ms-edit-id').value, adno=$('ms-adno').value.trim();
   const name=$('ms-name').value.trim(), cls=$('ms-class').value.trim();
   if(!name||!cls){ toast('Name and class required','error'); return; }
+  if(editId && !adno){ toast('Admission number required','error'); return; }
+  if(!editId && !adno){ toast('Admission number required','error'); return; }
   showLoader();
   try{
-    if(editId){
+    if(editId && adno !== editId){
+      // Admission number changed — student doc ID must change too (doc ID == adno).
+      const newRef = doc(db, COL_STUDENTS, adno);
+      const existing = await getDoc(newRef);
+      if(existing.exists()){
+        toast('Another student already has that admission number','error');
+        hideLoader();
+        return;
+      }
+      const oldSnap = await getDoc(doc(db, COL_STUDENTS, editId));
+      const oldData = oldSnap.exists() ? oldSnap.data() : {};
+      // Create new doc with new adno as ID, keep existing leave totals
+      await setDoc(newRef, { ...oldData, adno, name, class:cls });
+      // Delete old doc
+      await deleteDoc(doc(db, COL_STUDENTS, editId));
+      // Re-point all leave requests that referenced the old adno
+      const relatedRequests = allRequests.filter(r => (r.adno===editId || r.adNo===editId));
+      if(relatedRequests.length){
+        const batch = writeBatch(db);
+        relatedRequests.forEach(r=>{
+          batch.update(doc(db, COL_REQUESTS, r.id), { adno });
+        });
+        await batch.commit();
+      }
+      toast(`Admission number updated to ${adno} (${relatedRequests.length} leave record${relatedRequests.length!==1?'s':''} re-linked)`,'success');
+    } else if(editId){
       await updateDoc(doc(db, COL_STUDENTS, editId),{name,class:cls});
+      toast('Student updated','success');
     } else {
-      if(!adno){ toast('Admission number required','error'); hideLoader(); return; }
       await setDoc(doc(db, COL_STUDENTS, adno),{
         adno, name, class:cls,
         total_official:0, total_medical:0, total_unofficial:0
       });
+      toast('Student added','success');
     }
     closeModal('modal-student');
-    toast(editId?'Student updated':'Student added','success');
   }catch(e){ console.error(e); toast('Error: '+e.message,'error'); }
   hideLoader();
 };
